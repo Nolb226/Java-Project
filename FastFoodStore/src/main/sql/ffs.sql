@@ -494,10 +494,10 @@ INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`)
 VALUES ('04','Thức uống & tráng miệng','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Soda.png',NULL)
 
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
-VALUES ('111','Burger Bò','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\BeefBurger.png','0100')
+VALUES ('111','Burger Bò','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\BeefBurger.png','01')
 
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
-VALUES ('112','Burger Gà & Cá','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\ChickenFishBurger.png','0100')
+VALUES ('112','Burger Gà & Cá','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\ChickenFishBurger.png','01')
 
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
 VALUES ('2111','Burger Big Mac','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\bicmac.png','111')
