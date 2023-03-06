@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `billdetail` (
-  `amount` int(11) NOT NULL,
-  `productStatus` varchar(100) NOT NULL,
-  `price` float NOT NULL,
+  `billCode` varchar(10) NOT NULL,
   `productCode` varchar(10) NOT NULL,
-  `billCode` varchar(10) NOT NULL
+  `productStatus` varchar(100) NOT NULL,
+  `amountProduct` int(11) NOT NULL,
+  `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -42,11 +42,12 @@ CREATE TABLE `billdetail` (
 --
 
 CREATE TABLE `billdetail2` (
-  `productStatus` varchar(100) NOT NULL,
-  `amout` int(11) NOT NULL,
-  `price` float NOT NULL,
   `billCode` varchar(10) NOT NULL,
-  `comboCode` varchar(10) NOT NULL
+  `comboCode` varchar(10) NOT NULL,
+  `productCode` varchar(10) NOT NULL,
+  `productStatus` varchar(100) NOT NULL,
+  `amoutCombo` int(11) NOT NULL,
+  `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -57,13 +58,14 @@ CREATE TABLE `billdetail2` (
 
 CREATE TABLE `bills` (
   `billCode` varchar(10) NOT NULL,
-  `date` date NOT NULL,
-  `totalPrice` float NOT NULL,
   `orderNumber` int(11) NOT NULL,
-  `excess` float NOT NULL,
+  `date` date NOT NULL,
+  `totalNumber` int(11) NOT NULL,
+  `totalPrice` float NOT NULL,
   `cash` float NOT NULL,
+  `excess` float NOT NULL,
   `billStatus` varchar(100) NOT NULL,
-  `promoCode` varchar(10) NOT NULL
+  `promoCode` varchar(10)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -123,7 +125,7 @@ CREATE TABLE `groups` (
   `groupCode` varchar(10) NOT NULL,
   `groupName` varchar(50) NOT NULL,
   `groupIcon` varchar(100) NOT NULL,
-  `IN_groupCode` varchar(10) NOT NULL
+  `IN_groupCode` varchar(10)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -144,8 +146,8 @@ CREATE TABLE `has` (
 --
 
 CREATE TABLE `ingredient` (
-  `ingredientName` varchar(50) NOT NULL,
-  `ingredientCode` varchar(10) NOT NULL
+  `ingredientCode` varchar(10) NOT NULL,
+  `ingredientName` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -155,9 +157,9 @@ CREATE TABLE `ingredient` (
 --
 
 CREATE TABLE `productdetail` (
-  `amount` int(11) NOT NULL,
   `productCode` varchar(10) NOT NULL,
-  `ingredientCode` varchar(10) NOT NULL
+  `ingredientCode` varchar(10) NOT NULL,
+  `recipe` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -173,8 +175,8 @@ CREATE TABLE `products` (
   `productGenre` varchar(50) NOT NULL,
   `productSize` char(1) NOT NULL,
   `productImage` varchar(100) NOT NULL,
-  `groupCode` varchar(10) NOT NULL,
-  `status` tinyint(1) NOT NULL
+  `groupCode` varchar(10),
+  `inMenu` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -186,7 +188,8 @@ CREATE TABLE `products` (
 CREATE TABLE `promotions` (
   `promoCode` varchar(10) NOT NULL,
   `promoGenre` varchar(100) DEFAULT NULL,
-  `productCode` varchar(10) NOT NULL
+  `productCode` varchar(10) NOT NULL,
+  `dueDate` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -196,9 +199,9 @@ CREATE TABLE `promotions` (
 --
 
 CREATE TABLE `receiptdetail` (
-  `amout` float NOT NULL,
+  `receiptCode` varchar(10) NOT NULL,
   `ingredientCode` varchar(10) NOT NULL,
-  `receiptCode` varchar(10) NOT NULL
+  `amoutInReceipt` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -208,9 +211,9 @@ CREATE TABLE `receiptdetail` (
 --
 
 CREATE TABLE `receipts` (
+  `receiptCode` varchar(10) NOT NULL,
   `date` date NOT NULL,
-  `totalPrice` float NOT NULL,
-  `receiptCode` varchar(10) NOT NULL
+  `totalPrice` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -220,8 +223,8 @@ CREATE TABLE `receipts` (
 --
 
 CREATE TABLE `shifts` (
-  `date` date NOT NULL,
-  `shiftsCode` varchar(10) NOT NULL
+  `shiftsCode` varchar(10) NOT NULL,
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -247,12 +250,12 @@ CREATE TABLE `staff` (
 --
 
 CREATE TABLE `work` (
+  `ID` varchar(10) NOT NULL,
+  `shiftsCode` varchar(10) NOT NULL,
   `checkIn` date NOT NULL,
   `checkOut` date NOT NULL,
   `session` varchar(50) NOT NULL,
-  `time` time NOT NULL,
-  `ID` varchar(10) NOT NULL,
-  `shiftsCode` varchar(10) NOT NULL
+  `time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -473,3 +476,49 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+--
+-- Insert data for table `groups`
+--
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('01','Burger','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Burger.png',NULL)
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('02','Gà rán da giòn','D:\Java\DOAN\Java-Project\FastFoodStore\icon\FriedChicken.png',NULL)
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('03','Món ăn kèm','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\FrenchFries.png',NULL)
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('04','Thức uống & tráng miệng','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Soda.png',NULL)
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('111','Burger Bò','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\BeefBurger.png','0100')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('112','Burger Gà & Cá','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\ChickenFishBurger.png','0100')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2111','Burger Big Mac','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\bicmac.png','111')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2112','Burger Bò phô mai đặc biệt','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\cheese-burger-deluxe.png','111')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2113','Burger Bò phô mai 2 lớp','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\double-cheese-burger.png','111')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2114','Burger Bò Hoàng Gia Đặc Biệt','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\mcroyal-deluxe.png','111')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2121','Burger Gà phô mai đặc biệt','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\mcchicken-deluxe.png','112')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2122','Burger Gà thượng hạng giòn cay ','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\mcspicy-deluxe.png','112')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2123','Burger Gà sốt Mayo đặc biệt','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\mcchicken-mayo.png','112')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2124','Burger Phi Lê Cá Tuyết','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\filet-o-fish.png','112')
