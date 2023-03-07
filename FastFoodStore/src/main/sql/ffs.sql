@@ -481,17 +481,12 @@ COMMIT;
 --
 -- Insert data for table `groups`
 --
+
+--Burger 
+--===============================================================================================================
+
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
 VALUES ('01','Burger','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Burger.png',NULL)
-
-INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
-VALUES ('02','Gà rán da giòn','D:\Java\DOAN\Java-Project\FastFoodStore\icon\FriedChicken.png',NULL)
-
-INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
-VALUES ('03','Món ăn kèm','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\FrenchFries.png',NULL)
-
-INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
-VALUES ('04','Thức uống & tráng miệng','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Soda.png',NULL)
 
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
 VALUES ('111','Burger Bò','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\BeefBurger.png','01')
@@ -500,7 +495,7 @@ INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`)
 VALUES ('112','Burger Gà & Cá','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\ChickenFishBurger.png','01')
 
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
-VALUES ('2111','Burger Big Mac','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\bicmac.png','111')
+VALUES ('2111','Burger Big Mac','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\bigmac.png','111')
 
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
 VALUES ('2112','Burger Bò phô mai đặc biệt','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\cheese-burger-deluxe.png','111')
@@ -522,3 +517,65 @@ VALUES ('2123','Burger Gà sốt Mayo đặc biệt','D:\Java\DOAN\Java-Project\
 
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
 VALUES ('2124','Burger Phi Lê Cá Tuyết','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\filet-o-fish.png','112')
+
+--===============================================================================================================
+
+
+
+--Chicken 
+--===============================================================================================================
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('02','Gà rán da giòn','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\FriedChicken.png',NULL)
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`)
+VALUES ('121','Phần lẻ','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\OnlyChicken.png','02')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`)
+VALUES ('122','Phần ăn 1 người','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\EVM.png','02')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`)
+VALUES ('123','Gà Wings','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\wings.png','02')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`)
+VALUES ('124','Gà Nuggets','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\chicken-nuggets.png','02')
+
+--===============================================================================================================
+
+
+
+--Side Dishes 
+--===============================================================================================================
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('03','Món ăn kèm','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\FrenchFries.png',NULL)
+
+--===============================================================================================================
+
+
+
+--Drink & Dessert
+--===============================================================================================================
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('04','Thức uống & tráng miệng','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Soda.png',NULL)
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('141','Thức uống','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\drink.png','04')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('142','Tráng miệng','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\dessert.png','04')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2411','Coca-Cola','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Coca-cola.png','141')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2412','Fanta','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Fanta.png','141')
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('2413','Sprite','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Sprite.png','141')
+
+--===============================================================================================================
+
+
+
