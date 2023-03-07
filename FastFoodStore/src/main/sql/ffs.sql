@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `billdetail` (
   `billCode` varchar(10) NOT NULL,
   `productCode` varchar(10) NOT NULL,
-  `productStatus` varchar(100) NOT NULL,
+  `productNote` varchar(100),
   `amountProduct` int(11) NOT NULL,
   `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -45,7 +45,7 @@ CREATE TABLE `billdetail2` (
   `billCode` varchar(10) NOT NULL,
   `comboCode` varchar(10) NOT NULL,
   `productCode` varchar(10) NOT NULL,
-  `productStatus` varchar(100) NOT NULL,
+  `productNote` varchar(100), 
   `amoutCombo` int(11) NOT NULL,
   `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -172,7 +172,7 @@ CREATE TABLE `products` (
   `productCode` varchar(10) NOT NULL,
   `productName` varchar(50) NOT NULL,
   `productPrice` float NOT NULL,
-  `productGenre` varchar(50) NOT NULL,
+  `productGenre` int(11) NOT NULL,
   `productSize` char(1) NOT NULL,
   `productImage` varchar(100) NOT NULL,
   `groupCode` varchar(10),
@@ -478,13 +478,11 @@ COMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 
---
+--===============================================================================================================
 -- Insert data for table `groups`
---
-
---Burger 
 --===============================================================================================================
 
+--Burger 
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
 VALUES ('01','Burger','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Burger.png',NULL)
 
@@ -516,15 +514,9 @@ INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`)
 VALUES ('2123','Burger Gà sốt Mayo đặc biệt','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\mcchicken-mayo.png','112')
 
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
-VALUES ('2124','Burger Phi Lê Cá Tuyết','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\filet-o-fish.png','112')
-
---===============================================================================================================
-
-
+VALUES ('2124','Burger Phile cá Tuyết','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\filet-o-fish.png','112')
 
 --Chicken 
---===============================================================================================================
-
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
 VALUES ('02','Gà rán da giòn','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\FriedChicken.png',NULL)
 
@@ -540,23 +532,11 @@ VALUES ('123','Gà Wings','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\win
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`)
 VALUES ('124','Gà Nuggets','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\chicken-nuggets.png','02')
 
---===============================================================================================================
-
-
-
 --Side Dishes 
---===============================================================================================================
-
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
 VALUES ('03','Món ăn kèm','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\FrenchFries.png',NULL)
 
---===============================================================================================================
-
-
-
 --Drink & Dessert
---===============================================================================================================
-
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
 VALUES ('04','Thức uống & tráng miệng','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Soda.png',NULL)
 
@@ -575,7 +555,32 @@ VALUES ('2412','Fanta','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Fanta.
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
 VALUES ('2413','Sprite','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Sprite.png','141')
 
+
+
+--===============================================================================================================
+-- Insert data for table `products`
 --===============================================================================================================
 
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('B01R','Burger Big Mac (Bánh lẻ)',74000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\bigmac.png','2111',1)
 
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('B02R','Burger Bò phô mai đặc biệt (Bánh lẻ)',49000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\cheese-burger-deluxe.png','2112',1)
 
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('B03R','Burger Bò phô mai 2 lớp (Bánh lẻ)',65000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\double-cheese-burger.png','2113',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('B04R','Burger Bò hoàng gia đặc biệt (Bánh lẻ)',89000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\mcroyal-deluxe.png','2114',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('B05R','Burger Gà phô mai đặc biệt (Bánh lẻ)',69000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\mcchicken-deluxe.png','2121',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('B06R','Burger Gà thượng hạng giòn cay (Bánh lẻ)',89000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\mcspicy-deluxe.png','2122',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('B07R','Burger Gà sốt Mayo đặc biệt (Bánh lẻ)',59000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\mcchicken-mayo.png','2123',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('B08R','Burger Phile cá Tuyết (Bánh lẻ)',59000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\filet-o-fish.png','2124',1)
