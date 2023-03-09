@@ -173,7 +173,7 @@ CREATE TABLE `products` (
   `productName` varchar(50) NOT NULL,
   `productPrice` float NOT NULL,
   `productGenre` int(11) NOT NULL,
-  `productSize` char(1) NOT NULL,
+  `productSize` char(1),
   `productImage` varchar(100) NOT NULL,
   `groupCode` varchar(10),
   `inMenu` tinyint(1) NOT NULL
@@ -534,7 +534,11 @@ VALUES ('124','Gà Nuggets','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\c
 
 --Side Dishes 
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
-VALUES ('03','Món ăn kèm','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\FrenchFries.png',NULL)
+VALUES ('03','Món ăn nhẹ','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\FrenchFries.png',NULL)
+
+INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
+VALUES ('131','Khoai tây chiên','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\french-fries.png','03')
+
 
 --Drink & Dessert
 INSERT INTO `groups`(`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`) 
@@ -561,6 +565,7 @@ VALUES ('2413','Sprite','D:\Java\DOAN\Java-Project\FastFoodStore\img-group\Sprit
 -- Insert data for table `products`
 --===============================================================================================================
 
+-- Burger
 INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
 VALUES ('B01R','Burger Big Mac (Bánh lẻ)',74000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\bigmac.png','2111',1)
 
@@ -584,3 +589,49 @@ VALUES ('B07R','Burger Gà sốt Mayo đặc biệt (Bánh lẻ)',59000,1,'R','D
 
 INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
 VALUES ('B08R','Burger Phile cá Tuyết (Bánh lẻ)',59000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\filet-o-fish.png','2124',1)
+
+
+--Fried Chicken
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('C01E','1 miếng gà rán',37000,1,'E','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\1-chicken.png','121',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('C03E','3 miếng gà rán',101000,1,'E','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\3-chicken.png','121',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('C05E','5 miếng gà rán',176000,1,'E','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\5-chicken.png','121',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('C09E','9 miếng gà rán',389000,1,'E','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\9-chicken.png','121',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('W03R','3 miếng gà Wings',69000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\3-wings.png','123',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('W06R','6 miếng gà Wings',125000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\6-wings.png','123',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('W09R','10 miếng gà Wings',176000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\10-wings.png','123',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('N06R','6 gà Nuggets',49000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\6-nuggets.png','124',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('N09R','9 gà Nuggets',69000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\9-nuggets.png','124',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('N20R','20 gà Nuggets',121000,1,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\20-nuggets.png','124',1)
+
+
+--Side Dishes
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('S01E','Salad lắc',35000,2,'E','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\salad.png','03',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('F01R','Khoai tây chiên cỡ nhỏ',19000,2,'R','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\regular-fries.png','131',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('F01M','Khoai tây chiên cỡ vừa',29000,2,'M','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\medium-fries.png','131',1)
+
+INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) 
+VALUES ('F01L','Khoai tây chiên cỡ lớn',39000,2,'L','D:\Java\DOAN\Java-Project\FastFoodStore\img-product\large-fries.png','131',1)
