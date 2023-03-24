@@ -8,7 +8,7 @@ R: Cơm
 W: Gà Wings
 N: Nuggets
 F: Khoai tây chiên
-S: Salad Shake
+S: Salad Shake, bắp
 D: Thức uống
 I: Kem
 Size:
