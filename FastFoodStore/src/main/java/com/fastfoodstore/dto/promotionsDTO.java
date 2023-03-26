@@ -1,0 +1,52 @@
+package com.fastfoodstore.DTO;
+
+public class promotionsDTO {
+    private String promoCode;
+    private String promoGenre;
+    private String productCode;
+    private boolean dueDate;
+
+    public promotionsDTO() {
+
+    }
+
+    public promotionsDTO(String promoCode, String promoGenre, String productCode, boolean dueDate) {
+        this.dueDate = dueDate;
+        this.productCode = productCode;
+        this.promoCode = promoCode;
+        this.promoGenre = promoGenre;
+    }
+
+    public void setDueDate(boolean dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public void setPromoCode(String promoCode) {
+        this.promoCode = promoCode;
+    }
+
+    public void setPromoGenre(String promoGenre) {
+        this.promoGenre = promoGenre;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public String getPromoGenre() {
+        return promoGenre;
+    }
+
+    public boolean getDueDate() {
+        return dueDate;
+    }
+    
+}
