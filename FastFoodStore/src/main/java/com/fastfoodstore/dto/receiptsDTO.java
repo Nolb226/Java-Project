@@ -1,17 +1,17 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
 import java.sql.Date;
 
-public class receiptsDTO {
+public class ReceiptsDTO {
     private String receiptCode;
     private Date date;
     private float totalPrice;
 
-    public receiptsDTO() {
+    public ReceiptsDTO() {
 
     }
 
-    public receiptsDTO(String receiptCode, Date date, float totalPrice) {
+    public ReceiptsDTO(String receiptCode, Date date, float totalPrice) {
         this.date = date;
         this.receiptCode = receiptCode;
         this.totalPrice = totalPrice;

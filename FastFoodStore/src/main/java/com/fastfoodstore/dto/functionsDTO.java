@@ -1,14 +1,14 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class functionsDTO {
+public class FunctionsDTO {
     private String functionCode;
     private String functionName;
 
-    public functionsDTO() {
+    public FunctionsDTO() {
 
     }
 
-    public functionsDTO(String functionCode, String functionName) {
+    public FunctionsDTO(String functionCode, String functionName) {
         this.functionCode = functionCode;
         this.functionName = functionName;
     }

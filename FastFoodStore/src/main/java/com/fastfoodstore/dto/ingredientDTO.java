@@ -1,14 +1,14 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class ingredientDTO {
+public class IngredientDTO {
     private String ingredientCode;
     private String ingredientName;
 
-    public ingredientDTO() {
+    public IngredientDTO() {
 
     }
 
-    public ingredientDTO(String ingredientCode, String ingredientName) {
+    public IngredientDTO(String ingredientCode, String ingredientName) {
         this.ingredientCode = ingredientCode;
         this.ingredientName = ingredientName;
     }

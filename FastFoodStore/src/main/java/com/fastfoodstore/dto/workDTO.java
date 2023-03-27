@@ -1,22 +1,22 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
 import java.sql.Date;
 import java.sql.Time;
 
-public class workDTO {
-    private String ID;
+public class WorkDTO {
+    private String id;
     private String shiftsCode;
     private Date checkIn;
     private Date chechOut;
     private String session;
     private Time time;
 
-    public workDTO() {
+    public WorkDTO() {
 
     }
 
-    public workDTO(String ID, String shiftsCode, Date checkIn, Date checkOut, String session, Time time) {
-        this.ID = ID;
+    public WorkDTO(String id, String shiftsCode, Date checkIn, Date checkOut, String session, Time time) {
+        this.id = id;
         this.chechOut = checkOut;
         this.checkIn = checkIn;
         this.session = session;
@@ -32,8 +32,8 @@ public class workDTO {
         this.checkIn = checkIn;
     }
 
-    public void setID(String iD) {
-        ID = iD;
+    public void setID(String id) {
+        this.id = id;
     }
 
     public void setSession(String session) {
@@ -56,8 +56,8 @@ public class workDTO {
         return checkIn;
     }
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return id;
     }
 
     public String getSession() {

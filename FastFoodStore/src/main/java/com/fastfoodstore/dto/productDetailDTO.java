@@ -1,16 +1,16 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class productDetailDTO {
+public class ProductDetailDTO {
     private String productCode;
     private String ingredientCode;
     private String recipe;
     private boolean toChange;
 
-    public productDetailDTO() {
+    public ProductDetailDTO() {
 
     }
 
-    public productDetailDTO(String productCode, String ingredientCode, String recipe, boolean toChange) {
+    public ProductDetailDTO(String productCode, String ingredientCode, String recipe, boolean toChange) {
         this.toChange = toChange;
         this.ingredientCode = ingredientCode;
         this.productCode = productCode;

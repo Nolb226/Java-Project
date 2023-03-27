@@ -1,15 +1,15 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class receiptDetailDTO {
+public class ReceiptDetailDTO {
     private String receiptCode;
     private String ingredientCode ;
     private float amountInReceipt;
 
-    public receiptDetailDTO() {
+    public ReceiptDetailDTO() {
 
     }
 
-    public receiptDetailDTO(String receiptCode,String ingredientCode, float amouuntInReceipt) {
+    public ReceiptDetailDTO(String receiptCode,String ingredientCode, float amouuntInReceipt) {
         this.amountInReceipt = amouuntInReceipt;
         this.ingredientCode = ingredientCode;
         this.receiptCode = receiptCode;

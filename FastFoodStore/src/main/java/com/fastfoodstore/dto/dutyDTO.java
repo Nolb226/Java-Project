@@ -1,14 +1,14 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class dutyDTO {
+public class DutyDTO {
     private String dutyCode;
     private String dutyName;
 
-    public dutyDTO() {
+    public DutyDTO() {
 
     }
 
-    public dutyDTO(String dutyCode, String dutyName) {
+    public DutyDTO(String dutyCode, String dutyName) {
         this.dutyCode = dutyCode;
         this.dutyName = dutyName;
     }

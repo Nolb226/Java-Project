@@ -1,14 +1,14 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class hasDTO {
+public class HasDTO {
     private String dutyCode;
     private String functionCode;
 
-    public hasDTO() {
+    public HasDTO() {
 
     }
 
-    public hasDTO(String dutyCode, String functionCode) {
+    public HasDTO(String dutyCode, String functionCode) {
         this.dutyCode = dutyCode;
         this.functionCode = functionCode;
     }

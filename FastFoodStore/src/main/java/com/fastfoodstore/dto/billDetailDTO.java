@@ -1,17 +1,17 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class billDetailDTO {
+public class BillDetailDTO {
     private String billCode;
     private String productCode ;
     private String productNote;
     private int amountProduct;
     private float price;
 
-    public billDetailDTO() {
+    public BillDetailDTO() {
 
     }
 
-    public billDetailDTO(String billCode,String productCode, String productNote, int amountProduct, float price) {
+    public BillDetailDTO(String billCode,String productCode, String productNote, int amountProduct, float price) {
         this.amountProduct = amountProduct;
         this.billCode = billCode;
         this.price = price;

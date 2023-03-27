@@ -1,6 +1,6 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class productsDTO {
+public class ProductsDTO {
     
     private String productCode;
     private String productName;	
@@ -11,11 +11,11 @@ public class productsDTO {
     private String groupCode	;
     private int inMenu;
 
-    public productsDTO() {
+    public ProductsDTO() {
 
     }
 
-    public productsDTO(String productCode, String productName, float productPrice, int productGenre, char productSize, String productImage, String groupCode, int inMenu) {
+    public ProductsDTO(String productCode, String productName, float productPrice, int productGenre, char productSize, String productImage, String groupCode, int inMenu) {
         this.groupCode = groupCode;
         this.inMenu = inMenu;
         this.productCode = productCode;

@@ -1,8 +1,8 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
 import java.sql.Date;
 
-public class billsDTO {
+public class BillsDTO {
     private String billCode;
     private int orderNumber;
     private Date date;
@@ -13,11 +13,11 @@ public class billsDTO {
     private String billStatus;
     private String promoCode;
 
-    public billsDTO() {
+    public BillsDTO() {
 
     }
 
-    public billsDTO(String billCode, int orderNumber, Date date, int totalNumber, float totalPrice, float cash, float excess, String billStatus, String promoCode) {
+    public BillsDTO(String billCode, int orderNumber, Date date, int totalNumber, float totalPrice, float cash, float excess, String billStatus, String promoCode) {
         this.billCode = billCode;
         this.billStatus = billStatus;
         this.cash = cash;

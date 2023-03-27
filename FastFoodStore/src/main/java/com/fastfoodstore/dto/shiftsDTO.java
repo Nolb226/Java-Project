@@ -1,16 +1,16 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
 import java.sql.Date;
 
-public class shiftsDTO {
+public class ShiftsDTO {
     private String shiftsCode;
     private Date date;
 
-    public shiftsDTO() {
+    public ShiftsDTO() {
 
     }
 
-    public shiftsDTO(String shiftsCode, Date date) {
+    public ShiftsDTO(String shiftsCode, Date date) {
         this.date = date;
         this.shiftsCode = shiftsCode;
     }

@@ -1,6 +1,6 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class comboDTO {
+public class ComboDTO {
     private String comboCode;
     private String comboName;
     private float comboPrice;
@@ -9,11 +9,11 @@ public class comboDTO {
     private String groupCode;
     private boolean inMenu;
 
-    public comboDTO() {
+    public ComboDTO() {
 
     }
 
-    public comboDTO(String comboCode, String comboName, float comboPrice, int numberOfProduct, String comboImage, String groupCode, boolean inMenu) {
+    public ComboDTO(String comboCode, String comboName, float comboPrice, int numberOfProduct, String comboImage, String groupCode, boolean inMenu) {
         this.comboCode = comboCode;
         this.comboImage = comboImage;
         this.comboName = comboName;

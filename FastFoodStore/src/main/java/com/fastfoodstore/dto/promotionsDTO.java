@@ -1,16 +1,16 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class promotionsDTO {
+public class PromotionsDTO {
     private String promoCode;
     private String promoGenre;
     private String productCode;
     private boolean dueDate;
 
-    public promotionsDTO() {
+    public PromotionsDTO() {
 
     }
 
-    public promotionsDTO(String promoCode, String promoGenre, String productCode, boolean dueDate) {
+    public PromotionsDTO(String promoCode, String promoGenre, String productCode, boolean dueDate) {
         this.dueDate = dueDate;
         this.productCode = productCode;
         this.promoCode = promoCode;

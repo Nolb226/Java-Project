@@ -1,14 +1,14 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class comboDetailDTO {
+public class ComboDetailDTO {
     private String comboCode;
     private String productCode;
 
-    public comboDetailDTO() {
+    public ComboDetailDTO() {
 
     }
 
-    public comboDetailDTO(String comboCode, String productCode) {
+    public ComboDetailDTO(String comboCode, String productCode) {
         this.comboCode = comboCode;
         this.productCode = productCode;
     }

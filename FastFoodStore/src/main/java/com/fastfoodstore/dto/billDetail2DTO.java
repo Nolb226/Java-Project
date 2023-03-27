@@ -1,6 +1,6 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class billDetail2DTO {
+public class BillDetail2DTO {
     private String billCode;
     private String comboCode;
     private String productCode;
@@ -8,11 +8,11 @@ public class billDetail2DTO {
     private int amountCombo;
     private float price;
 
-    public billDetail2DTO() {
+    public BillDetail2DTO() {
 
     }
 
-    public billDetail2DTO(String billCode, String comboCode, String productCode, String procductNote, int amountCombo, float price) {
+    public BillDetail2DTO(String billCode, String comboCode, String productCode, String procductNote, int amountCombo, float price) {
         this.amountCombo = amountCombo;
         this.billCode = billCode;
         this.comboCode = comboCode;

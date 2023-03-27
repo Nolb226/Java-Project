@@ -1,8 +1,8 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
 import java.sql.Date;
 
-public class staffDTO {
+public class StaffDTO {
     private String ID;
     private String email;
     private String name;
@@ -11,11 +11,11 @@ public class staffDTO {
     private String dutyCode;
     private boolean status;
 
-    public staffDTO() {
+    public StaffDTO() {
 
     }
 
-    public staffDTO(String ID, String email, String name, String address, Date birthday, String dutyCode, boolean status) {
+    public StaffDTO(String ID, String email, String name, String address, Date birthday, String dutyCode, boolean status) {
         this.ID = ID;
         this.address = address;
         this.birthday = birthday;

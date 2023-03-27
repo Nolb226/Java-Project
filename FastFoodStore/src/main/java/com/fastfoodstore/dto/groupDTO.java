@@ -1,16 +1,16 @@
-package com.fastfoodstore.DTO;
+package com.fastfoodstore.dto;
 
-public class groupDTO {
+public class GroupDTO {
     private String groupCode;
     private String groupName;
     private String groupIcon;
     private String IN_groupCode;
 
-    public groupDTO() {
+    public GroupDTO() {
 
     }
 
-    public groupDTO(String groupCode, String groupName, String groupIcon, String IN_groupCode) {
+    public GroupDTO(String groupCode, String groupName, String groupIcon, String IN_groupCode) {
         this.IN_groupCode = IN_groupCode;
         this.groupCode = groupCode;
         this.groupIcon = groupIcon;
