@@ -136,7 +136,7 @@ CREATE TABLE `groups` (
 -- Table structure for table `has`
 --
 
-CREATE TABLE `has` (
+CREATE TABLE `dutyHasFunc` (
   `dutyCode` varchar(10) NOT NULL,
   `functionCode` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -191,7 +191,8 @@ CREATE TABLE `products` (
 CREATE TABLE `promotions` (
   `promoCode` varchar(10) NOT NULL,
   `promoGenre` varchar(100) DEFAULT NULL,
-  `productCode` varchar(10) NOT NULL,
+  `productCode` varchar(10),
+  `discount` float, 
   `dueDate` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -237,9 +238,10 @@ CREATE TABLE `shifts` (
 --
 
 CREATE TABLE `staff` (
-  `ID` varchar(10) NOT NULL,
-  `email` varchar(50) NOT NULL,
+  `id` varchar(10) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `numberPhone` varchar(15) NOT NULL,
   `address` varchar(100) NOT NULL,
   `birthday` date NOT NULL,
   `dutyCode` varchar(10) NOT NULL,
@@ -322,7 +324,7 @@ ALTER TABLE `groups`
 --
 -- Indexes for table `has`
 --
-ALTER TABLE `has`
+ALTER TABLE `dutyHasFunc`
   ADD PRIMARY KEY (`dutyCode`,`functionCode`),
   ADD KEY `functionCode` (`functionCode`);
 
@@ -430,11 +432,11 @@ ALTER TABLE `groups`
   ADD CONSTRAINT `groups_ibfk_1` FOREIGN KEY (`IN_groupCode`) REFERENCES `groups` (`groupCode`);
 
 --
--- Constraints for table `has`
+-- Constraints for table `dutyHasFunc`
 --
-ALTER TABLE `has`
-  ADD CONSTRAINT `has_ibfk_1` FOREIGN KEY (`dutyCode`) REFERENCES `duty` (`dutyCode`),
-  ADD CONSTRAINT `has_ibfk_2` FOREIGN KEY (`functionCode`) REFERENCES `functions` (`functionCode`);
+ALTER TABLE `dutyHasFunc`
+  ADD CONSTRAINT `dutyHasFunc_ibfk_1` FOREIGN KEY (`dutyCode`) REFERENCES `duty` (`dutyCode`),
+  ADD CONSTRAINT `dutyHasFunc_ibfk_2` FOREIGN KEY (`functionCode`) REFERENCES `functions` (`functionCode`);
 
 --
 -- Constraints for table `productdetail`
@@ -573,9 +575,9 @@ INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGen
 
 
 
---===============================================================================================================
+-- ===============================================================================================================
 -- Insert data for table `combo` and `combodetail`
---===============================================================================================================
+-- ===============================================================================================================
 
 -- EVM Burger
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`) 
@@ -604,7 +606,8 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`) 
 VALUES ('B02M','Combo Bò phô mai đặc biệt cỡ vừa ',69000,3,'./img-combo/EVM-cheeseburger-deluxe.png','2112',1);
 
-INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES ('B02M','B02R')
+INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
+('B02M','B02R'),
 ('B02M','F01M'),
 ('B02M','S01E'),
 ('B02M','S02E'),
@@ -673,7 +676,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('B04L','D03M');
 
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`) 
-VALUES ('B05M','Combo Gà phô mai đặc biệt cỡ vừa ',89000,3,'./img-combo/EVM-mcchicken-deluxe.png','2115',1);
+VALUES ('B05M','Combo Gà phô mai đặc biệt cỡ vừa ',89000,3,'./img-combo/EVM-mcchicken-deluxe.png','2121',1);
 
 INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
 ('B05M','B05R'),
@@ -685,7 +688,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('B05M','D03M');
 
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`) 
-VALUES ('B05L','Combo Gà phô mai đặc biệt cỡ lớn ',104000,3,'./img-combo/EVM-mcchicken-deluxe.png','2115',1);
+VALUES ('B05L','Combo Gà phô mai đặc biệt cỡ lớn ',104000,3,'./img-combo/EVM-mcchicken-deluxe.png','2121',1);
 
 INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
 ('B05L','B05R'),
@@ -697,7 +700,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('B05L','D03M');
 
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`) 
-VALUES ('B06M','Combo Gà thượng hạng giòn cay cỡ vừa ',99000,3,'./img-combo/EVM-mcspicy-deluxe.png','2116',1);
+VALUES ('B06M','Combo Gà thượng hạng giòn cay cỡ vừa ',99000,3,'./img-combo/EVM-mcspicy-deluxe.png','2122',1);
 
 INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
 ('B06M','B06R'),
@@ -709,7 +712,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('B06M','D03M');
 
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`) 
-VALUES ('B06L','Combo Gà thượng hạng giòn cay cỡ lớn ',114000,3,'./img-combo/EVM-mcspicy-deluxe.png','2116',1);
+VALUES ('B06L','Combo Gà thượng hạng giòn cay cỡ lớn ',114000,3,'./img-combo/EVM-mcspicy-deluxe.png','2122',1);
 
 INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
 ('B06L','B06R'),
@@ -721,7 +724,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('B06L','D03M');
 
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`) 
-VALUES ('B07M','Combo Gà sốt Mayo cỡ vừa ',79000,3,'./img-combo/EVM-mcchicken-mayo.png','2117',1);
+VALUES ('B07M','Combo Gà sốt Mayo cỡ vừa ',79000,3,'./img-combo/EVM-mcchicken-mayo.png','2123',1);
 
 INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
 ('B07M','B07R'),
@@ -733,7 +736,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('B07M','D03M');
 
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`) 
-VALUES ('B07L','Combo Gà sốt Mayo cỡ lớn ',94000,3,'./img-combo/EVM-mcchicken-mayo.png','2117',1);
+VALUES ('B07L','Combo Gà sốt Mayo cỡ lớn ',94000,3,'./img-combo/EVM-mcchicken-mayo.png','2123',1);
 
 INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
 ('B07L','B07R'),
@@ -745,7 +748,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('B07L','D03M');
 
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`) 
-VALUES ('B08M','Combo Phi lê cá tuyết cỡ vừa ',69000,3,'./img-combo/EVM-filet-o-fish.png','2118',1);
+VALUES ('B08M','Combo Phi lê cá tuyết cỡ vừa ',69000,3,'./img-combo/EVM-filet-o-fish.png','2124',1);
 
 INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
 ('B08M','B08R'),
@@ -757,7 +760,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('B08M','D03M');
 
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`) 
-VALUES ('B08L','Combo Phi lê cá tuyết cỡ lớn ',84000,3,'./img-combo/EVM-filet-o-fish.png','2118',1);
+VALUES ('B08L','Combo Phi lê cá tuyết cỡ lớn ',84000,3,'./img-combo/EVM-filet-o-fish.png','2124',1);
 
 INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
 ('B08L','B08R'),
@@ -768,7 +771,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('B08L','D02M'),
 ('B08L','D03M');
 
---EVM Fried Chicken
+-- EVM Fried Chicken
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`)  
 VALUES ('C02M','Combo 2 miếng gà rán cỡ vừa',92000,3,'./img-combo/EVM-2chicken.png','122',1);
 
@@ -794,7 +797,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('C02L','D03L');
 
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`)  
-VALUES ('R01R','Cơm gà rán 1 miếng kèm nước',39000,2,'./img-combo/1pc-rice.png','122',1)
+VALUES ('R01R','Cơm gà rán 1 miếng kèm nước',39000,2,'./img-combo/1pc-rice.png','122',1);
 
 INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
 ('R01R','R01E'),
@@ -803,7 +806,7 @@ INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES
 ('R01R','D03R');
 
 INSERT INTO `combo`(`comboCode`, `comboName`, `comboPrice`, `numberOfProduct`, `comboImage` , `groupCode`, `inMenu`)  
-VALUES ('R03R','Cơm gà rán mắm tỏi kèm nước',49000,2,'./img-combo/1pc-gfs-rice.png','122',1)
+VALUES ('R03R','Cơm gà rán mắm tỏi kèm nước',49000,2,'./img-combo/1pc-gfs-rice.png','122',1);
 
 INSERT INTO `combodetail` (`comboCode`, `productCode`) VALUES 
 ('R03R','R01E'),
@@ -821,7 +824,7 @@ INSERT INTO `ingredient` (`ingredientCode`, `ingredientName`) VALUES
 ('IN001','Vỏ bánh lớn'),
 ('IN002','Vỏ bánh nhỏ'),
 ('IN003','Thịt bò'),
-('IN004','Cơm')
+('IN004','Cơm'),
 ('IN005','Thịt gà'),
 ('IN006','Thịt gà cay'),
 ('IN007','Phi lê cá Tuyết'),
@@ -829,7 +832,7 @@ INSERT INTO `ingredient` (`ingredientCode`, `ingredientName`) VALUES
 ('IN009','Cà chua'),
 ('IN010','Dưa chua'),
 ('IN011','Hành tây'),
-('IN012','Ớt chuông')
+('IN012','Ớt chuông'),
 ('IN013','Phô mai lát'),
 ('IN014','Tương cà'),
 ('IN015','Sốt Mustard'),
@@ -860,7 +863,7 @@ INSERT INTO `ingredient` (`ingredientCode`, `ingredientName`) VALUES
 -- Insert data for table `productdetails`
 -- ===============================================================================================================
 
-INSERT INTO `productdetail` (`productCode`,`ingredientCode`) VALUES 
+INSERT INTO `productdetail` (`productCode`, `ingredientCode`, `recipe`, `toChange`) VALUES 
 ('B01R','IN001','3 miếng',0),
 ('B01R','IN003','2 miếng',0),
 ('B01R','IN008','10 gram',1),
@@ -1001,5 +1004,78 @@ INSERT INTO `productdetail` (`productCode`,`ingredientCode`) VALUES
 ('I03E','IN020','4.5 vòng',0),
 ('I03E','IN022','30 ml',1),
 
-('I04E','IN020','4.5 vòng',0)
-('I04E','IN023','30 gram',1)
+('I04E','IN020','4.5 vòng',0),
+('I04E','IN023','30 gram',1);
+
+
+
+-- ===============================================================================================================
+-- Insert data for table `promotions`
+-- ===============================================================================================================
+
+INSERT INTO `promotions` (`promoCode`, `promoGenre`, `productCode`, `discount`, `dueDate`) VALUES
+('P667942',1,'F01M',0,1),
+('P667943',1,NULL,0.2,1);
+
+
+
+-- ===============================================================================================================
+-- Insert data for table `duty`
+-- ===============================================================================================================
+
+INSERT INTO `duty` (`dutyCode`, `dutyName`) VALUES
+('DUTY01','Admin'),
+('DUTY02','Manager'),
+('DUTY03','Crew Trainer'),
+('DUTY04','Crew');
+
+
+
+-- ===============================================================================================================
+-- Insert data for table `staff`
+-- ===============================================================================================================
+
+INSERT INTO `staff` (`id`, `name`, `email`, `numberPhone`, `address`, `birthday`, `dutyCode`, `status`) VALUES
+('6942','Nguyễn Ngọc Sang','nngocsang38@gmail.com','0916921132','Quận 8','2003-08-21','DUTY01',1),
+('6943','Nguyễn Ngọc Sang','nngocsan48@gmail.com','0919999999','Quận 12','2003-08-21','DUTY02',1),
+('6944','Nguyễn Ngọc Sang','nngoc8@gmail.com','0916921132','Quận 8','2003-08-21','DUTY03',1),
+('6945','Nguyễn Ngọc Sang','nsang38@gmail.com','0916921132','Quận 8','2003-08-21','DUTY04',1);
+
+
+
+-- ===============================================================================================================
+-- Insert data for table `functions`
+-- ===============================================================================================================
+
+INSERT INTO `functions` (`functionCode`, `functionName`) VALUES
+('FUNC01','Gọi món'),
+('FUNC02','Quản lý nhân viên'),
+('FUNC03','Quản lý Menu'),
+('FUNC04','Nhập hàng'),
+('FUNC05','Thống kê'),
+('FUNC06','Quản lý đơn hàng');
+
+-- ===============================================================================================================
+-- Insert data for table `dutyHasFunc`
+-- ===============================================================================================================
+
+INSERT INTO `dutyHasFunc` (`dutyCode`, `functionCode`) VALUES
+('DUTY04','FUNC01'),
+('DUTY04','FUNC06'),
+('DUTY02','FUNC01'),
+('DUTY02','FUNC02'),
+('DUTY02','FUNC04'),
+('DUTY02','FUNC05'),
+('DUTY01','FUNC03'),
+('DUTY01','FUNC05');
+
+
+
+-- ===============================================================================================================
+-- Insert data for table `shifts`
+-- ===============================================================================================================
+
+INSERT INTO `shifts` (`shiftsCode`, `date`) VALUES 
+('S26032301','2023-03-26'),
+('S26032302','2023-03-26');
+
