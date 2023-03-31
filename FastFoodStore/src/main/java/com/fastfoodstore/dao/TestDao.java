@@ -4,10 +4,22 @@
  */
 package com.fastfoodstore.dao;
 
+import com.fastfoodstore.dto.ProductsDTO;
+import java.util.ArrayList;
+
 /**
  *
  * @author ADMIN
  */
 public class TestDao {
+    
+    
+    public static void main(String[] args) {
+        ProductsDTO data = ProductsDAO.getInstance().selectById("B02R");
+        
+       
+            System.out.println(data.getProductName());
+        
+    }
     
 }
