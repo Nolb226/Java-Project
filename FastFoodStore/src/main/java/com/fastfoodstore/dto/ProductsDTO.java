@@ -6,9 +6,9 @@ public class ProductsDTO {
     private String productName;	
     private float productPrice;	
     private int productGenre;	
-    private char productSize	;
+    private char productSize;
     private String productImage;	
-    private String groupCode	;
+    private String groupCode;
     private int inMenu;
 
     public ProductsDTO() {
@@ -16,15 +16,17 @@ public class ProductsDTO {
     }
 
     public ProductsDTO(String productCode, String productName, float productPrice, int productGenre, char productSize, String productImage, String groupCode, int inMenu) {
-        this.groupCode = groupCode;
-        this.inMenu = inMenu;
         this.productCode = productCode;
-        this.productGenre = productGenre;
-        this.productImage = productImage;
         this.productName = productName;
         this.productPrice = productPrice;
+        this.productGenre = productGenre;
         this.productSize = productSize;
+        this.productImage = productImage;
+        this.groupCode = groupCode;
+        this.inMenu = inMenu;
     }
+
+    
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
