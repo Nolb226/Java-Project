@@ -4,13 +4,19 @@ public class PromotionsDTO {
     private String promoCode;
     private String promoGenre;
     private String productCode;
+    private Float discount;
+
+    public void setDiscount(Float discount) {
+        this.discount = discount;
+    }
+
     private boolean dueDate;
 
     public PromotionsDTO() {
 
     }
 
-    public PromotionsDTO(String promoCode, String promoGenre, String productCode, boolean dueDate) {
+    public PromotionsDTO(String promoCode, String promoGenre, String productCode, boolean dueDate, Float discount) {
         this.dueDate = dueDate;
         this.productCode = productCode;
         this.promoCode = promoCode;
@@ -49,4 +55,7 @@ public class PromotionsDTO {
         return dueDate;
     }
     
+    public Float getDiscount() {
+        return discount;
+    }
 }

@@ -6,6 +6,7 @@ public class StaffDTO {
     private String ID;
     private String email;
     private String name;
+    private String numberPhone;
     private String address;
     private Date birthday;
     private String dutyCode;
@@ -15,7 +16,7 @@ public class StaffDTO {
 
     }
 
-    public StaffDTO(String ID, String email, String name, String address, Date birthday, String dutyCode, boolean status) {
+    public StaffDTO(String ID, String name, String email, String numberPhone, String address, Date birthday, String dutyCode, boolean status) {
         this.ID = ID;
         this.address = address;
         this.birthday = birthday;
@@ -23,6 +24,7 @@ public class StaffDTO {
         this.email = email;
         this.name = name;
         this.status = status;
+        this.numberPhone = numberPhone;
     }
 
     public void setAddress(String address) {
@@ -49,6 +51,10 @@ public class StaffDTO {
         this.name = name;
     }
 
+    public void setNumberPhone(String numberPhone) {
+        this.numberPhone = numberPhone;
+    }
+
     public void setStatus(boolean status) {
         this.status = status;
     }
@@ -67,6 +73,10 @@ public class StaffDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getNumberPhone() {
+        return numberPhone;
     }
 
     public String getID() {
