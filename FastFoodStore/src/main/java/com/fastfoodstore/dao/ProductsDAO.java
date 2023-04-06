@@ -167,7 +167,7 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
         
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * from products WHERE products." + colName + " = ? ";
+            String sql = "SELECT * from products WHERE ? ";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, condition);
             ResultSet rs = pst.executeQuery();
