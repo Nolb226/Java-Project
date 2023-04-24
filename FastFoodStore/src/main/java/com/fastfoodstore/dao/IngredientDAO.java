@@ -143,9 +143,9 @@ public class IngredientDAO implements DAOInterface<IngredientDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM ingredient WHERE ?";
+            String sql = "SELECT * FROM ingredient " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, condition);            
+            // pst.setString(1, condition);            
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {

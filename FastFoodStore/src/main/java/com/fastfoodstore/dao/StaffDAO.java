@@ -167,9 +167,9 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM staff WHERE ?";
+            String sql = "SELECT * FROM staff " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, condition);            
+            // pst.setString(1, condition);            
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {

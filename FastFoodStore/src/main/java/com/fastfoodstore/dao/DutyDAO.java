@@ -143,9 +143,9 @@ public class DutyDAO implements DAOInterface<DutyDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM duty WHERE ?";
+            String sql = "SELECT * FROM duty " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, condition);            
+            // pst.setString(1, condition);            
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {
