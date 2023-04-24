@@ -20,11 +20,12 @@ public class FunctionsDAO implements DAOInterface<FunctionsDTO> {
         try {
             Connection  connection = ConnectionData.getConnection();
             String sql = "INSERT INTO `functions` (`functionCode`, `functionName`)"
-                        +" VALUES (?, ?);";
+                        +" VALUES (?, ?, ?);";
             PreparedStatement pst = connection.prepareStatement(sql);
             
             pst.setString(1, t.getFunctionCode());
             pst.setString(2, t.getFunctionName());
+            pst.setString(3, t.getFunctionIcon());
             
             change = pst.executeUpdate();
             
@@ -94,7 +95,8 @@ public class FunctionsDAO implements DAOInterface<FunctionsDTO> {
             while(rs.next()) {
                 FunctionsDTO data = new FunctionsDTO(
                     rs.getString("functionCode"),
-                    rs.getString("functionName")
+                    rs.getString("functionName"),
+                    rs.getString("functionIcon")
                     );
                 functionList.add(data);
                 isData = true;
@@ -141,21 +143,21 @@ public class FunctionsDAO implements DAOInterface<FunctionsDTO> {
     }
 
     @Override
-    public ArrayList<FunctionsDTO> selectByCondition(String condition, String colName) {
+    public ArrayList<FunctionsDTO> selectByCondition(String condition1, String condition2) {
         ArrayList<FunctionsDTO> functionList = new ArrayList<FunctionsDTO>();
         boolean isData = false;
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM functions WHERE ?";
+            String sql = "SELECT * FROM functions " + condition1 + " WHERE " + condition2;
             PreparedStatement pst = connection.prepareStatement(sql); 
-            pst.setString(1, condition);           
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {
                 FunctionsDTO data = new FunctionsDTO(
                     rs.getString("functionCode"),
-                    rs.getString("functionName")
+                    rs.getString("functionName"),
+                    rs.getString("functionIcon")
                     );
                 functionList.add(data);
                 isData = true;
