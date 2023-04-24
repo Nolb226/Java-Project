@@ -163,9 +163,9 @@ public class ComboDAO implements DAOInterface<ComboDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM combo WHRE ?";
+            String sql = "SELECT * FROM combo " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql); 
-            pst.setString(1, condition);
+            // pst.setString(1, condition);
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {

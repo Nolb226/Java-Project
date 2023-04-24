@@ -138,9 +138,9 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
         
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * from billdetail WHERE ? ";
+            String sql = "SELECT * from billdetail" + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, condition);
+            // pst.setString(1, condition);
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {

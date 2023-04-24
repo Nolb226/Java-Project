@@ -155,9 +155,9 @@ public class PromotionsDAO implements DAOInterface<PromotionsDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM promotion WHERE ?";
+            String sql = "SELECT * FROM promotion " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, condition);            
+            // pst.setString(1, condition);            
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {

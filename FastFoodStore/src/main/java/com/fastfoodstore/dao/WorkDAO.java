@@ -132,9 +132,9 @@ public class WorkDAO implements DAOInterface<WorkDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM work WHERE ?";
+            String sql = "SELECT * FROM work " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, condition);            
+            // pst.setString(1, condition);            
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {
