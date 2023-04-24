@@ -114,7 +114,8 @@ CREATE TABLE `duty` (
 
 CREATE TABLE `functions` (
   `functionCode` varchar(10) NOT NULL,
-  `functionName` varchar(50) NOT NULL
+  `functionName` varchar(50) NOT NULL,
+  `functionIcon` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1027,7 +1028,8 @@ INSERT INTO `duty` (`dutyCode`, `dutyName`) VALUES
 ('DUTY01','Admin'),
 ('DUTY02','Manager'),
 ('DUTY03','Crew Trainer'),
-('DUTY04','Crew');
+('DUTY04','Crew'),
+('DUTY05','Guest');
 
 
 
@@ -1047,13 +1049,13 @@ INSERT INTO `staff` (`id`, `name`, `email`, `numberPhone`, `address`, `birthday`
 -- Insert data for table `functions`
 -- ===============================================================================================================
 
-INSERT INTO `functions` (`functionCode`, `functionName`) VALUES
-('FUNC01','Gọi món'),
-('FUNC02','Quản lý nhân viên'),
-('FUNC03','Quản lý Menu'),
-('FUNC04','Nhập hàng'),
-('FUNC05','Thống kê'),
-('FUNC06','Quản lý đơn hàng');
+INSERT INTO `functions` (`functionCode`, `functionName`, `functionIcon`) VALUES
+('FUNC01','Gọi món','./icon/order.png'),
+('FUNC02','Quản lý nhân viên','./icon/staff.png'),
+('FUNC03','Quản lý Menu','./icon/menu.png'),
+('FUNC04','Nhập hàng','./icon/packing.png'),
+('FUNC05','Thống kê','./icon/turnover.png'),
+('FUNC06','Quản lý đơn hàng','./icon/bill.png');
 
 -- ===============================================================================================================
 -- Insert data for table `dutyHasFunc`
@@ -1067,7 +1069,8 @@ INSERT INTO `dutyHasFunc` (`dutyCode`, `functionCode`) VALUES
 ('DUTY02','FUNC04'),
 ('DUTY02','FUNC05'),
 ('DUTY01','FUNC03'),
-('DUTY01','FUNC05');
+('DUTY01','FUNC05'),
+('DUTY05','FUNC01');
 
 
 
