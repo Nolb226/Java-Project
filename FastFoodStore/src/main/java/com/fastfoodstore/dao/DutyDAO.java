@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import com.fastfoodstore.dto.DutyDTO;
 
 public class DutyDAO implements DAOInterface<DutyDTO> {
+    
+    public static DutyDAO getInstance() {
+        return new DutyDAO();
+    }
 
     @Override
     public int insert(DutyDTO t) {
@@ -114,7 +118,7 @@ public class DutyDAO implements DAOInterface<DutyDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM duty WHERE dutyCode = ?";
+            String sql = "SELECT * FROM duty WHERE dutyPass = ?";
             PreparedStatement pst = connection.prepareStatement(sql);   
             pst.setString(1, id);         
             ResultSet rs = pst.executeQuery();
@@ -122,6 +126,7 @@ public class DutyDAO implements DAOInterface<DutyDTO> {
             if(rs.next()) {
                 duty.setDutyCode(rs.getString("dutyCode"));
                 duty.setDutyName(rs.getString("dutyName"));
+                duty.setDutypass(rs.getString("dutyPass")); 
                 isData = true;
             }
             ConnectionData.closeConnection(connection);

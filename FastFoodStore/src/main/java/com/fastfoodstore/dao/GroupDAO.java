@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import com.fastfoodstore.dto.GroupDTO;
 
 public class GroupDAO implements DAOInterface<GroupDTO> {
+    
+    public static GroupDAO getInstance() {
+        return new GroupDAO();
+    }
 
     @Override
     public int insert(GroupDTO t) {
@@ -151,9 +155,9 @@ public class GroupDAO implements DAOInterface<GroupDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM groups " + condition + "";
+            String sql = "SELECT * FROM groups where " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql);
-            // pst.setString(1, condition);            
+//            System.out.println(sql); 
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {

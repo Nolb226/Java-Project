@@ -5,10 +5,10 @@
 package com.fastfoodstore.gui.components;
 
 import com.fastfoodstore.gui.form.BillForm;
+import com.fastfoodstore.gui.form.ConFirmForm;
 import com.fastfoodstore.gui.form.MenuForm;
 import com.fastfoodstore.gui.form.OrderForm;
 import com.fastfoodstore.gui.form.PackForm;
-import com.fastfoodstore.gui.form.SettingForm;
 import com.fastfoodstore.gui.form.StaffForm;
 import com.fastfoodstore.gui.form.StatisticsForm;
 import java.awt.BorderLayout;
@@ -31,7 +31,7 @@ public class MainFrame extends JFrame {
     private PackForm packForm;
     private StatisticsForm statisticsForm;
     private BillForm billForm;
-    private SettingForm settingForm;
+    private ConFirmForm conFirmForm;
 
     public MainFrame(PanelBorder panelBorder, LeftMenu leftMenu, JPanel contentPanel) throws HeadlessException {
         this.panelBorder = panelBorder;
@@ -47,8 +47,7 @@ public class MainFrame extends JFrame {
         packForm = new PackForm();
         statisticsForm = new StatisticsForm();
         billForm = new BillForm();
-        settingForm = new SettingForm();
-
+        
         initComponent();
         setBackground(new Color(0, 0, 0, 0));
         leftMenu.initMoving(this);
@@ -78,7 +77,7 @@ public class MainFrame extends JFrame {
                             setForm(billForm);
                             break;
                         case "FUNC00":
-                            setForm(settingForm);
+                            conFirmForm = new ConFirmForm(leftMenu); 
                             break;
                         case "EXIT":
                             dispose();
@@ -143,7 +142,7 @@ public class MainFrame extends JFrame {
     }
 
     public void setLeftMenu() {
-        this.leftMenu = new LeftMenu();
+        this.leftMenu = new LeftMenu(this);
     }
 
     public LeftMenu getLeftMenu() {
@@ -166,5 +165,5 @@ public class MainFrame extends JFrame {
         contentPanel.repaint();
         contentPanel.validate();
     }
-
+    
 }

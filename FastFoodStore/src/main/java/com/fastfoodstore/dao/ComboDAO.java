@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import com.fastfoodstore.dto.ComboDTO;
 
 public class ComboDAO implements DAOInterface<ComboDTO> {
+    
+    public static ComboDAO getInstance() {
+        return new ComboDAO();
+    }
 
     @Override
     public int insert(ComboDTO t) {
@@ -163,7 +167,7 @@ public class ComboDAO implements DAOInterface<ComboDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM combo " + condition + "";
+            String sql = "SELECT * FROM combo where " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql); 
             // pst.setString(1, condition);
             ResultSet rs = pst.executeQuery();
