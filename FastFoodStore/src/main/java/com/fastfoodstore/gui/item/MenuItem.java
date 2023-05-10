@@ -21,7 +21,9 @@ public class MenuItem extends JPanel {
     public MenuItem(FunctionsDTO data) {
         initComponent();
         setOpaque(false);
-        ProjectUtil.setPicture(iconLabel, data.getFunctionIcon());
+        if (data.getFunctionIcon() != "") {
+            ProjectUtil.setPicture(iconLabel, data.getFunctionIcon());    
+        }
         nameLabel.setText(data.getFunctionName());
     }
 
