@@ -4,7 +4,7 @@ public class ProductsDTO {
     
     private String productCode;
     private String productName;	
-    private float productPrice;	
+    private int productPrice;	
     private int productGenre;	
     private char productSize;
     private String productImage;	
@@ -15,7 +15,7 @@ public class ProductsDTO {
 
     }
 
-    public ProductsDTO(String productCode, String productName, float productPrice, int productGenre, char productSize, String productImage, String groupCode, int inMenu) {
+    public ProductsDTO(String productCode, String productName, int productPrice, int productGenre, char productSize, String productImage, String groupCode, int inMenu) {
         this.productCode = productCode;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -52,7 +52,7 @@ public class ProductsDTO {
         this.productImage = productImage;
     }
 
-    public void setProductPrice(float productPrice) {
+    public void setProductPrice(int productPrice) {
         this.productPrice = productPrice;
     }
     
@@ -84,7 +84,7 @@ public class ProductsDTO {
         return productName;
     }
 
-    public float getProductPrice() {
+    public int getProductPrice() {
         return productPrice;
     }
 

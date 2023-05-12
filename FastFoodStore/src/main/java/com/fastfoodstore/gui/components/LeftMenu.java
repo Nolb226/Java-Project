@@ -39,7 +39,7 @@ public class LeftMenu extends JPanel{
         initComponent();
         setOpaque(false);
         listMenu.setOpaque(false);
-        setData("");
+        setData("0916921135");
     }
     
     private void setData(String pass) {

@@ -26,7 +26,7 @@ public class ConnectionData {
             
             c = DriverManager.getConnection(url, userName, password);
             
-            System.out.println("Connect successfully");
+//            System.out.println("Connect successfully");
             
         } catch (Exception e) {
             
@@ -41,7 +41,7 @@ public class ConnectionData {
         try {
             if(c != null) {
                 c.close();
-                System.out.println("Close connection successfully");
+//                System.out.println("Close connection successfully");
             }
         } catch (Exception e) { 
             

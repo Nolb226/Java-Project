@@ -3,7 +3,7 @@ package com.fastfoodstore.dto;
 public class ComboDTO {
     private String comboCode;
     private String comboName;
-    private float comboPrice;
+    private int comboPrice;
     private int numberOfProduct;
     private String comboImage;
     private String groupCode;
@@ -13,7 +13,7 @@ public class ComboDTO {
 
     }
 
-    public ComboDTO(String comboCode, String comboName, float comboPrice, int numberOfProduct, String comboImage, String groupCode, boolean inMenu) {
+    public ComboDTO(String comboCode, String comboName, int comboPrice, int numberOfProduct, String comboImage, String groupCode, boolean inMenu) {
         this.comboCode = comboCode;
         this.comboImage = comboImage;
         this.comboName = comboName;
@@ -35,7 +35,7 @@ public class ComboDTO {
         this.comboName = comboName;
     }
 
-    public void setComboPrice(float comboPrice) {
+    public void setComboPrice(int comboPrice) {
         this.comboPrice = comboPrice;
     }
 
@@ -63,7 +63,7 @@ public class ComboDTO {
         return comboName;
     }
 
-    public float getComboPrice() {
+    public int getComboPrice() {
         return comboPrice;
     }
 

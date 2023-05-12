@@ -5,7 +5,6 @@
 package com.fastfoodstore.gui.form;
 
 import com.fastfoodstore.gui.ProjectUtil;
-import com.fastfoodstore.gui.components.LeftMenu;
 import com.fastfoodstore.gui.item.Button;
 
 import java.awt.Color;
@@ -22,19 +21,19 @@ import javax.swing.border.EmptyBorder;
 public class ConFirmForm {
 
     private Frame frame;
-    private LeftMenu leftMenu;
     private JPasswordField inputField;
     private JPanel inputPanel;
 
     private Button customButton1;
     private Button customButton2;
+    
+    private String result;
 
-    public ConFirmForm(LeftMenu leftMenu) {
-        this.leftMenu = leftMenu;
-        initComponent();
+    public ConFirmForm() {
+        this.result = null;
     }
 
-    private void initComponent() {
+    public String show() {
         frame = new JFrame("Custom Button Dialog Example");
 
         inputField = new JPasswordField();
@@ -48,15 +47,13 @@ public class ConFirmForm {
             @Override
             public void mouseClicked(MouseEvent e) {
                 e.getComponent().setBackground(new Color(customButton1.getR(),customButton1.getG(),customButton1.getB()));
-                leftMenu.setPass(String.copyValueOf(inputField.getPassword()));
-                leftMenu.getMainFrame().getContentPanel().removeAll();
-                leftMenu.getMainFrame().getContentPanel().repaint();
+                result = String.copyValueOf(inputField.getPassword());
                 frame.dispose();
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                e.getComponent().setBackground(new Color(customButton1.getR(),customButton1.getG(),customButton1.getB(),200)); 
+                e.getComponent().setBackground(new Color(customButton1.getR(),customButton1.getG(),customButton1.getB(),150)); 
 
             }
             
@@ -67,13 +64,12 @@ public class ConFirmForm {
             @Override
             public void mouseClicked(MouseEvent e) {
                 e.getComponent().setBackground(new Color(customButton2.getR(),customButton2.getG(),customButton2.getB()));
-                leftMenu.getListMenu().clean();
                 frame.dispose();
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                e.getComponent().setBackground(new Color(customButton2.getR(),customButton2.getG(),customButton2.getB(),200)); 
+                e.getComponent().setBackground(new Color(customButton2.getR(),customButton2.getG(),customButton2.getB(),150)); 
 
             }
             
@@ -83,6 +79,8 @@ public class ConFirmForm {
         Object[] options = {customButton1, customButton2};
 
         int choice = JOptionPane.showOptionDialog(frame, inputPanel, "", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        
+        return result;
 
     }
 
