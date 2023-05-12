@@ -6,7 +6,7 @@ package com.fastfoodstore.gui;
 
 import com.fastfoodstore.gui.components.MainFrame;
 
-/**
+/*
  *
  * @author ADMIN
  */

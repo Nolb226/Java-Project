@@ -3,6 +3,7 @@ package com.fastfoodstore.gui.components;
 import com.fastfoodstore.dto.FunctionsDTO;
 import com.fastfoodstore.gui.item.MenuItem;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -27,17 +28,19 @@ public class ListLeftMenu<E extends Object> extends JList<E> {
             public void mousePressed(MouseEvent e) {
                 if (SwingUtilities.isLeftMouseButton(e)) {
                     int index = locationToIndex(e.getPoint());
-                    Object o = model.getElementAt(index);
-                    if (o instanceof FunctionsDTO) {
-                        FunctionsDTO menu = (FunctionsDTO) o;
-                        selectedIndex = index;
-                        if (event != null) {
-                            event.selected(index);
+                    if(index != getModel().getSize() - 1) {
+                        Object o = model.getElementAt(index);
+                        if (o instanceof FunctionsDTO) {
+                            FunctionsDTO menu = (FunctionsDTO) o;
+                            selectedIndex = index;
+                            if (event != null) {
+                                event.selected(index);
+                            }
+                        } else {
+                            selectedIndex = index;
                         }
-                    } else {
-                        selectedIndex = index;
+                        repaint();
                     }
-                    repaint();
                 }
             }
 
@@ -52,16 +55,23 @@ public class ListLeftMenu<E extends Object> extends JList<E> {
             @Override
             public void mouseMoved(MouseEvent e) {
                 int index = locationToIndex(e.getPoint());
-                if (index != overIndex) {
-                    Object o = model.getElementAt(index);
-                    if (o instanceof FunctionsDTO) {
-                        FunctionsDTO menu = (FunctionsDTO) o;
-                        overIndex = index;
-                    } else {
-                        overIndex = -1;
+                if(index != getModel().getSize() - 1) {
+                    e.getComponent().setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    if (index != overIndex) {
+                        Object o = model.getElementAt(index);
+                        if (o instanceof FunctionsDTO) {
+                            FunctionsDTO menu = (FunctionsDTO) o;
+                            overIndex = index;
+                        } else {
+                            overIndex = -1;
+                        }
+                        repaint();
                     }
-                    repaint();
+                } else {
+                    overIndex = -1;
+                    e.getComponent().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
+                repaint();
             }
         });
     }
@@ -87,8 +97,19 @@ public class ListLeftMenu<E extends Object> extends JList<E> {
     public void addItem(FunctionsDTO data) {
         model.addElement(data);
     }
+    
+    public void removeData() {
+        model.removeAllElements();
+        clean();
+    }
 
     public void addEventMenuSelected(EventMenuSelected event) {
         this.event = event;
+    }
+    
+    public void clean() {
+        selectedIndex = -1;
+        overIndex = -1;
+        repaint();
     }
 }

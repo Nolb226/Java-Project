@@ -103,7 +103,8 @@ CREATE TABLE `combodetail` (
 
 CREATE TABLE `duty` (
   `dutyCode` varchar(10) NOT NULL,
-  `dutyName` varchar(50) NOT NULL
+  `dutyName` varchar(50) NOT NULL,
+  `dutyPass` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1024,12 +1025,12 @@ INSERT INTO `promotions` (`promoCode`, `promoGenre`, `productCode`, `discount`, 
 -- Insert data for table `duty`
 -- ===============================================================================================================
 
-INSERT INTO `duty` (`dutyCode`, `dutyName`) VALUES
-('DUTY01','Admin'),
-('DUTY02','Manager'),
-('DUTY03','Crew Trainer'),
-('DUTY04','Crew'),
-('DUTY05','Guest');
+INSERT INTO `duty` (`dutyCode`, `dutyName`, `dutyPass`) VALUES
+('DUTY01','Admin','0916921132'),
+('DUTY02','Manager','0916921133'),
+('DUTY03','Crew Trainer','0916921134'),
+('DUTY04','Crew','0916921135'),
+('DUTY05','Guest','');
 
 
 

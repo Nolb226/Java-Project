@@ -3,6 +3,7 @@ package com.fastfoodstore.dto;
 public class DutyDTO {
     private String dutyCode;
     private String dutyName;
+    private String dutypass;
 
     public DutyDTO() {
 
@@ -21,12 +22,20 @@ public class DutyDTO {
         this.dutyName = dutyName;
     }
 
+    public void setDutypass(String dutypass) {
+        this.dutypass = dutypass;
+    }
+
     public String getDutyCode() {
         return dutyCode;
     }
 
     public String getDutyName() {
         return dutyName;
+    }
+
+    public String getDutypass() {
+        return dutypass;
     }
     
 }
