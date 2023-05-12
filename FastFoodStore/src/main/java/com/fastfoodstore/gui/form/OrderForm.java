@@ -202,9 +202,13 @@ public class OrderForm extends JPanel {
                         setDataMenu(a.getDataGroup().getGroupCode());
                         animation();
                     } else if(a.getData() instanceof ProductsDTO) {
-                        billDetailPanel.addData(a.getDataProduct()); 
+                        if(billDetailPanel.isOrdering()) {
+                            billDetailPanel.addData1(a.getDataProduct());  
+                        }
                     } else {
-                        
+                        if(billDetailPanel.isOrdering()) {
+                            billDetailPanel.addData2(a.getDataCombo());
+                        }
                     }
                 }
 
@@ -327,6 +331,14 @@ public class OrderForm extends JPanel {
     public void setPromoButton() {
         this.promoButton = new Button("Khuyến mãi", 100, 30, ProjectUtil.getMyGreenColor());
         promoButton.setBounds(420, 220, 90, 30);
+        promoButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ConFirmForm conFirmForm = new ConFirmForm();
+                String result = conFirmForm.show();
+            }
+            
+        });
     }
 
     public void setBackButton() {

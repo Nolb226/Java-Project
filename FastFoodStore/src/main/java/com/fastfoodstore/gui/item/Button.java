@@ -53,6 +53,9 @@ public class Button extends JPanel{
         this.widthFloat = widthFloat;
         this.heightFloat = heightFloat;
         this.thisColor = c;
+        this.R = c.getRed();
+        this.G = c.getGreen();
+        this.B = c.getBlue();
         initComponent();
         setOpaque(false); 
     }
@@ -160,7 +163,9 @@ public class Button extends JPanel{
         this.thisColor = thisColor;
     }
     
-    
+    public void setContent(String text) {
+        textLabel.setText(text); 
+    }
     
 }
 

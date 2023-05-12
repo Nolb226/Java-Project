@@ -104,6 +104,7 @@ public class ProductItem extends JPanel {
         nameLabel.setBackground(getBackground());
         nameLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
         nameLabel.setForeground(Color.decode("#555555"));
+        nameLabel.setEditable(false); 
     }
 
     public void setPriceLabel(String text) {

@@ -77,7 +77,15 @@ public class MainFrame extends JFrame {
                             setForm(billForm);
                             break;
                         case "FUNC00":
-                            conFirmForm = new ConFirmForm(leftMenu); 
+                            conFirmForm = new ConFirmForm(); 
+                            String result = conFirmForm.show();
+                            if(result != null) {
+                                leftMenu.setPass(result);
+                                leftMenu.getMainFrame().getContentPanel().removeAll();
+                                leftMenu.getMainFrame().getContentPanel().repaint();
+                            } else {
+                                 leftMenu.getListMenu().clean();
+                            }
                             break;
                         case "EXIT":
                             dispose();

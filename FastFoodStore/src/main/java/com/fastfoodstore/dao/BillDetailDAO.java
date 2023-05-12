@@ -28,7 +28,7 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
             pst.setString(2, t.getProductCode());
             pst.setString(3, t.getProductNote());
             pst.setInt(4, t.getAmountProduct());
-            pst.setFloat(5, t.getPrice());
+            pst.setInt(5, t.getPrice());
             
             change = pst.executeUpdate();
             
@@ -55,7 +55,7 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
             pst.setString(2, t.getProductCode());
             pst.setString(3, t.getProductNote());
             pst.setInt(4, t.getAmountProduct());
-            pst.setFloat(5, t.getPrice());
+            pst.setInt(5, t.getPrice());
             pst.setString(6, t.getBillCode());
             pst.setString(7, t.getProductCode());
 
@@ -108,7 +108,7 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
                     rs.getString("productCode"),
                     rs.getString("productNote"),
                     rs.getInt("amountProduct"),
-                    rs.getFloat("price")
+                    rs.getInt("price")
                     );
                 billDetailList.add(data);
                 isData = true;
@@ -138,7 +138,7 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
         
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * from billdetail" + condition + "";
+            String sql = "SELECT * from billdetail " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql);
             // pst.setString(1, condition);
             ResultSet rs = pst.executeQuery();
@@ -149,7 +149,7 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
                     rs.getString("productCode"),
                     rs.getString("productNote"),
                     rs.getInt("amountProduct"),
-                    rs.getFloat("price")
+                    rs.getInt("price")
                     );
                 billDetailList.add(data);
                 isData = true;

@@ -3,54 +3,33 @@ package com.fastfoodstore.dto;
 import java.sql.Date;
 
 public class BillsDTO {
+
     private String billCode;
-    private int orderNumber;
-    private Date date;
+    private String date;
     private int totalNumber;
-    private float totalPrice;
-    private float cash;
-    private float excess;
-    private String billStatus;
+    private int totalPrice;
     private String promoCode;
+    private String billStatus;
 
     public BillsDTO() {
 
     }
 
-    public BillsDTO(String billCode, int orderNumber, Date date, int totalNumber, float totalPrice, float cash, float excess, String billStatus, String promoCode) {
+    public BillsDTO(String billCode, String date, int totalNumber, int totalPrice, String promoCode, String billStatus) {
         this.billCode = billCode;
-        this.billStatus = billStatus;
-        this.cash = cash;
         this.date = date;
-        this.excess = excess;
-        this.orderNumber = orderNumber;
         this.promoCode = promoCode;
         this.totalNumber = totalNumber;
         this.totalPrice = totalPrice;
+        this.billStatus = billStatus;
     }
 
     public void setBillCode(String billCode) {
         this.billCode = billCode;
     }
 
-    public void setBillStatus(String billStatus) {
-        this.billStatus = billStatus;
-    }
-
-    public void setCash(float cash) {
-        this.cash = cash;
-    }
-    
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
-    }
-
-    public void setExcess(float excess) {
-        this.excess = excess;
-    }
-    
-    public void setOrderNumber(int orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public void setPromoCode(String promoCode) {
@@ -61,32 +40,20 @@ public class BillsDTO {
         this.totalNumber = totalNumber;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public void setBillStatus(String billStatus) {
+        this.billStatus = billStatus;
     }
 
     public String getBillCode() {
         return billCode;
     }
 
-    public String getBillStatus() {
-        return billStatus;
-    }
-
-    public float getCash() {
-        return cash;
-    }
-
-    public Date getDate() {
+    public String getDate() {
         return date;
-    }
-
-    public float getExcess() {
-        return excess;
-    }
-
-    public int getOrderNumber() {
-        return orderNumber;
     }
 
     public String getPromoCode() {
@@ -97,9 +64,12 @@ public class BillsDTO {
         return totalNumber;
     }
 
-    public float getTotalPrice() {
+    public int getTotalPrice() {
         return totalPrice;
     }
-    
-    
+
+    public String getBillStatus() {
+        return billStatus;
+    }
+
 }

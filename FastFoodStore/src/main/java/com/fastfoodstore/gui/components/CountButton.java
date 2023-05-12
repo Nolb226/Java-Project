@@ -43,6 +43,17 @@ public class CountButton extends JPanel{
     public void setCountData(int countData) {
         this.countData = countData;
     }
+    
+    public void countUp() {
+        setCountData(countData++);
+        System.out.println(countData);
+        countLabel.setText(countData + ""); 
+    }
+    
+    public void countDown() {
+        setCountData(countData--);
+        countLabel.setText(countData + ""); 
+    }
 
     public void setSubButton() {
         this.subButton = new Button("-", 20, 20, 34, 34, 34);
@@ -50,6 +61,7 @@ public class CountButton extends JPanel{
         subButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                System.out.println("click");
                 countDown();
             }
         });
@@ -61,26 +73,16 @@ public class CountButton extends JPanel{
         addButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                System.out.println("click");
                 countUp(); 
             }
         });
     }
 
     public void setCountLabel() {
-        this.countLabel = new JLabel();
         setCountData(1);
-        countLabel.setText(countData + ""); 
+        this.countLabel = new JLabel(countData + "",JLabel.CENTER);
         countLabel.setBounds(20, 0, 20, 20);
-    }
-    
-    public void countUp() {
-        setCountData(countData++);
-        countLabel.setText(countData + ""); 
-    }
-    
-    public void countDown() {
-        setCountData(countData--);
-        countLabel.setText(countData + ""); 
     }
 
     public int getCountData() {
