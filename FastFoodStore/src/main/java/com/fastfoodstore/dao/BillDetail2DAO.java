@@ -19,16 +19,15 @@ public class BillDetail2DAO implements DAOInterface<BillDetail2DTO> {
 
         try {
             Connection  connection = ConnectionData.getConnection();
-            String sql = "INSERT INTO `billdetail2` (`billCode`, `comboCode`, `productCode`, `productNote`, `amoutCombo`, `price`)"
-                        +" VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `billdetail2` (`billCode`, `comboCode`, `productNote`, `amoutCombo`, `price`)"
+                        +" VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pst = connection.prepareStatement(sql);
             
             pst.setString(1, t.getBillCode());
             pst.setString(2, t.getComboCode());
-            pst.setString(3, t.getProductCode());
-            pst.setString(4, t.getProductNote());
-            pst.setInt(5, t.getAmountCombo());
-            pst.setFloat(6, t.getPrice());
+            pst.setString(3, t.getProductNote());
+            pst.setInt(4, t.getAmountCombo());
+            pst.setInt(5, t.getPrice());
             
             change = pst.executeUpdate();
             
@@ -46,18 +45,17 @@ public class BillDetail2DAO implements DAOInterface<BillDetail2DTO> {
         try {
             Connection connection = ConnectionData.getConnection();
             String sql ="UPDATE `billdetail2`"+
-                    " SET `billCode` = ?, `comboCode` = ?, `productCode` = ?, `productNote` = ?, `amoutCombo` = ?, `price` = ?"+
+                    " SET `billCode` = ?, `comboCode` = ?, `productNote` = ?, `amoutCombo` = ?, `price` = ?"+
                     " WHERE `billdetail2`.`billCode` = ? AND `billdetail2`.`comboCode` = ?;";
             PreparedStatement pst = connection.prepareStatement(sql);
 
             pst.setString(1, t.getBillCode());
             pst.setString(2, t.getComboCode());
-            pst.setString(3, t.getProductCode());
-            pst.setString(4, t.getProductNote());
-            pst.setInt(5, t.getAmountCombo());
-            pst.setFloat(6, t.getPrice());
-            pst.setString(7, t.getBillCode());
-            pst.setString(8, t.getComboCode());
+            pst.setString(3, t.getProductNote());
+            pst.setInt(4, t.getAmountCombo());
+            pst.setInt(5, t.getPrice());
+            pst.setString(6, t.getBillCode());
+            pst.setString(7, t.getComboCode());
 
             change = pst.executeUpdate();
             
@@ -105,10 +103,9 @@ public class BillDetail2DAO implements DAOInterface<BillDetail2DTO> {
                 BillDetail2DTO data = new BillDetail2DTO(
                     rs.getString("billCode"),
                     rs.getString("comboCode"),
-                    rs.getString("productCode"),
                     rs.getString("productNote"),
                     rs.getInt("amountCombo"),
-                    rs.getFloat("price")
+                    rs.getInt("price")
                     );
                 billDetailList.add(data);
                 isData = true;
@@ -146,10 +143,9 @@ public class BillDetail2DAO implements DAOInterface<BillDetail2DTO> {
                 BillDetail2DTO data = new BillDetail2DTO(
                     rs.getString("billCode"),
                     rs.getString("comboCode"),
-                    rs.getString("productCode"),
                     rs.getString("productNote"),
-                    rs.getInt("amountCombo"),
-                    rs.getFloat("price")
+                    rs.getInt("amoutCombo"),
+                    rs.getInt("price")
                     );
                 billDetailList.add(data);
                 isData = true;

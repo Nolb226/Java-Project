@@ -3,21 +3,19 @@ package com.fastfoodstore.dto;
 public class BillDetail2DTO {
     private String billCode;
     private String comboCode;
-    private String productCode;
     private String productNote;
     private int amountCombo;
-    private float price;
+    private int price;
 
     public BillDetail2DTO() {
 
     }
 
-    public BillDetail2DTO(String billCode, String comboCode, String productCode, String procductNote, int amountCombo, float price) {
+    public BillDetail2DTO(String billCode, String comboCode, String procductNote, int amountCombo, int price) {
         this.amountCombo = amountCombo;
         this.billCode = billCode;
         this.comboCode = comboCode;
         this.price = price;
-        this.productCode = productCode;
         this.productNote = procductNote;
     }
 
@@ -33,12 +31,8 @@ public class BillDetail2DTO {
         this.comboCode = comboCode;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
-    }
-
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
     }
 
     public void setProductNote(String productNote) {
@@ -57,16 +51,16 @@ public class BillDetail2DTO {
         return comboCode;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
-    }
-
-    public String getProductCode() {
-        return productCode;
     }
 
     public String getProductNote() {
         return productNote;
+    }
+    
+    public void addAmount() {
+        amountCombo++;
     }
 
 }

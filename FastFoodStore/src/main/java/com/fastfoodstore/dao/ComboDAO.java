@@ -25,7 +25,7 @@ public class ComboDAO implements DAOInterface<ComboDTO> {
             
             pst.setString(1, t.getComboCode());
             pst.setString(2, t.getComboName());
-            pst.setFloat(3,t.getComboPrice());
+            pst.setInt(3,t.getComboPrice());
             pst.setInt(4, t.getNumberOfProduct());
             pst.setString(5, t.getComboImage());
             pst.setString(6, t.getGroupCode());
@@ -53,7 +53,7 @@ public class ComboDAO implements DAOInterface<ComboDTO> {
             
             pst.setString(1, t.getComboCode());
             pst.setString(2, t.getComboName());
-            pst.setFloat(3,t.getComboPrice());
+            pst.setInt(3,t.getComboPrice());
             pst.setInt(4, t.getNumberOfProduct());
             pst.setString(5, t.getComboImage());
             pst.setString(6, t.getGroupCode());
@@ -105,7 +105,7 @@ public class ComboDAO implements DAOInterface<ComboDTO> {
                 ComboDTO data = new ComboDTO(
                     rs.getString("comboCode"),
                     rs.getString("comboName"),
-                    rs.getFloat("comboPrice"),
+                    rs.getInt("comboPrice"),
                     rs.getInt("numberOfProduct"),
                     rs.getString("comboImage"),
                     rs.getString("groupCode"),
@@ -141,7 +141,7 @@ public class ComboDAO implements DAOInterface<ComboDTO> {
             if(rs.next()) {
                combo.setComboCode(rs.getString("comboCode"));
                combo.setComboName(rs.getString("comboName"));
-               combo.setComboPrice( rs.getFloat("comboPrice"));
+               combo.setComboPrice( rs.getInt("comboPrice"));
                combo.setNumberOfProduct(rs.getInt("numberOfProduct"));
                combo.setComboImage(rs.getString("comboImage"));
                combo.setGroupCode(rs.getString("groupCode"));
@@ -176,7 +176,7 @@ public class ComboDAO implements DAOInterface<ComboDTO> {
                 ComboDTO data = new ComboDTO(
                     rs.getString("comboCode"),
                     rs.getString("comboName"),
-                    rs.getFloat("comboPrice"),
+                    rs.getInt("comboPrice"),
                     rs.getInt("numberOfProduct"),
                     rs.getString("comboImage"),
                     rs.getString("groupCode"),

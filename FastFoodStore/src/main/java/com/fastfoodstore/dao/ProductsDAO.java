@@ -29,7 +29,7 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
             
             pst.setString(1, t.getProductCode());
             pst.setString(2, t.getProductName());
-            pst.setFloat(3, t.getProductPrice());
+            pst.setInt(3, t.getProductPrice());
             pst.setInt(4, t.getProductGenre());
             pst.setString(5, t.getProductSize() + "");
             pst.setString(6, t.getProductImage());
@@ -98,7 +98,7 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
                 ProductsDTO data = new ProductsDTO(
                     rs.getString("productCode"),
                     rs.getString("productName"),
-                    rs.getFloat("productPrice"),
+                    rs.getInt("productPrice"),
                     rs.getInt("productGenre"),
                     rs.getString("productSize").charAt(0), 
                     rs.getString("productImage"),
@@ -136,7 +136,7 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
             if(rs.next()) {
                 product.setGroupCode(id);
                 product.setProductName(rs.getString("productName"));
-                product.setProductPrice(rs.getFloat("productPrice"));
+                product.setProductPrice(rs.getInt("productPrice"));
                 product.setProductGenre(rs.getInt("productGenre"));
                 product.setProductSize(rs.getString("productSize").charAt(0));
                 product.setProductImage(rs.getString("productImage"));
@@ -176,7 +176,7 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
                 ProductsDTO data = new ProductsDTO(
                     rs.getString("productCode"),
                     rs.getString("productName"),
-                    rs.getFloat("productPrice"),
+                    rs.getInt("productPrice"),
                     rs.getInt("productGenre"),
                     rs.getString("productSize").charAt(0), 
                     rs.getString("productImage"),

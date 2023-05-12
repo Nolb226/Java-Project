@@ -16,22 +16,18 @@ public class BillsDAO implements DAOInterface<BillsDTO> {
     @Override
     public int insert(BillsDTO t) {
         int change = 0;
-
         try {
             Connection  connection = ConnectionData.getConnection();
-            String sql = "INSERT INTO `bills` (`billCode`, `orderNumber`, `date`, `totalNumber`, `totalPrice`, `cash`, `excess`, `billStatus`, `promoCode`)"
-                        +" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `bills` (`billCode`, `date`, `totalNumber`, `totalPrice`, `promoCode`,`billStatus`)"
+                        +" VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = connection.prepareStatement(sql);
             
             pst.setString(1, t.getBillCode());
-            pst.setInt(2, t.getOrderNumber());
-            pst.setDate(3, t.getDate());
-            pst.setInt(4, t.getTotalNumber());
-            pst.setFloat(5, t.getTotalPrice());
-            pst.setFloat(6, t.getCash());
-            pst.setFloat(7, t.getExcess());
-            pst.setString(8, t.getBillStatus());
-            pst.setString(9, t.getPromoCode());
+            pst.setString(2, t.getDate());
+            pst.setInt(3, t.getTotalNumber());
+            pst.setInt(4, t.getTotalPrice());
+            pst.setString(5, t.getPromoCode());
+            pst.setString(6, t.getBillStatus());
             
             change = pst.executeUpdate();
             
@@ -49,20 +45,17 @@ public class BillsDAO implements DAOInterface<BillsDTO> {
         try {
             Connection connection = ConnectionData.getConnection();
             String sql ="UPDATE `bills`"
-            +" SET `billCode` = ?, `orderNumber` = ?, `date` = ?, `totalNumber` = ?, `totalPrice` = ?, `cash` = ?, `excess` = ?, `billStatus` = ?"
+            +" SET `billCode` = ?, `date` = ?, `totalNumber` = ?, `totalPrice` = ?, `billStatus` = ? "
             +" WHERE `bills`.`billCode` = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
 
             pst.setString(1, t.getBillCode());
-            pst.setInt(2, t.getOrderNumber());
-            pst.setDate(3, t.getDate());
-            pst.setInt(4, t.getTotalNumber());
-            pst.setFloat(5, t.getTotalPrice());
-            pst.setFloat(6, t.getCash());
-            pst.setFloat(7, t.getExcess());
-            pst.setString(8, t.getBillStatus());
-            pst.setString(9, t.getPromoCode());
-            pst.setString(10, t.getBillCode());
+            pst.setString(2, t.getDate());
+            pst.setInt(3, t.getTotalNumber());
+            pst.setFloat(4, t.getTotalPrice());
+            pst.setString(5, t.getPromoCode());
+            pst.setString(6, t.getBillStatus());
+            pst.setString(7, t.getBillCode());
 
             change = pst.executeUpdate();
             
@@ -108,14 +101,11 @@ public class BillsDAO implements DAOInterface<BillsDTO> {
             while(rs.next()) {
                 BillsDTO data = new BillsDTO(
                     rs.getString("billCode"),
-                    rs.getInt("orderNumber"),
-                    rs.getDate("date"),
+                    rs.getString("date"),
                     rs.getInt("totalNumber"),
-                    rs.getFloat("totalPrice"),
-                    rs.getFloat("cash"),
-                    rs.getFloat("excess"),
-                    rs.getString("billStatus"),
-                    rs.getString("promoCode")
+                    rs.getInt("totalPrice"),
+                    rs.getString("promoCode"),
+                    rs.getString("billStatus") 
                     );
                 billDetailList.add(data);
                 isData = true;
@@ -146,15 +136,12 @@ public class BillsDAO implements DAOInterface<BillsDTO> {
             
             if(rs.next()) {
                bill.setBillCode(id);
-               bill.setOrderNumber(rs.getInt("orderNumber"));
-               bill.setDate(rs.getDate("date"));
+               bill.setDate(rs.getString("date"));
                bill.setTotalNumber(rs.getInt("totalNumber"));
-               bill.setTotalPrice(rs.getFloat("totalPrice"));
-               bill.setCash(rs.getFloat("cash"));
-               bill.setExcess( rs.getFloat("excess"));
-               bill.setBillStatus(rs.getString("billStatus"));
+               bill.setTotalPrice(rs.getInt("totalPrice"));
                bill.setPromoCode(rs.getString("promoCode"));
-                isData = true;
+               bill.setBillStatus(rs.getString("billStatus")); 
+               isData = true;
             }
 
             ConnectionData.closeConnection(connection);
@@ -186,14 +173,11 @@ public class BillsDAO implements DAOInterface<BillsDTO> {
             while(rs.next()) {
                 BillsDTO data = new BillsDTO(
                     rs.getString("billCode"),
-                    rs.getInt("orderNumber"),
-                    rs.getDate("date"),
+                    rs.getString("date"),
                     rs.getInt("totalNumber"),
-                    rs.getFloat("totalPrice"),
-                    rs.getFloat("cash"),
-                    rs.getFloat("excess"),
-                    rs.getString("billStatus"),
-                    rs.getString("promoCode")
+                    rs.getInt("totalPrice"),
+                    rs.getString("promoCode"),
+                    rs.getString("billStatus")
                     );
                 billList.add(data);
                 isData = true;
