@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.fastfoodstore.gui.components;
+package com.fastfoodstore.gui.form.orderform;
 
 import com.fastfoodstore.bus.BillBUS;
 import com.fastfoodstore.bus.BillDetailBUS;
@@ -14,7 +14,6 @@ import com.fastfoodstore.dto.ProductsDTO;
 import com.fastfoodstore.gui.ProjectUtil;
 import com.fastfoodstore.gui.form.ComFirmForm2;
 import com.fastfoodstore.gui.form.NoticeForm;
-import com.fastfoodstore.gui.item.BillStatus;
 import com.fastfoodstore.gui.item.Button;
 import com.fastfoodstore.gui.item.ScrollBar;
 import java.awt.Color;
@@ -29,7 +28,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.EmptyBorder;
 
 public class BillDetailGUI extends JPanel {
 
@@ -146,7 +144,7 @@ public class BillDetailGUI extends JPanel {
         billJScrollPane.setVerticalScrollBar(new ScrollBar(Color.decode("#333333"), Color.decode("#333333")));
         billJScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         billJScrollPane.setBackground(Color.decode("#333333"));
-        billJScrollPane.setBounds(25, 70, 250, 250);
+        billJScrollPane.setBounds(20, 70, 260, 250);
     }
 
     public void setBillListPanel() {
@@ -193,7 +191,7 @@ public class BillDetailGUI extends JPanel {
             }
         }
         bill.setTotalNumber(totalProduct);
-        priceLabel.setText("" + totalPrice + " VND");
+        priceLabel.setText(ProjectUtil.toMoney(totalPrice)); 
     }
 
     public ArrayList<Object> getBillList() {

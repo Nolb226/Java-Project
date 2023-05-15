@@ -23,6 +23,15 @@ public class BillsDTO {
         this.totalPrice = totalPrice;
         this.billStatus = billStatus;
     }
+    
+    public BillsDTO(BillsDTO orther) {
+        this.billCode = orther.billCode;
+        this.date = orther.date;
+        this.promoCode = orther.promoCode;
+        this.totalNumber = orther.totalNumber;
+        this.totalPrice = orther.totalPrice;
+        this.billStatus = orther.billStatus;
+    }
 
     public void setBillCode(String billCode) {
         this.billCode = billCode;

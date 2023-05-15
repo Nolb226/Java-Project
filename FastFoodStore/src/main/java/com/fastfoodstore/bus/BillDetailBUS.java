@@ -24,20 +24,12 @@ public class BillDetailBUS {
         
     }
     
-    public static ArrayList<Object> selectBillDetailByCode(String code) {
-        ArrayList<Object> result = new ArrayList<>();
-        try {
-            ArrayList<BillDetailDTO> arr1 = BillDetailDAO.getInstance().selectByCondition("where billCode = '" + code + "'", "");
-            result.addAll(arr1);
-        } catch (Exception e) {
-        }
-        try {
-            ArrayList<BillDetail2DTO> arr2 = BillDetail2DAO.getInstance().selectByCondition("where billCode = '" + code + "'", "");
-            result.addAll(arr2);
-        } catch (Exception e) {
-        }
-        
-        return result;
+    public static ArrayList<BillDetailDTO> selectBillDetailByCode(String code) {
+        return BillDetailDAO.getInstance().selectByCondition("where billCode = '" + code + "'", "");
+    }
+    
+    public static ArrayList<BillDetail2DTO> selectBillDetail2ByCode(String code) {
+        return BillDetail2DAO.getInstance().selectByCondition("where billCode = '" + code + "'", "");
         
     }
 }

@@ -13,6 +13,11 @@ import java.util.ArrayList;
  * @author ADMIN
  */
 public class ComboBUS {
+    
+    public static ArrayList<ComboDTO> getAllCombo() {
+        return ComboDAO.getInstance().selectAll();
+    }
+    
     public static ArrayList<ComboDTO> getComboInGroup(String code) {
         return ComboDAO.getInstance().selectByCondition("groupCode = '"+ code +"'", "");
     }

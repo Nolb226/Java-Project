@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.fastfoodstore.gui.item;
+package com.fastfoodstore.gui.form.orderform;
 
 import com.fastfoodstore.bus.ComboBUS;
 import com.fastfoodstore.bus.ProductsBUS;
@@ -55,7 +55,7 @@ public class BillItem extends JPanel{
     }
     
     private void initComponent() {
-        setPreferredSize(new Dimension(250,35)); 
+        setPreferredSize(new Dimension(260,35)); 
         setBackground(new Color(0,0,0,0)); 
         setLayout(null);
         setEmptyPanel();
@@ -63,12 +63,12 @@ public class BillItem extends JPanel{
     }
     
     private void initComponentProduct() {
-        setTopPanel(dataProduct.getProductName()); 
+        setTopPanel(dataProduct.getProductName().split("/")[0]); 
         add(topPanel);
     }
     
     private void initComponentCombo() {
-        setTopPanel(dataCombo.getComboName()); 
+        setTopPanel(dataCombo.getComboName().split("/")[0]); 
         add(topPanel);
     }
 
@@ -84,7 +84,7 @@ public class BillItem extends JPanel{
             }
         };
         topPanel.setOpaque(false); 
-        topPanel.setBounds(0, 0, 250, 25);
+        topPanel.setBounds(0, 0, 260, 25);
         topPanel.setBackground(Color.decode("#d9d9d9")); 
         topPanel.setLayout(null);
         setNameLabel(text);
@@ -96,23 +96,23 @@ public class BillItem extends JPanel{
     public void setNameLabel(String text) {
         this.nameLabel = new JLabel(" " + amount + "x " + text+"");
         nameLabel.setFont(f);
-        nameLabel.setBounds(0,0, 200, 25);
+        nameLabel.setBounds(0,0, 180, 25);
     }
 
     public void setPriceLabel() {
         if(dataProduct != null) {
-            this.priceLabel = new JLabel("" + amount*dataProduct.getProductPrice()+" ", JLabel.RIGHT);   
+            this.priceLabel = new JLabel(ProjectUtil.toMoney(amount*dataProduct.getProductPrice())+" ", JLabel.RIGHT);   
         } else {
-            this.priceLabel = new JLabel("" + amount*dataCombo.getComboPrice()+" ", JLabel.RIGHT);
+            this.priceLabel = new JLabel(ProjectUtil.toMoney(amount*dataCombo.getComboPrice())+" ", JLabel.RIGHT); 
         }
-        priceLabel.setBounds(200, 0, 50, 25);
+        priceLabel.setBounds(180, 0, 80, 25);
         priceLabel.setFont(f);
     }
 
     public void setEmptyPanel() {
         this.emptyPanel = new JPanel();
         emptyPanel.setBackground(new Color(0,0,0,0)); 
-        emptyPanel.setBounds(0,25,250,10);
+        emptyPanel.setBounds(0,25,260,10);
     }
 
     public void addAmount() {

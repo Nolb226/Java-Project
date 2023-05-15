@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -90,5 +91,11 @@ public class ProjectUtil {
     public static String getCurrentDate() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
         return timeStamp;
+    }
+    
+    public static String toMoney(int money) {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        String formattedAmount = formatter.format(money);
+        return  formattedAmount + " VND";
     }
 }

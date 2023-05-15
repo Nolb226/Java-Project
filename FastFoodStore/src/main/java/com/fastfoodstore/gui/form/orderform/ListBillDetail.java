@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.fastfoodstore.gui.components;
+package com.fastfoodstore.gui.form.orderform;
 
-import com.fastfoodstore.gui.item.BillItem;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,7 +17,7 @@ import javax.swing.SwingUtilities;
 public class ListBillDetail<E extends Object> extends JList<E>{
     
     private final DefaultListModel model;
-    private int selectedIndex = -1;
+    private int selectedIndex = 0;
     
     public ListBillDetail() {
         this.model = new DefaultListModel();
@@ -54,12 +53,12 @@ public class ListBillDetail<E extends Object> extends JList<E>{
     
     public void removeItem() {
         model.removeElementAt(selectedIndex);
-        selectedIndex = -1;
+        selectedIndex = 0;
     }
     
     public void removeData() {
         model.removeAllElements();
-        selectedIndex = -1;
+        selectedIndex = 0;
     }
 
     public int getMySelectedIndex() {

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.fastfoodstore.gui.item;
+package com.fastfoodstore.gui.form.orderform;
 
 import com.fastfoodstore.dto.ComboDTO;
 import com.fastfoodstore.dto.GroupDTO;
@@ -63,8 +63,8 @@ public class ProductItem extends JPanel {
     }
 
     private void initComponentProduct() {
-        setNameLabel(dataProduct.getProductName());
-        setPriceLabel(String.valueOf(dataProduct.getProductPrice()));
+        setNameLabel(dataProduct.getProductName().split("/")[0]);
+        setPriceLabel(ProjectUtil.toMoney(dataProduct.getProductPrice())); 
         setLayout(null);
         add(imgPanel);
         add(nameLabel);
@@ -79,8 +79,8 @@ public class ProductItem extends JPanel {
     }
 
     private void initComponentCombo() {
-        setNameLabel(dataCombo.getComboName());
-        setPriceLabel(String.valueOf(dataCombo.getComboPrice()));
+        setNameLabel(dataCombo.getComboName().split("/")[0]);
+        setPriceLabel(ProjectUtil.toMoney(dataCombo.getComboPrice())); 
         setLayout(null);
         add(imgPanel);
         add(nameLabel);

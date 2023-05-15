@@ -19,7 +19,7 @@ public class DutyDAO implements DAOInterface<DutyDTO> {
 
         try {
             Connection  connection = ConnectionData.getConnection();
-            String sql = "INSERT INTO `duty` (`dutyCode`, `dutyName`)"
+            String sql = "INSERT INTO `duty` (`dutyCode`, `dutyName`,`dutyPass`)"
                         +" VALUES (?, ?);";
             PreparedStatement pst = connection.prepareStatement(sql);
             
@@ -42,13 +42,14 @@ public class DutyDAO implements DAOInterface<DutyDTO> {
         try {
             Connection  connection = ConnectionData.getConnection();
             String sql = "UPDATE `duty`"
-                        +" SET `dutyCode` = ?, `dutyName` = ?"
+                        +" SET `dutyCode` = ?, `dutyName` = ?, `dutyPass` = ?"
                         +" WHERE `duty`.`dutyCode` = ?;";
             PreparedStatement pst = connection.prepareStatement(sql);
             
             pst.setString(1, t.getDutyCode());
             pst.setString(2, t.getDutyName());
-            pst.setString(3, t.getDutyCode());
+            pst.setString(3, t.getDutypass());
+            pst.setString(4, t.getDutyCode());
             
             change = pst.executeUpdate();
             
@@ -94,7 +95,8 @@ public class DutyDAO implements DAOInterface<DutyDTO> {
             while(rs.next()) {
                 DutyDTO data = new DutyDTO(
                     rs.getString("dutyCode"),
-                    rs.getString("dutyName")
+                    rs.getString("dutyName"),
+                        rs.getString("dutyPass")
                     );
                 dutyList.add(data);
                 isData = true;
@@ -156,7 +158,8 @@ public class DutyDAO implements DAOInterface<DutyDTO> {
             while(rs.next()) {
                 DutyDTO data = new DutyDTO(
                     rs.getString("dutyCode"),
-                    rs.getString("dutyName")
+                    rs.getString("dutyName"),
+                    rs.getString("dutyPass") 
                     );
                 dutyList.add(data);
                 isData = true;

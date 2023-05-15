@@ -2,16 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.fastfoodstore.gui.item;
+package com.fastfoodstore.gui.form.billform;
 
 import com.fastfoodstore.dto.BillsDTO;
+import com.fastfoodstore.gui.ProjectUtil;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.text.html.HTML;
 
 /**
  *
@@ -52,7 +51,7 @@ public class ViewBillItem extends JPanel{
     }
 
     public void setBillPriceLabel() {
-        this.billPriceLabel = new JLabel(billData.getTotalPrice() + " VND  ",JLabel.RIGHT); 
+        this.billPriceLabel = new JLabel(ProjectUtil.toMoney(billData.getTotalPrice())+"  ",JLabel.RIGHT);  
     }
 
     public void setSelected(boolean selected) {
