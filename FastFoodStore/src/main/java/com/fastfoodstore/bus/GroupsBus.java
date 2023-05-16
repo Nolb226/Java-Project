@@ -13,6 +13,11 @@ import java.util.ArrayList;
  * @author ADMIN
  */
 public class GroupsBus {
+    
+    public static ArrayList<GroupDTO> getAllGroup() {
+        return GroupDAO.getInstance().selectAll();
+    } 
+    
     public static ArrayList<GroupDTO> getGroupZero() {
         return GroupDAO.getInstance().selectByCondition("LEFT(groupCode,1) = '0'",""); 
     } 

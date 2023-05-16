@@ -134,7 +134,7 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
             ResultSet rs = pst.executeQuery();
             
             if(rs.next()) {
-                product.setGroupCode(id);
+                product.setProductCode(id);
                 product.setProductName(rs.getString("productName"));
                 product.setProductPrice(rs.getInt("productPrice"));
                 product.setProductGenre(rs.getInt("productGenre"));

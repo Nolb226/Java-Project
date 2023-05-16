@@ -111,7 +111,7 @@ public class ProductItem extends JPanel {
         this.priceLabel = new JLabel(text, JLabel.RIGHT);
         priceLabel.setBounds(0, 150, 130, 20);
         priceLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        priceLabel.setForeground(Color.decode("#F1A259"));
+        priceLabel.setForeground(ProjectUtil.getMyOrangeColor());
     }
 
     public void setImgPanel() {
