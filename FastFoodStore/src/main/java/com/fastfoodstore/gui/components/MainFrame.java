@@ -24,13 +24,7 @@ public class MainFrame extends JFrame {
     private PanelBorder panelBorder;
     private LeftMenu leftMenu;
     private JPanel contentPanel;
-
-    private OrderForm orderForm;
-    private StaffForm staffForm;
-    private MenuForm menuForm;
-    private PackForm packForm;
-    private StatisticsForm statisticsForm;
-    private BillForm billForm;
+    
     private ConFirmForm conFirmForm;
 
     public MainFrame(PanelBorder panelBorder, LeftMenu leftMenu, JPanel contentPanel) throws HeadlessException {
@@ -40,14 +34,6 @@ public class MainFrame extends JFrame {
     }
 
     public MainFrame() {
-
-        orderForm = new OrderForm();
-        staffForm = new StaffForm();
-        menuForm = new MenuForm();
-        packForm = new PackForm();
-        statisticsForm = new StatisticsForm();
-        billForm = new BillForm();
-        
         initComponent();
         setBackground(new Color(0, 0, 0, 0));
         leftMenu.initMoving(this);
@@ -59,21 +45,27 @@ public class MainFrame extends JFrame {
                     String itemId = (String) selectedItem.getClientProperty("id");
                     switch (itemId) {
                         case "FUNC01":
+                            OrderForm orderForm = new OrderForm();
                             setForm(orderForm);
                             break;
                         case "FUNC02":
+                            StaffForm staffForm = new StaffForm();
                             setForm(staffForm);
                             break;
                         case "FUNC03":
+                            MenuForm menuForm = new MenuForm();
                             setForm(menuForm);
                             break;
                         case "FUNC04":
+                            PackForm packForm = new PackForm();
                             setForm(packForm);
                             break;
                         case "FUNC05":
+                            StatisticsForm statisticsForm = new StatisticsForm();
                             setForm(statisticsForm);
                             break;
                         case "FUNC06":
+                            BillForm billForm = new BillForm();
                             setForm(billForm);
                             break;
                         case "FUNC00":

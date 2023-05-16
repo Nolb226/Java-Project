@@ -64,6 +64,10 @@ public class ProjectUtil {
     public static Color getMyGrayColor() {
         return Color.decode("#eeeeee");
     }
+    
+    public static Color getMyOrangeColor() {
+        return Color.decode("#F1A259");
+    }
 
     public static Date stringToDate(String d) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

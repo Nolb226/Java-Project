@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -52,11 +53,11 @@ public class MenuTableItem extends JPanel {
         setOpaque(false);
     }
 
-    public void initEvent() {
+    public void initEvent(MenuTableAction eventAction, int row) {
         detailButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("haha");
+                eventAction.action(row);
             }
 
         });
@@ -64,7 +65,6 @@ public class MenuTableItem extends JPanel {
 
     public void setContentLabel() {
         this.contentLabel = new JLabel(text);
-        contentLabel.setBounds(0, 0, 100, 35);
     }
 
     public JLabel getContentLabel() {

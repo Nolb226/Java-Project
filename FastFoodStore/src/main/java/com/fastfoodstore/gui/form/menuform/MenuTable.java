@@ -4,7 +4,11 @@
  */
 package com.fastfoodstore.gui.form.menuform;
 
+import com.fastfoodstore.dto.ComboDTO;
+import com.fastfoodstore.dto.GroupDTO;
 import com.fastfoodstore.dto.ProductsDTO;
+import com.fastfoodstore.gui.ProjectUtil;
+import com.fastfoodstore.gui.form.MenuForm;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JLabel;
@@ -17,8 +21,12 @@ import javax.swing.table.DefaultTableModel;
  * @author ADMIN
  */
 public class MenuTable extends JTable {
+    
+    private MenuTableAction e;
+    private MenuForm menuForm;
 
-    public MenuTable() {
+    public MenuTable(MenuForm menuForm) {
+        this.menuForm = menuForm;
         setShowHorizontalLines(true);
         setGridColor(Color.decode("#d9d9d9")); 
         setShowVerticalLines(false); 
@@ -39,13 +47,14 @@ public class MenuTable extends JTable {
                 Component com = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 MenuTableItem label;
                 if (column != 5) {
-                    label = new MenuTableItem(String.valueOf(value));
                     if (column != 2) {
+                        label = new MenuTableItem(String.valueOf(value));
                         label.getContentLabel().setHorizontalAlignment(CENTER);
+                    } else {
+                        label = new MenuTableItem("   " + String.valueOf(value));
                     }
-                    
                     if (isSelected) {
-                        label.getContentLabel().setForeground(new Color(13, 113, 182));
+                        label.getContentLabel().setForeground(ProjectUtil.getMyOrangeColor());
                     } else {
                         label.getContentLabel().setForeground(new Color(102, 102, 102));
                     }
@@ -55,6 +64,12 @@ public class MenuTable extends JTable {
                 return label;
             }
         });
+        e = new MenuTableAction() {
+            @Override
+            public void action(int row) {
+                menuForm.viewDetail(row);
+            }
+        };
     }
     
     public void setModelTable(String[] col) {
@@ -73,9 +88,11 @@ public class MenuTable extends JTable {
         if (getColumnModel().getColumnCount() > 0) {
             getColumnModel().getColumn(0).setPreferredWidth(5);
             getColumnModel().getColumn(1).setPreferredWidth(55);
-            getColumnModel().getColumn(2).setPreferredWidth(300);
+            getColumnModel().getColumn(2).setPreferredWidth(370);
+            getColumnModel().getColumn(3).setPreferredWidth(50);
+            getColumnModel().getColumn(4).setPreferredWidth(50);
             getColumnModel().getColumn(5).setPreferredWidth(50);
-            getColumnModel().getColumn(5).setCellEditor(new MenuTableEditor()); 
+            getColumnModel().getColumn(5).setCellEditor(new MenuTableEditor(e)); 
         }
     }
 
@@ -87,6 +104,28 @@ public class MenuTable extends JTable {
             row.getProductName(),
             row.getProductPrice(),
             row.getGroupCode()
+        });
+    }
+    
+    public void myAddRow(int stt, ComboDTO row) {
+        DefaultTableModel model = (DefaultTableModel) getModel();
+        model.addRow(new Object[]{
+            stt,
+            row.getComboCode(),
+            row.getComboName(),
+            row.getComboPrice(),
+            row.getGroupCode()
+        });
+    }
+    
+    public void myAddRow(int stt, GroupDTO row) {
+        DefaultTableModel model = (DefaultTableModel) getModel();
+        model.addRow(new Object[]{
+            stt,
+            row.getGroupCode(),
+            row.getGroupName(),
+            "",
+            row.getIN_groupCode()
         });
     }
 }
