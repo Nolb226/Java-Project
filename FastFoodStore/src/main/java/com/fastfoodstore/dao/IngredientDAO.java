@@ -9,22 +9,28 @@ import com.fastfoodstore.dto.IngredientDTO;
 
 public class IngredientDAO implements DAOInterface<IngredientDTO> {
 
+    public static IngredientDAO getInstance() {
+        return new IngredientDAO();
+    }
+
     @Override
     public int insert(IngredientDTO t) {
         int change = 0;
 
         try {
-            Connection  connection = ConnectionData.getConnection();
-            String sql = "INSERT INTO `ingredient` (`ingredientCode`, `ingredientName`)"
-                        +" VALUES (?, ?)";
+            Connection connection = ConnectionData.getConnection();
+            String sql = "INSERT INTO `ingredient` (`ingredientCode`, `ingredientName`, `amount`, `cost`)"
+                    + " VALUES (?, ?, ?, ?)";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getIngredientCode());
             pst.setString(2, t.getIngredientName());
-            
+            pst.setInt(3, t.getAmount());
+            pst.setInt(4, t.getCost());
+
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -34,23 +40,24 @@ public class IngredientDAO implements DAOInterface<IngredientDTO> {
     @Override
     public int update(IngredientDTO t) {
         int change = 0;
-
         try {
-            Connection  connection = ConnectionData.getConnection();
+            Connection connection = ConnectionData.getConnection();
             String sql = "UPDATE `ingredient`"
-                        +" SET `ingredientCode` = ?, `ingredientName` = ?"
-                        +" WHERE `ingredient`.`ingredientCode` = ?";
+                    + " SET `ingredientCode` = ?,`ingredientName` = ?,`amount` = ?,`cost` = ?"
+                    + " WHERE `ingredient`.`ingredientCode` = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getIngredientCode());
             pst.setString(2, t.getIngredientName());
-            pst.setString(3, t.getIngredientCode());
-            
+            pst.setInt(3, t.getAmount());
+            pst.setInt(4, t.getCost());
+            pst.setString(5, t.getIngredientCode());
+
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
-            System.out.println("Insert data failture" + e);
+            System.out.println("Update data failture" + e);
         }
         return change;
     }
@@ -60,16 +67,16 @@ public class IngredientDAO implements DAOInterface<IngredientDTO> {
         int change = 0;
 
         try {
-            Connection  connection = ConnectionData.getConnection();
+            Connection connection = ConnectionData.getConnection();
             String sql = "DELETE FROM ingredient"
-                        + "WHERE `ingredient`.`ingredientCode` = ?";
+                    + "WHERE `ingredient`.`ingredientCode` = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getIngredientCode());
-            
+
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -84,14 +91,16 @@ public class IngredientDAO implements DAOInterface<IngredientDTO> {
         try {
             Connection connection = ConnectionData.getConnection();
             String sql = "SELECT * FROM ingredient";
-            PreparedStatement pst = connection.prepareStatement(sql);            
+            PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 IngredientDTO data = new IngredientDTO(
-                    rs.getString("ingredientCode"),
-                    rs.getString("ingredientName")
-                    );
+                        rs.getString("ingredientCode"),
+                        rs.getString("ingredientName"),
+                        rs.getInt("amount"),
+                        rs.getInt("cost")
+                );
                 ingredientList.add(data);
                 isData = true;
             }
@@ -100,7 +109,7 @@ public class IngredientDAO implements DAOInterface<IngredientDTO> {
             System.out.println("Select data failture" + e);
         }
 
-        if(isData) {
+        if (isData) {
             return ingredientList;
         } else {
             return null;
@@ -115,13 +124,16 @@ public class IngredientDAO implements DAOInterface<IngredientDTO> {
         try {
             Connection connection = ConnectionData.getConnection();
             String sql = "SELECT * FROM ingredient WHERE ingredientCode = ?";
-            PreparedStatement pst = connection.prepareStatement(sql);     
-            pst.setString(1, id);       
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
-            
-            if(rs.next()) {
-                ingredient.setIngredientCode(rs.getString("ingredientCode"));    
-                ingredient.setIngredientName(rs.getString("ingredientName"));    
+
+            if (rs.next()) {
+                ingredient.setIngredientCode(rs.getString("ingredientCode"));
+                ingredient.setIngredientName(rs.getString("ingredientName"));
+                ingredient.setAmount(rs.getInt("amount"));
+                ingredient.setCost(rs.getInt("cost"));
+
                 isData = true;
             }
             ConnectionData.closeConnection(connection);
@@ -129,7 +141,7 @@ public class IngredientDAO implements DAOInterface<IngredientDTO> {
             System.out.println("Select data failture" + e);
         }
 
-        if(isData) {
+        if (isData) {
             return ingredient;
         } else {
             return null;
@@ -147,12 +159,14 @@ public class IngredientDAO implements DAOInterface<IngredientDTO> {
             PreparedStatement pst = connection.prepareStatement(sql);
             // pst.setString(1, condition);            
             ResultSet rs = pst.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 IngredientDTO data = new IngredientDTO(
-                    rs.getString("ingredientCode"),
-                    rs.getString("ingredientName")
-                    );
+                        rs.getString("ingredientCode"),
+                        rs.getString("ingredientName"),
+                        rs.getInt("amount"),
+                        rs.getInt("cost")
+                );
                 ingredientList.add(data);
                 isData = true;
             }
@@ -161,11 +175,11 @@ public class IngredientDAO implements DAOInterface<IngredientDTO> {
             System.out.println("Select data failture" + e);
         }
 
-        if(isData) {
+        if (isData) {
             return ingredientList;
         } else {
             return null;
         }
     }
-    
+
 }

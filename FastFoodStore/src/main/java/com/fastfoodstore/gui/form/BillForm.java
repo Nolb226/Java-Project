@@ -170,6 +170,8 @@ public class BillForm extends JPanel {
         this.code2 = new JLabel(billsDTOs.get(viewBillList.getMySelectedIndex()).getBillCode());
         billDetailPanel.add(code1);
         billDetailPanel.add(code2);
+        validate();
+        repaint();
     }
     
 
