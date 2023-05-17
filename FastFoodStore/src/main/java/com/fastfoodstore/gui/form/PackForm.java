@@ -14,6 +14,7 @@ import com.fastfoodstore.gui.ProjectUtil;
 import com.fastfoodstore.gui.components.IngredientList;
 import com.fastfoodstore.gui.item.Button;
 import com.fastfoodstore.gui.item.ScrollBar;
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,10 +23,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,15 +36,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 
 /**
  *
  * @author ADMIN
  */
 public class PackForm extends JPanel {
+
+    private JTextField validate;
 
     private JPanel headerPanel = new JPanel();
     private JTable table;
@@ -63,6 +67,7 @@ public class PackForm extends JPanel {
     private Button updateButton;
     private Button addButton;
     private Button editButton;
+    private boolean checkInput;
 
     private JScrollPane ingredientList;
     private IngredientList<String> List;
@@ -70,9 +75,8 @@ public class PackForm extends JPanel {
     private ArrayList<IngredientDTO> listIngredientDTOs = new ArrayList<>();
     private JPanel menuComponent;
     private ArrayList<IngredientDTO> billReceiptList = new ArrayList<>();
-    private boolean isFormReceipt = false;
     private DefaultTableModel model;
-//    private IngredientDTO bill = new IngredientDTO("IN001", "Vỏ bánh lớn", 1, 5000);
+    private boolean isFormReceipt = false;
 
     public PackForm() {
         initComponent();
@@ -383,21 +387,29 @@ public class PackForm extends JPanel {
             public void mousePressed(MouseEvent e) {
                 if (isIngredient != -1) {
                     if (isIngredient == -2) {
-                        IngredientDTO newIngre = new IngredientDTO(ingredientId.getText(),
-                                ingredientName.getText(),
-                                Integer.parseInt(ingredientAmount.getText()),
-                                Integer.parseInt(ingredientPrice.getText()));
-                        try {
-                            IngredientBUS.insertIngredient(newIngre);
-                            JOptionPane.showMessageDialog(new JFrame("JOptionPane showMessageDialog example"),
-                                    "Thêm nguyên liệu thành công",
-                                    "Thông báo",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                            createTable();
-                            setAddForm();
-                        } catch (Exception lException) {
-                            JOptionPane.showMessageDialog(new JFrame("JOptionPane showMessageDialog example"),
-                                    "Thêm nguyên liệu thất bại",
+                        if (checkInput) {
+                            IngredientDTO newIngre = new IngredientDTO(ingredientId.getText(),
+                                    ingredientName.getText(),
+                                    Integer.parseInt(ingredientAmount.getText()),
+                                    Integer.parseInt(ingredientPrice.getText()));
+                            try {
+                                IngredientBUS.insertIngredient(newIngre);
+                                JOptionPane.showMessageDialog(new JFrame("JOptionPane showMessageDialog example"),
+                                        "Thêm nguyên liệu thành công",
+                                        "Thông báo",
+                                        JOptionPane.INFORMATION_MESSAGE);
+                                createTable();
+                                setAddForm();
+                            } catch (Exception lException) {
+                                JOptionPane.showMessageDialog(new JFrame("JOptionPane showMessageDialog example"),
+                                        "Thêm nguyên liệu thất bại",
+                                        "Thông báo",
+                                        JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        } else {
+                            JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+                            JOptionPane.showMessageDialog(frame,
+                                    "Thông tin nguyên liệu mới không được để trống",
                                     "Thông báo",
                                     JOptionPane.INFORMATION_MESSAGE);
                         }
@@ -444,11 +456,12 @@ public class PackForm extends JPanel {
     }
 
     private void setAddForm() {
-            resetInput();
-            String code = String.format("IN%03d", listIngredientDTOs.size() + 1);
-            ingredientId.setText(code);
-            ingredientAmount.setText("0");
-            ingredientAmount.setEnabled(false);
+        resetInput();
+        String code = String.format("IN%03d", listIngredientDTOs.size() + 1);
+        ingredientId.setText(code);
+        ingredientAmount.setText("0");
+        ingredientAmount.setEnabled(false);
+        isIngredient = -2;
     }
 
     private void setAddBtn() {
@@ -462,6 +475,7 @@ public class PackForm extends JPanel {
                 addButton.setThisColor(Color.decode("#05D5F5"));
                 updateButton.setContent("Thêm");
                 setAddForm();
+                checkValidate();
                 isIngredient = -2;
                 validate();
                 repaint();
@@ -482,6 +496,167 @@ public class PackForm extends JPanel {
                 ingredientAmount.setEnabled(true);
                 isIngredient = -1;
                 resetInput();
+                formEdit.remove(validate);
+                validate();
+                repaint();
+            }
+        });
+    }
+
+    private void checkValidate() {
+        if (ingredientName.getText().isEmpty()) {
+            validate.setText("Tên nguyên liệu không được để trống");
+            formEdit.add(validate);
+            checkInput = false;
+        } else {
+            if (ingredientAmount.getText().isEmpty()) {
+                validate.setText("Số lượng không được để trống");
+                formEdit.add(validate);
+                checkInput = false;
+            } else {
+                if (!ingredientAmount.getText().matches("-?\\d+(\\.\\d+)?")) {
+                    validate.setText("Số lượng phải là số");
+                    formEdit.add(validate);
+                    checkInput = false;
+                } else {
+                    if (Integer.parseInt(ingredientAmount.getText()) < 0 && Integer.parseInt(ingredientAmount.getText()) > 999) {
+                        validate.setText("Số lượng phải lớn hơn bằng 0 và bé hơn 999");
+                        formEdit.add(validate);
+                        checkInput = false;
+                    } else {
+                        if (ingredientPrice.getText().isEmpty()) {
+                            validate.setText("Giá tiền không được để trống");
+                            formEdit.add(validate);
+                            checkInput = false;
+                        } else {
+                            if (!ingredientPrice.getText().matches("-?\\d+(\\.\\d+)?")) {
+                                validate.setText("Giá tiền phải là số");
+                                formEdit.add(validate);
+                                checkInput = false;
+                            } else {
+                                if (Integer.parseInt(ingredientPrice.getText()) < 0 && Integer.parseInt(ingredientPrice.getText()) > 1000000) {
+                                    validate.setText("Giá tiền phải lớn hơn 0 và bé hơn 1000000");
+                                    formEdit.add(validate);
+                                    checkInput = false;
+                                } else {
+                                    formEdit.remove(validate);
+                                    checkInput = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void setIngredientId() {
+        ingredientId = new JTextField();
+        ingredientId.setBounds(180, 50, 150, 30);
+        ingredientId.setEnabled(false);
+    }
+
+    private void setIngredientName() {
+        ingredientName = new JTextField();
+        ingredientName.setBounds(180, 100, 150, 30);
+        ingredientName.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+        });
+
+        ingredientName.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent event) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+        });
+    }
+
+    private void setIngredientAmount() {
+        ingredientAmount = new JTextField();
+        ingredientAmount.setBounds(180, 150, 150, 30);
+        ingredientAmount.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+        });
+
+        ingredientAmount.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent event) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+        });
+    }
+
+    private void setIngredientPrice() {
+        ingredientPrice = new JTextField();
+        ingredientPrice.setBounds(180, 200, 150, 30);
+        ingredientPrice.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+        });
+        ingredientPrice.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent event) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkValidate();
+                validate();
+                repaint();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                checkValidate();
                 validate();
                 repaint();
             }
@@ -490,6 +665,12 @@ public class PackForm extends JPanel {
 
     private void setFormEdit() {
         Font a = new Font("Arial", Font.PLAIN, 14);
+
+        validate = new JTextField();
+        validate.setBackground(new Color(255, 0, 0, 100));
+        validate.setFont(new Font("Arial", Font.PLAIN, 16));
+        validate.setHorizontalAlignment(JTextField.CENTER);
+
         formEdit = new JPanel(null);
         JLabel ID = new JLabel("Mã nguyên liệu");
         JLabel name = new JLabel("Tên Nguyên Liệu");
@@ -510,15 +691,10 @@ public class PackForm extends JPanel {
         formEdit.add(amount);
         formEdit.add(price);
 
-        ingredientId = new JTextField();
-        ingredientName = new JTextField();
-        ingredientAmount = new JTextField();
-        ingredientPrice = new JTextField();
-
-        ingredientId.setBounds(180, 50, 150, 30);
-        ingredientName.setBounds(180, 100, 150, 30);
-        ingredientAmount.setBounds(180, 150, 150, 30);
-        ingredientPrice.setBounds(180, 200, 150, 30);
+        setIngredientId();
+        setIngredientName();
+        setIngredientAmount();
+        setIngredientPrice();
 
         formEdit.add(ingredientId);
         formEdit.add(ingredientName);
@@ -527,12 +703,12 @@ public class PackForm extends JPanel {
 
         setUpdateBtn();
         formEdit.add(updateButton);
-
         setAddBtn();
         formEdit.add(addButton);
         setEditBtn();
         formEdit.add(editButton);
 
+        validate.setBounds(50, 350, 300, 150);
         formEdit.setPreferredSize(new Dimension(400, 510));
 
     }
