@@ -4,7 +4,9 @@
  */
 package com.fastfoodstore.bus;
 
+import com.fastfoodstore.dao.DutyDAO;
 import com.fastfoodstore.dao.StaffDAO;
+import com.fastfoodstore.dto.DutyDTO;
 import com.fastfoodstore.dto.StaffDTO;
 import com.fastfoodstore.gui.form.StaffForm;
 import java.util.ArrayList;
@@ -14,17 +16,49 @@ import java.util.ArrayList;
  * @author k
  */
 public class Staff_BUS {
-    
-    private StaffDAO _dbStaff= StaffDAO.getInstance();
-    
+
+    private StaffDAO _dbStaff = StaffDAO.getInstance();
+    private DutyDAO _dbDuty = DutyDAO.getInstance();
+
     public Staff_BUS() {
-        
+
     }
-    
+
     public ArrayList<StaffDTO> getAll() {
-           return _dbStaff.selectAll();
+        return _dbStaff.selectAll();
+    }
+
+    public ArrayList<DutyDTO> getAllDutyDTOs() {
+
+        return _dbDuty.selectAll();
+    }
+
+    public ArrayList<StaffDTO> update(StaffDTO staff) {
+
+        _dbStaff.update(staff);
+
+        return _dbStaff.selectAll();
+    }
+
+    public StaffDTO getOne(String id) {
+
+        return _dbStaff.selectById(id);
+    }
+
+    public StaffDTO delete(StaffDTO t) {
+        _dbStaff.delete(t);
+        return t;
+    }
+
+    public StaffDTO create(StaffDTO t) {
+        _dbStaff.insert(t);
+        return t;
     }
     
+    public void ExportExcel() {
+        _dbStaff.ExportExcelDatabase();
+    }
+
     public void init() {
     }
 }

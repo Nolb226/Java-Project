@@ -4,8 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.fastfoodstore.dto.StaffDTO;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class StaffDAO implements DAOInterface<StaffDTO> {
 
@@ -78,7 +90,7 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
         try {
             Connection connection = ConnectionData.getConnection();
             String sql = "DELETE FROM staff"
-                    + " WHERE `staff`.`id` = '009'";
+                    + " WHERE `staff`.`id` = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
 
             pst.setString(1, t.getID());
@@ -146,7 +158,16 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM staff WHERE id = ?";
+            String sql = "SELECT staff.id,"
+                    + "staff.name,"
+                    + "staff.email,"
+                    + "staff.numberPhone,"
+                    + "staff.address,"
+                    + "staff.birthday,"
+                    + "duty.dutyName as duty,"
+                    + "staff.status "
+                    + "FROM staff "
+                    + "JOIN duty ON staff.dutyCode = duty.dutyCode WHERE id = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
@@ -158,7 +179,7 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
                 staff.setNumberPhone(rs.getString("numberPhone"));
                 staff.setAddress(rs.getString("address"));
                 staff.setBirthday(rs.getDate("birthday"));
-                staff.setDutyCode(rs.getString("dutyCode"));
+                staff.setDutyCode(rs.getString("duty"));
                 staff.setStatus(rs.getBoolean("status"));
                 isData = true;
             }
@@ -212,4 +233,87 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
         }
     }
 
+    public void ExportExcelDatabase() {
+        try {
+            Connection connection = ConnectionData.getConnection();
+
+            String sql = "SELECT * FROM staff JOIN duty ON staff.dutyCode = duty.dutyCode WHERE staff.status !=1";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("Staff_M");
+
+            XSSFFont font = workbook.createFont();
+            font.setFontHeightInPoints((short) 12);
+            font.setBold(true);
+
+            XSSFCellStyle style = workbook.createCellStyle();
+            style.setFont(font);
+
+            XSSFRow row = sheet.createRow(0);
+            XSSFCell cell;
+
+            cell = row.createCell(0);
+            cell.setCellValue("id");
+            cell.setCellStyle(style);
+            cell = row.createCell(1);
+            cell.setCellValue("name");
+            cell.setCellStyle(style);
+            cell = row.createCell(2);
+            cell.setCellValue("email");
+            cell.setCellStyle(style);
+            cell = row.createCell(3);
+            cell.setCellValue("date of birth");
+            cell.setCellStyle(style);
+            cell = row.createCell(4);
+            cell.setCellValue("phone");
+            cell.setCellStyle(style);
+            cell = row.createCell(5);
+            cell.setCellValue("address");
+            cell.setCellStyle(style);
+            cell = row.createCell(6);
+            cell.setCellValue("duty");
+            cell.setCellStyle(style);
+//            cell = row.createCell(7);
+//            cell.setCellValue("IMG");
+//            cell.setCellStyle(style);
+            int i = 1;
+
+            while (rs.next()) {
+                row = sheet.createRow(i);
+                cell = row.createCell(0);
+                cell.setCellValue(rs.getString("id"));
+                cell = row.createCell(1);
+                cell.setCellValue(rs.getString("name"));
+                cell = row.createCell(2);
+                cell.setCellValue(rs.getString("email"));
+                cell = row.createCell(3);
+                cell.setCellValue(rs.getString("birthday"));
+                cell = row.createCell(4);
+                cell.setCellValue(rs.getString("numberPhone"));
+                cell = row.createCell(5);
+                cell.setCellValue(rs.getString("address"));
+                cell = row.createCell(6);
+                cell.setCellValue(rs.getString("dutyName"));
+//                cell = row.createCell(7);
+//                cell.setCellValue(rs.getString("IMG"));
+
+                i++;
+            }
+
+            for (int colNum = 0; colNum < row.getLastCellNum(); colNum++) {
+                sheet.autoSizeColumn((short) (colNum));
+            }
+
+            FileOutputStream out = new FileOutputStream(new File("D:\\4Code\\Java\\Java-Project\\FastFoodStore\\excel\\sanphamdb.xlsx"));
+            workbook.write(out);
+            out.close();
+            System.out.println("Xuat file thanh cong");
+
+        } catch (SQLException | IOException ex) {
+            System.out.println(ex);
+        }
+
+    }
 }

@@ -26,22 +26,35 @@ public class StaffDTO {
         Field[] fields = myClass.getDeclaredFields();
         Field[] filterFields = Arrays.stream(fields).filter(field -> !field.getName().equals("_status")).toArray(Field[]::new);
 
-        for (Field field : filterFields) {
-            System.out.println(field.getName());
-        }
-        
         return filterFields;
     }
-    
+
     public StaffDTO(StaffDTO t) {
         this._id = t._id;
-        this._name= t._name;
+        this._name = t._name;
         this._address = t._address;
         this._birthday = t._birthday;
         this._dutyCode = t._dutyCode;
         this._email = t._email;
-        this._status= t._status;
+        this._status = t._status;
         this._numberPhone = t._numberPhone;
+    }
+
+    public StaffDTO(Object[] t) {
+        this._id = t[0].toString();
+        this._name = t[1].toString();
+        this._email = t[2].toString();
+        this._numberPhone = t[3].toString();
+        this._address = t[4].toString();
+        if (t[5] == "") {
+            this._birthday = Date.valueOf("0000-01-01");
+        } else {
+
+            this._birthday = Date.valueOf(t[5].toString());
+        }
+//        System.out.println(t[5]);
+        this._dutyCode = t[6].toString();
+//        this._status = (boolean) t[7];
     }
 
     public StaffDTO(String _id, String _name, String _email, String _numberPhone, String _address, Date _birthday, String _dutyCode, boolean _status) {
