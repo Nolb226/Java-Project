@@ -14,6 +14,10 @@ import java.util.ArrayList;
  */
 public class ProductsBUS {
     
+    public static ArrayList<ProductsDTO> getAllProducts() {
+        return ProductsDAO.getInstance().selectAll();
+    }
+    
     public static ArrayList<ProductsDTO> getProductsInGroup(String code) {
         return ProductsDAO.getInstance().selectByCondition("groupCode = '"+ code +"' and inMenu = 1", "");
     }

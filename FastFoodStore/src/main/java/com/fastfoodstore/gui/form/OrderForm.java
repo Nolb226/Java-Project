@@ -11,11 +11,11 @@ import com.fastfoodstore.dto.ComboDTO;
 import com.fastfoodstore.dto.GroupDTO;
 import com.fastfoodstore.dto.ProductsDTO;
 import com.fastfoodstore.gui.ProjectUtil;
-import com.fastfoodstore.gui.components.BillDetailGUI;
+import com.fastfoodstore.gui.form.orderform.BillDetailGUI;
 import com.fastfoodstore.gui.item.Button;
 import com.fastfoodstore.gui.item.Card;
-import com.fastfoodstore.gui.item.GroupItem;
-import com.fastfoodstore.gui.item.ProductItem;
+import com.fastfoodstore.gui.form.orderform.GroupItem;
+import com.fastfoodstore.gui.form.orderform.ProductItem;
 import com.fastfoodstore.gui.item.ScrollBar;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -360,17 +360,18 @@ public class OrderForm extends JPanel {
     }
 
     public void animation() {
-        productMenuTimer = new Timer(0, (ActionEvent e1) -> {
-            if (y > 260) {
-                scrollPane.setBounds(160, y, 450, 360);
-                y = y - 25;
-            } else {
-                scrollPane.setBounds(160, 260, 450, 360);
-                productMenuTimer.stop();
-                y = 680;
-            }
-        });
-        productMenuTimer.start();
+//        productMenuTimer = new Timer(0, (ActionEvent e1) -> {
+//            if (y > 260) {
+//                scrollPane.setBounds(160, y, 450, 360);
+//                y = y - 25;
+//            } else {
+//                
+//                productMenuTimer.stop();
+//                y = 680;
+//            }
+//        });
+//        productMenuTimer.start();
+        scrollPane.setBounds(160, 260, 450, 360);
     }
     
      public void setBillDetailPanel() {

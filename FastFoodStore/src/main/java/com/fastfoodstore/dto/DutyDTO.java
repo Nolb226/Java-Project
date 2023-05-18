@@ -3,15 +3,16 @@ package com.fastfoodstore.dto;
 public class DutyDTO {
     private String dutyCode;
     private String dutyName;
-    private String dutypass;
+    private String dutyPass;
 
     public DutyDTO() {
 
     }
 
-    public DutyDTO(String dutyCode, String dutyName) {
+    public DutyDTO(String dutyCode, String dutyName, String dutyPass) {
         this.dutyCode = dutyCode;
         this.dutyName = dutyName;
+        this.dutyPass = dutyPass;
     }
 
     public void setDutyCode(String dutyCode) {
@@ -22,8 +23,8 @@ public class DutyDTO {
         this.dutyName = dutyName;
     }
 
-    public void setDutypass(String dutypass) {
-        this.dutypass = dutypass;
+    public void setDutypass(String dutyPass) {
+        this.dutyPass = dutyPass;
     }
 
     public String getDutyCode() {
@@ -35,7 +36,7 @@ public class DutyDTO {
     }
 
     public String getDutypass() {
-        return dutypass;
+        return dutyPass;
     }
     
 }
