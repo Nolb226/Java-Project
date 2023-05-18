@@ -16,3 +16,5 @@ R: nhỏ
 M: Vừa
 L: Lớn
 E: Trống (k có size)
+
+folder mvn install: FastFoodStore

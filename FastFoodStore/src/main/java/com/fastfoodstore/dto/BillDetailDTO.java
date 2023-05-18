@@ -5,13 +5,13 @@ public class BillDetailDTO {
     private String productCode ;
     private String productNote;
     private int amountProduct;
-    private float price;
+    private int price;
 
     public BillDetailDTO() {
 
     }
 
-    public BillDetailDTO(String billCode,String productCode, String productNote, int amountProduct, float price) {
+    public BillDetailDTO(String billCode,String productCode, String productNote, int amountProduct, int price) {
         this.amountProduct = amountProduct;
         this.billCode = billCode;
         this.price = price;
@@ -27,7 +27,7 @@ public class BillDetailDTO {
         this.billCode = billCode;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -47,7 +47,7 @@ public class BillDetailDTO {
         return billCode;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -59,4 +59,7 @@ public class BillDetailDTO {
         return productNote;
     }
 
+    public void addAmount() {
+        this.amountProduct ++;
+    }
 }

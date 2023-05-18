@@ -28,23 +28,29 @@ public class LeftMenu extends JPanel{
     private int x;
     private int y;
     private ListLeftMenu<String> listMenu;
+    private String pass;
     
     private EventMenuSelected event;
+    
+    private MainFrame mainFrame;
 
-    public LeftMenu() {
+    public LeftMenu(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
         initComponent();
         setOpaque(false);
         listMenu.setOpaque(false);
-        addData();
+        setData("0916921132");
     }
     
-    private void addData() {
-        ArrayList<FunctionsDTO> functionList = FunctionsBUS.getAllFunctionList();
+    private void setData(String pass) {
+        listMenu.removeData();
+        ArrayList<FunctionsDTO> functionList = FunctionsBUS.getGroupFunctionList(pass); 
         for(FunctionsDTO item : functionList) {
             listMenu.addItem(item); 
         }
         listMenu.addItem(new FunctionsDTO("FUNC00","Cài đặt","./icon/settings.png"));
         listMenu.addItem(new FunctionsDTO("EXIT","Thoát","./icon/exit.png"));
+        listMenu.addItem(new FunctionsDTO("","",""));
         
     }
 
@@ -87,7 +93,7 @@ public class LeftMenu extends JPanel{
             .addGroup(mainLayout.createSequentialGroup()
                 .addComponent(movingPanel, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
                 .addGap(30)
-                .addComponent(listMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                .addComponent(listMenu, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
             )
         );
         
@@ -145,6 +151,15 @@ public class LeftMenu extends JPanel{
     public void addEventMenuSelected(EventMenuSelected event) {
         this.event = event;
         listMenu.addEventMenuSelected(event); 
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+        setData(pass); 
+    }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
     }
     
 }

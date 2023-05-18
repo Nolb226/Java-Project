@@ -27,6 +27,8 @@ public class InfoBox extends JPanel {
 
     private String _textField;
     private String _textData;
+    
+    private int _type;
 
     private JTextField _input = new JTextField();
     private JLabel _textRow = new JLabel();
@@ -37,6 +39,16 @@ public class InfoBox extends JPanel {
 
         InitComponent();
     }
+
+    
+    
+
+    public InfoBox(String _textField, String _textData) {
+        this._textField = _textField;
+        this._textData = _textData;
+    }
+    
+    
 
 //    public void test ()
     private void InitComponent() {
@@ -82,5 +94,10 @@ public class InfoBox extends JPanel {
         _textRow.setText(textField);
 
     }
+//    
+//    public void setType(int type,Object[]) {
+//        _type=type;
+//        
+//    }
 
 }

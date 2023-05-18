@@ -13,6 +13,6 @@ import com.fastfoodstore.gui.components.MainFrame;
  */
 public class TestGUI {
     public static void main(String[] args) {
-        new MainFrame();
+        new MainFrame(); 
     }
 }

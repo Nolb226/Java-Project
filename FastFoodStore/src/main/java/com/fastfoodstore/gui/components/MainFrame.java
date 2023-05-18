@@ -6,10 +6,10 @@ package com.fastfoodstore.gui.components;
 
 import com.fastfoodstore.bus.Staff_BUS;
 import com.fastfoodstore.gui.form.BillForm;
+import com.fastfoodstore.gui.form.ConFirmForm;
 import com.fastfoodstore.gui.form.MenuForm;
 import com.fastfoodstore.gui.form.OrderForm;
 import com.fastfoodstore.gui.form.PackForm;
-import com.fastfoodstore.gui.form.SettingForm;
 import com.fastfoodstore.gui.form.StaffForm;
 import com.fastfoodstore.gui.form.StatisticsForm;
 import java.awt.BorderLayout;
@@ -25,14 +25,8 @@ public class MainFrame extends JFrame {
     private PanelBorder panelBorder;
     private LeftMenu leftMenu;
     private JPanel contentPanel;
-
-    private OrderForm orderForm;
-    private StaffForm staffForm;
-    private MenuForm menuForm;
-    private PackForm packForm;
-    private StatisticsForm statisticsForm;
-    private BillForm billForm;
-    private SettingForm settingForm;
+    
+    private ConFirmForm conFirmForm;
 
     public MainFrame(PanelBorder panelBorder, LeftMenu leftMenu, JPanel contentPanel) throws HeadlessException {
         this.panelBorder = panelBorder;
@@ -41,15 +35,6 @@ public class MainFrame extends JFrame {
     }
 
     public MainFrame() {
-
-        orderForm = new OrderForm();
-        staffForm = new StaffForm();
-        menuForm = new MenuForm();
-        packForm = new PackForm();
-        statisticsForm = new StatisticsForm();
-        billForm = new BillForm();
-        settingForm = new SettingForm();
-
         initComponent();
         setBackground(new Color(0, 0, 0, 0));
         leftMenu.initMoving(this);
@@ -61,25 +46,39 @@ public class MainFrame extends JFrame {
                     String itemId = (String) selectedItem.getClientProperty("id");
                     switch (itemId) {
                         case "FUNC01":
+                            OrderForm orderForm = new OrderForm();
                             setForm(orderForm);
                             break;
                         case "FUNC02":
+                            StaffForm staffForm = new StaffForm();
                             setForm(staffForm);
                             break;
                         case "FUNC03":
+                            MenuForm menuForm = new MenuForm();
                             setForm(menuForm);
                             break;
                         case "FUNC04":
+                            PackForm packForm = new PackForm();
                             setForm(packForm);
                             break;
                         case "FUNC05":
+                            StatisticsForm statisticsForm = new StatisticsForm();
                             setForm(statisticsForm);
                             break;
                         case "FUNC06":
+                            BillForm billForm = new BillForm();
                             setForm(billForm);
                             break;
                         case "FUNC00":
-                            setForm(settingForm);
+                            conFirmForm = new ConFirmForm(); 
+                            String result = conFirmForm.show();
+                            if(result != null) {
+                                leftMenu.setPass(result);
+                                leftMenu.getMainFrame().getContentPanel().removeAll();
+                                leftMenu.getMainFrame().getContentPanel().repaint();
+                            } else {
+                                 leftMenu.getListMenu().clean();
+                            }
                             break;
                         case "EXIT":
                             dispose();
@@ -144,7 +143,7 @@ public class MainFrame extends JFrame {
     }
 
     public void setLeftMenu() {
-        this.leftMenu = new LeftMenu();
+        this.leftMenu = new LeftMenu(this);
     }
 
     public LeftMenu getLeftMenu() {
@@ -167,5 +166,5 @@ public class MainFrame extends JFrame {
         contentPanel.repaint();
         contentPanel.validate();
     }
-
+    
 }

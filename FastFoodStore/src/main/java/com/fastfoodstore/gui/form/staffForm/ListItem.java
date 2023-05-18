@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ListItem extends JPanel {
     private final StaffDTO _staff;
 
     private Object[] _infos;
-    
+
     private ArrayList<JLabel> _Labels = new ArrayList<JLabel>();
 
     public ListItem(StaffDTO staff) {
@@ -32,10 +33,10 @@ public class ListItem extends JPanel {
 
         for (int i = 0; i < _infos.length; i++) {
             _Labels.add(new JLabel(_infos[i].toString()));
-            
+
         }
         InitComponent();
-        
+
     }
 
     private void InitComponent() {
@@ -45,21 +46,25 @@ public class ListItem extends JPanel {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        setBackground(Color.BLACK);
         setBorder(new EmptyBorder(4, 4, 4, 4));
         for (int i = 0; i < _infos.length; i++) {
-            gbc.gridx=i%3;
-            gbc.gridy=i/3;
-            
-            add(_Labels.get(i),gbc);
-            
+            gbc.gridx = i % 2;
+            gbc.gridy = i / 2;
+            if (i == _infos.length-1) {
+                System.out.println("com.fastfoodstore.gui.form.staffForm.ListItem.InitComponent()");
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.gridwidth = 2;
+            }
+            gbc.anchor = GridBagConstraints.CENTER;
+//            gbc.fill=GridBagConstraints.HORIZONTAL;
+            _Labels.get(i).setBorder(new LineBorder(Color.yellow, 1));
+            add(_Labels.get(i), gbc);
+
         }
-        
 
     }
 
-    
     public JPanel getPanel() {
-        return  this;
+        return this;
     }
 }

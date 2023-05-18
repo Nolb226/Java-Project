@@ -201,12 +201,10 @@ public class StaffForm extends JPanel {
         DefaultListCellRenderer cellRendererList = new DefaultListCellRenderer(){
           public Component getListCellRendererComponent(JList<?> list,Object value,int index,boolean isSelected,boolean cellHasFocus){
             Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus) ;
-              System.out.println(c);
-            if(c instanceof  JPanel) {
-                JPanel panel = (JPanel) c;
-            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-            }
-            return c;
+            
+                JPanel panel = (JPanel) value;
+//            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            return panel;
           };  
         };
         
@@ -216,16 +214,16 @@ public class StaffForm extends JPanel {
 
         _SearchBox.setOpaque(true);
         _SearchBox.setBackground(Color.BLUE);
-        _SearchBox.setPreferredSize(new Dimension(670, 150));
+        _SearchBox.setPreferredSize(new Dimension(670, 200));
         search.setColumns(18);
         search.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.decode("#1d1d1f")), new EmptyBorder(2, 2, 2, 2)));
         searchJLabel.setBounds(50, 0, 50, 50);
 
         _SearchBox.add(searchJLabel);
         _SearchBox.add(resultList);
-        resultList.setBounds(120, 40, 18 * 15, 80);
+        resultList.setBounds(120, 40, 26 * 15, 80);
         _SearchBox.add(search);
-        search.setBounds(120, 12, 18 * 15, 30);
+        search.setBounds(120, 12, 26 * 15, 30);
         _SearchBox.add(searchButton);
         _SearchBox.setBorder(new EmptyBorder(2, 2, 2, 2));
         _SearchBox.setBackground(Color.WHITE);
@@ -442,10 +440,12 @@ public class StaffForm extends JPanel {
             gbc.gridx = i % 2;
             gbc.gridy = i / 2;
             gbc.insets = (new Insets(2, 2, 2, 2));
-            if (i == _StaffTable.getColumnCount() && _StaffTable.getColumnCount() % 2 != 0) {
+            if (i == _StaffTable.getColumnCount()-1 && _StaffTable.getColumnCount() % 2 != 0) {
                 gbc.gridwidth = 2;
-//                gbc.fill=GridBagConstraints.BOTH;
-                _InfoList.get(i).setPreferredSize(null);
+                gbc.fill=GridBagConstraints.HORIZONTAL;
+                gbc.anchor=GridBagConstraints.CENTER;
+
+//                _InfoList.get(i).setPreferredSize(null);
             }
             InfoViewBox.add(_InfoList.get(i), gbc);
             InfoViewBox.repaint();
@@ -468,10 +468,11 @@ public class StaffForm extends JPanel {
             gbc.gridx = i % 2;
             gbc.gridy = i / 2;
             gbc.insets = (new Insets(2, 2, 2, 2));
-            if (i == _StaffTable.getColumnCount() && _StaffTable.getColumnCount() % 2 != 0) {
+            if (i == _StaffTable.getColumnCount()-1 && _StaffTable.getColumnCount() % 2 != 0) {
                 gbc.gridwidth = 2;
-//                gbc.fill=GridBagConstraints.BOTH;
-//                _InfoList.get(i).set
+                gbc.fill=GridBagConstraints.HORIZONTAL;
+                gbc.anchor=GridBagConstraints.CENTER;
+//                _InfoList.get(i).setBackground(Color.YELLOW);
             }
             InfoViewBox.add(_InfoList.get(i), gbc);
         }
