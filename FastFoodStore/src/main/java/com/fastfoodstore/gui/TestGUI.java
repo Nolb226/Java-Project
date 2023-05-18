@@ -4,14 +4,15 @@
  */
 package com.fastfoodstore.gui;
 
+import com.fastfoodstore.bus.Staff_BUS;
 import com.fastfoodstore.gui.components.MainFrame;
 
-/*
+/**
  *
  * @author ADMIN
  */
 public class TestGUI {
     public static void main(String[] args) {
-        new MainFrame();
+        new MainFrame(); 
     }
 }
