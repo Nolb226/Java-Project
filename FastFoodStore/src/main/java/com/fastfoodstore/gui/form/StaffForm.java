@@ -331,11 +331,11 @@ public class StaffForm extends JPanel {
                     _InfoList.get(i).isEditable(false);
 //                    _InfoList.get(i).setText(_fields[i].getName().split("_")[1], );
                 }
-                isEdit = false;
+                isCreate = false;
+                updateCard(_InfoViewBox, blankdata);
                 _EditBox.setVisible(false);
                 _MenuBox.setVisible(false);
                 _CreateBox.setVisible(false);
-                updateCard(_InfoViewBox, blankdata);
                 AddButton.setVisible(true);
             }
         });
@@ -431,22 +431,23 @@ public class StaffForm extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fc = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Excel", "xlsx");
+                        "Excel", "xlsx");
                 fc.setFileFilter(filter);
                 int result = fc.showOpenDialog(null);
-                if (result == JFileChooser.APPROVE_OPTION) 
-                {
+                if (result == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile(); //Lấy URL
                     _Controller.ImportExcel(file);
 //                    spBUS.listSP();
 //                    outModel(model, spBUS.getList());
-                    JOptionPane.showMessageDialog(null, "Nhap file excel thanh cong");
+                    JOptionPane.showMessageDialog(null, "Import Success");
                 }
             }
         });
 
         leftJPanel.add(ImportExcelButton);
+        ImportExcelButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         leftJPanel.add(searchButton);
+        searchButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
         _MenuBox.add(EditButton);
         _MenuBox.add(DeleteButton);
@@ -642,7 +643,13 @@ public class StaffForm extends JPanel {
                 data[i] = _InfoList.get(i).getData();
 
             }
-            _staff = new StaffDTO(data);
+            try {
+
+                _staff = new StaffDTO(data);
+            } catch (Exception e) {
+                JOptionPane.showConfirmDialog(this, "Invalid data");
+
+            }
             _Controller.update(_staff);
             _staff = _Controller.getOne(_staff.getID());
             Object[] rowData = _staff.data();
@@ -684,7 +691,7 @@ public class StaffForm extends JPanel {
     private void confirmCreate() {
         modal.setBody_text("Are you sure ?");
         if (modal.show() == 1) {
-            isEdit = false;
+            isCreate = false;
             Object[] data = new Object[_fields.length];
             boolean invalid = false;
             System.out.println("Save");
@@ -712,6 +719,7 @@ public class StaffForm extends JPanel {
 
                 _staff = new StaffDTO(data);
             } catch (Exception e) {
+                JOptionPane.showConfirmDialog(this, "Invalid data");
 
             }
             _Controller.create(_staff);

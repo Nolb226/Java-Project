@@ -91,8 +91,10 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "DELETE FROM staff"
-                    + " WHERE `staff`.`id` = ?";
+//            String sql = "DELETE FROM staff"
+//                    + " WHERE `staff`.`id` = ?";
+
+            String sql = "Update staff set status = '1' where id = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
 
             pst.setString(1, t.getID());
@@ -123,7 +125,7 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
                     + "duty.dutyName as duty,"
                     + "staff.status "
                     + "FROM staff "
-                    + "JOIN duty ON staff.dutyCode = duty.dutyCode";
+                    + "JOIN duty ON staff.dutyCode = duty.dutyCode WHERE status != '1'";
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
 
@@ -169,7 +171,7 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
                     + "duty.dutyName as duty,"
                     + "staff.status "
                     + "FROM staff "
-                    + "JOIN duty ON staff.dutyCode = duty.dutyCode WHERE id = ?";
+                    + "JOIN duty ON staff.dutyCode = duty.dutyCode WHERE id = ? AND status !='1'";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
@@ -266,13 +268,13 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
             cell.setCellValue("email");
             cell.setCellStyle(style);
             cell = row.createCell(3);
-            cell.setCellValue("date of birth");
-            cell.setCellStyle(style);
-            cell = row.createCell(4);
             cell.setCellValue("phone");
             cell.setCellStyle(style);
-            cell = row.createCell(5);
+            cell = row.createCell(4);
+            cell.setCellStyle(style);
             cell.setCellValue("address");
+            cell = row.createCell(5);
+            cell.setCellValue("date of birth");
             cell.setCellStyle(style);
             cell = row.createCell(6);
             cell.setCellValue("duty");
@@ -291,11 +293,11 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
                 cell = row.createCell(2);
                 cell.setCellValue(rs.getString("email"));
                 cell = row.createCell(3);
-                cell.setCellValue(rs.getString("birthday"));
-                cell = row.createCell(4);
                 cell.setCellValue(rs.getString("numberPhone"));
-                cell = row.createCell(5);
+                cell = row.createCell(4);
                 cell.setCellValue(rs.getString("address"));
+                cell = row.createCell(5);
+                cell.setCellValue(rs.getString("birthday"));
                 cell = row.createCell(6);
                 cell.setCellValue(rs.getString("dutyName"));
 //                cell = row.createCell(7);
@@ -308,7 +310,7 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
                 sheet.autoSizeColumn((short) (colNum));
             }
 
-            FileOutputStream out = new FileOutputStream(new File("D:\\4Code\\Java\\Java-Project\\FastFoodStore\\excel\\sanphamdb.xlsx"));
+            FileOutputStream out = new FileOutputStream(new File(".\\excels\\Staff.xlsx"));
             workbook.write(out);
             out.close();
             System.out.println("Xuat file thanh cong");
