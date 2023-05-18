@@ -9,16 +9,20 @@ import com.fastfoodstore.dto.StaffDTO;
 
 public class StaffDAO implements DAOInterface<StaffDTO> {
 
+    public static StaffDAO getInstance() {
+        return new StaffDAO();
+    }
+
     @Override
     public int insert(StaffDTO t) {
         int change = 0;
 
         try {
-            Connection  connection = ConnectionData.getConnection();
+            Connection connection = ConnectionData.getConnection();
             String sql = "INSERT INTO `staff` (`id`, `name`, `email`, `numberPhone`, `address`, `birthday`, `dutyCode`, `status`)"
-                        +" VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getID());
             pst.setString(2, t.getName());
             pst.setString(3, t.getEmail());
@@ -27,10 +31,10 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
             pst.setDate(6, t.getBirthday());
             pst.setString(7, t.getDutyCode());
             pst.setBoolean(8, t.getStatus());
-            
+
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -42,12 +46,12 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
         int change = 0;
 
         try {
-            Connection  connection = ConnectionData.getConnection();
+            Connection connection = ConnectionData.getConnection();
             String sql = "UPDATE `staff`"
-                        +" SET `id` = ?, `name` = ?, `email` = ?, `numberPhone` = ?, `address` = ?, `birthday` = ?, `dutyCode` = ?, `status` = ?"
-                        +" WHERE `staff`.`id` = ?";
+                    + " SET `id` = ?, `name` = ?, `email` = ?, `numberPhone` = ?, `address` = ?, `birthday` = ?, `dutyCode` = ?, `status` = ?"
+                    + " WHERE `staff`.`id` = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getID());
             pst.setString(2, t.getName());
             pst.setString(3, t.getEmail());
@@ -57,10 +61,10 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
             pst.setString(7, t.getDutyCode());
             pst.setBoolean(8, t.getStatus());
             pst.setString(9, t.getID());
-            
+
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -72,16 +76,16 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
         int change = 0;
 
         try {
-            Connection  connection = ConnectionData.getConnection();
-            String sql =  "DELETE FROM staff"
-                        +" WHERE `staff`.`id` = '009'";
+            Connection connection = ConnectionData.getConnection();
+            String sql = "DELETE FROM staff"
+                    + " WHERE `staff`.`id` = '009'";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getID());
-            
+
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -95,21 +99,31 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM staff";
-            PreparedStatement pst = connection.prepareStatement(sql);            
+            String sql
+                    = "SELECT staff.id,"
+                    + "staff.name,"
+                    + "staff.email,"
+                    + "staff.numberPhone,"
+                    + "staff.address,"
+                    + "staff.birthday,"
+                    + "duty.dutyName as duty,"
+                    + "staff.status "
+                    + "FROM staff "
+                    + "JOIN duty ON staff.dutyCode = duty.dutyCode";
+            PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 StaffDTO data = new StaffDTO(
-                    rs.getString("id"),
-                    rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getString("numberPhone"),
-                    rs.getString("address"),
-                    rs.getDate("birthday"),
-                    rs.getString("dutyCode"),
-                    rs.getBoolean("status")
-                    );
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("numberPhone"),
+                        rs.getString("address"),
+                        rs.getDate("birthday"),
+                        rs.getString("duty"),
+                        rs.getBoolean("status")
+                );
                 staffList.add(data);
                 isData = true;
             }
@@ -118,7 +132,7 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
             System.out.println("Select data failture" + e);
         }
 
-        if(isData) {
+        if (isData) {
             return staffList;
         } else {
             return null;
@@ -133,19 +147,19 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
         try {
             Connection connection = ConnectionData.getConnection();
             String sql = "SELECT * FROM staff WHERE id = ?";
-            PreparedStatement pst = connection.prepareStatement(sql);  
-            pst.setString(1, id);          
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
-            
-            if(rs.next()) {
-                staff.setID(rs.getString("id"));    
-                staff.setName(rs.getString("name"));    
-                staff.setEmail(rs.getString("email"));    
-                staff.setNumberPhone(rs.getString("numberPhone"));    
-                staff.setAddress(rs.getString("address"));    
-                staff.setBirthday(rs.getDate("birthday"));    
-                staff.setDutyCode(rs.getString("dutyCode"));    
-                staff.setStatus(rs.getBoolean("status"));    
+
+            if (rs.next()) {
+                staff.setID(rs.getString("id"));
+                staff.setName(rs.getString("name"));
+                staff.setEmail(rs.getString("email"));
+                staff.setNumberPhone(rs.getString("numberPhone"));
+                staff.setAddress(rs.getString("address"));
+                staff.setBirthday(rs.getDate("birthday"));
+                staff.setDutyCode(rs.getString("dutyCode"));
+                staff.setStatus(rs.getBoolean("status"));
                 isData = true;
             }
             ConnectionData.closeConnection(connection);
@@ -153,7 +167,7 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
             System.out.println("Select data failture" + e);
         }
 
-        if(isData) {
+        if (isData) {
             return staff;
         } else {
             return null;
@@ -171,18 +185,18 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
             PreparedStatement pst = connection.prepareStatement(sql);
             // pst.setString(1, condition);            
             ResultSet rs = pst.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 StaffDTO data = new StaffDTO(
-                    rs.getString("id"),
-                    rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getString("numberPhone"),
-                    rs.getString("address"),
-                    rs.getDate("birthday"),
-                    rs.getString("dutyCode"),
-                    rs.getBoolean("status")
-                    );
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("numberPhone"),
+                        rs.getString("address"),
+                        rs.getDate("birthday"),
+                        rs.getString("dutyCode"),
+                        rs.getBoolean("status")
+                );
                 staffList.add(data);
                 isData = true;
             }
@@ -191,11 +205,11 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
             System.out.println("Select data failture" + e);
         }
 
-        if(isData) {
+        if (isData) {
             return staffList;
         } else {
             return null;
         }
     }
-    
+
 }
