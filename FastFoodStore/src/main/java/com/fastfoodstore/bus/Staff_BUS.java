@@ -9,7 +9,9 @@ import com.fastfoodstore.dao.StaffDAO;
 import com.fastfoodstore.dto.DutyDTO;
 import com.fastfoodstore.dto.StaffDTO;
 import com.fastfoodstore.gui.form.StaffForm;
+import java.io.File;
 import java.util.ArrayList;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -54,11 +56,19 @@ public class Staff_BUS {
         _dbStaff.insert(t);
         return t;
     }
-    
+
     public void ExportExcel() {
         _dbStaff.ExportExcelDatabase();
     }
 
+    public void ImportExcel(File file) {
+        _dbStaff.ImportExcelDatabase(file);
+    }
+
     public void init() {
+    }
+
+    public void ImportExcel(FileNameExtensionFilter file) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

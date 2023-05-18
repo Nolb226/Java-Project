@@ -33,6 +33,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.swing.GroupLayout;
@@ -65,11 +66,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+//import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -421,6 +424,27 @@ public class StaffForm extends JPanel {
         _CreateBox.setVisible(false);
 
         leftJPanel.add(AddButton);
+        UIButton ImportExcelButton = new UIButton("Import", UIButton.WARNING);
+//        ImportExcelButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                JFileChooser fc = new JFileChooser();
+//                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+//                "Excel", "xlsx");
+//                fc.setFileFilter(filter);
+//                int result = fc.showOpenDialog(null);
+//                if (result == JFileChooser.APPROVE_OPTION) 
+//                {
+//                    File file = fc.getSelectedFile(); //Lấy URL
+//                    _Controller.ImportExcel(file);
+////                    spBUS.listSP();
+////                    outModel(model, spBUS.getList());
+//                    JOptionPane.showMessageDialog(null, "Nhap file excel thanh cong");
+//                }
+//            }
+//        });
+
+        leftJPanel.add(ImportExcelButton);
         leftJPanel.add(searchButton);
 
         _MenuBox.add(EditButton);

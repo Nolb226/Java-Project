@@ -14,9 +14,11 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.fastfoodstore.dto.StaffDTO;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 
 public class StaffDAO implements DAOInterface<StaffDTO> {
@@ -316,4 +318,74 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
         }
 
     }
+
+    public void ImportExcelDatabase(File file) {
+        try {
+            Connection connection = ConnectionData.getConnection();
+
+            FileInputStream in = new FileInputStream(file);
+            XSSFWorkbook workbook = new XSSFWorkbook(in);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            Row row;
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                row = sheet.getRow(i);
+                String id = row.getCell(0).getStringCellValue();
+                String name = row.getCell(1).getStringCellValue();
+                String email = row.getCell(2).getStringCellValue();
+                String phoneNumber = row.getCell(3).getStringCellValue();
+                String address = row.getCell(4).getStringCellValue();
+                java.sql.Date birthday = Date.valueOf(row.getCell(5).getStringCellValue());
+                String dutyCode = row.getCell(6).getStringCellValue();
+                String IMG = row.getCell(7).getStringCellValue();
+
+                String sql_check = "SELECT * FROM staff WHERE id =?";
+
+                PreparedStatement pst_check = connection.prepareStatement(sql_check);
+
+                pst_check.setString(1, id);
+                ResultSet rs = pst_check.executeQuery();
+                if (!rs.next()) {
+
+                    String sql = "INSERT INTO `staff` (`id`, `name`, `email`, `numberPhone`, `address`, `birthday`, `dutyCode`, `status`)"
+                            + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    PreparedStatement pst = connection.prepareStatement(sql);
+
+                    pst.setString(1, id);
+                    pst.setString(2, name);
+                    pst.setString(3, email);
+                    pst.setString(4, phoneNumber);
+                    pst.setString(5, address);
+                    pst.setDate(6, birthday);
+                    pst.setString(7, dutyCode);
+                    pst.setBoolean(8, Boolean.FALSE);
+
+                    ResultSet rs_check = pst.executeQuery();
+
+                } else {
+                    String sql = "UPDATE `staff`"
+                            + " SET `id` = ?, `name` = ?, `email` = ?, `numberPhone` = ?, `address` = ?, `birthday` = ?, `dutyCode` = ?"
+                            + " WHERE `staff`.`id` = ?";
+                    PreparedStatement pst = connection.prepareStatement(sql);
+                    pst.setString(1, id);
+                    pst.setString(2, name);
+                    pst.setString(3, email);
+                    pst.setString(4, phoneNumber);
+                    pst.setString(5, address);
+                    pst.setDate(6, birthday);
+                    pst.setString(7, dutyCode);
+                    pst.setString(8, id);
+
+                    ResultSet rs_check = pst.executeQuery();
+                }
+            }
+            in.close();
+
+        } catch (FileNotFoundException ex) {
+            System.err.println(ex);
+        } catch (IOException | SQLException ex) {
+            System.err.println(ex);
+
+        }
+    }
+
 }
