@@ -35,6 +35,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         initComponent();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
         setBackground(new Color(0, 0, 0, 0));
         leftMenu.initMoving(this);
         leftMenu.addEventMenuSelected(new EventMenuSelected() {

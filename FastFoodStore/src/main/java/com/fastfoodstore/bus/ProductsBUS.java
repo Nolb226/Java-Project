@@ -25,4 +25,8 @@ public class ProductsBUS {
     public static ProductsDTO getProductsByCode(String code) {
         return ProductsDAO.getInstance().selectById(code);
     }
+    
+    public static int updateProduct(ProductsDTO t) {
+         return ProductsDAO.getInstance().update(t);
+    }
 }

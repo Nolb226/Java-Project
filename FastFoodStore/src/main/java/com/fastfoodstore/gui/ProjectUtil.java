@@ -1,9 +1,12 @@
 package com.fastfoodstore.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -102,4 +105,63 @@ public class ProjectUtil {
         String formattedAmount = formatter.format(money);
         return  formattedAmount + " VND";
     }
+    
+    public static Font getMyFont(int size) {
+        return new Font("Segoe UI Semibold", Font.PLAIN, size);
+    }
+    
+    public static int checkNumber(String num) {
+        try {
+            int result = Integer.parseInt(num);
+            if(result >= 0) {
+                return result;
+            } else {
+                return -1;
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+    
+    public static boolean isImageExtension(String extension) {
+        return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png") || extension.equals("gif");
+    }
+    
+    public static String getFileExtension(String fileName) {
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex + 1).toLowerCase();
+        }
+        return null;
+    }
+    
+    public static void addImgToFolder(String folder, File selectedFile) {
+        // Kiểm tra loại file
+        String extension = getFileExtension(selectedFile.getName());
+        if (extension != null && isImageExtension(extension)) {
+
+            File destinationFolder = new File(folder);
+
+            // Kiểm tra nếu thư mục đích không tồn tại, hãy tạo mới nó
+            if (!destinationFolder.exists()) {
+                destinationFolder.mkdirs();
+            }
+
+            // Đặt tên tệp đích và đường dẫn
+            String fileName = selectedFile.getName();
+            String destinationPath = destinationFolder.getAbsolutePath() + File.separator + fileName;
+            File destinationFile = new File(destinationPath);
+
+            try {
+                // Sao chép tệp từ vị trí ban đầu vào thư mục đích
+                Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("cusses.");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            System.out.println("Selected file is not an image.");
+        }
+    }
+
 }

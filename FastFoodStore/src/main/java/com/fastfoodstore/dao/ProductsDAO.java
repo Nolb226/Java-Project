@@ -39,10 +39,11 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
             change = pst.executeUpdate();
             
             ConnectionData.closeConnection(connection); 
+            return change;
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
+            return change;
         }
-        return change;
     }
 
     @Override
@@ -69,11 +70,12 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
             
             change = pst.executeUpdate();
             
-            ConnectionData.closeConnection(connection); 
+            ConnectionData.closeConnection(connection);
+            return 1;
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
+            return 0;
         }
-        return change;
     }
 
     @Override

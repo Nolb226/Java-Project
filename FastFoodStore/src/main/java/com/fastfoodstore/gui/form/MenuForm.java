@@ -6,6 +6,9 @@ import com.fastfoodstore.bus.ProductsBUS;
 import com.fastfoodstore.dto.ComboDTO;
 import com.fastfoodstore.dto.GroupDTO;
 import com.fastfoodstore.dto.ProductsDTO;
+import com.fastfoodstore.gui.ProjectUtil;
+import com.fastfoodstore.gui.form.menuform.AddProductForm;
+import com.fastfoodstore.gui.form.menuform.DetailForm;
 import com.fastfoodstore.gui.form.menuform.MenuTable;
 import com.fastfoodstore.gui.item.Button;
 import com.fastfoodstore.gui.item.ScrollBar;
@@ -131,8 +134,11 @@ public class MenuForm extends JPanel {
         combos.clear();
         groups.clear();
         sta[0] = 1;
+        openProduct.setBackground(ProjectUtil.getMyGreenColor());
         sta[1] = 0;
+        openCombo.setBackground(Color.decode("#333333"));
         sta[2] = 0;
+        openGroup.setBackground(Color.decode("#333333")); 
         for (int i = 0; i < products.size(); i++) {
             productTable.myAddRow(i + 1, products.get(i));
         }
@@ -149,8 +155,11 @@ public class MenuForm extends JPanel {
         products.clear();
         groups.clear();
         sta[0] = 0;
+        openProduct.setBackground(Color.decode("#333333"));
         sta[1] = 1;
+        openCombo.setBackground(ProjectUtil.getMyGreenColor());
         sta[2] = 0;
+        openGroup.setBackground(Color.decode("#333333")); 
         for (int i = 0; i < combos.size(); i++) {
             productTable.myAddRow(i + 1, combos.get(i));
         }
@@ -167,8 +176,11 @@ public class MenuForm extends JPanel {
         products.clear();
         combos.clear();
         sta[0] = 0;
+        openProduct.setBackground(Color.decode("#333333")); 
         sta[1] = 0;
+        openCombo.setBackground(Color.decode("#333333"));
         sta[2] = 1;
+        openGroup.setBackground(ProjectUtil.getMyGreenColor());
         for (int i = 0; i < groups.size(); i++) {
             productTable.myAddRow(i + 1, groups.get(i));
         }
@@ -241,7 +253,15 @@ public class MenuForm extends JPanel {
 
     public void setAddproductButton() {
         this.addproductButton = new Button("Thêm", 80, 30, Color.decode("#333333"));
-        addproductButton.setBounds(850, 100, 80, 30);
+        addproductButton.setBounds(855, 30, 80, 30);
+        addproductButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                AddProductForm add = new AddProductForm(null);
+                add.setVisible(true);
+            }
+            
+        });
     }
 
     public void setSearchCode() {
@@ -313,7 +333,7 @@ public class MenuForm extends JPanel {
         searchButton2.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (!"".equals(searchGroupField.getText()) && searchPriceBox.getSelectedIndex() != 0) {
+                if (!"".equals(searchGroupField.getText())) {
                     if (sta[0] == 1) {
                         fillterProducts(searchGroupField.getText());
                         fillterProducts(searchPriceBox.getSelectedIndex(),1); 
@@ -326,18 +346,7 @@ public class MenuForm extends JPanel {
                         fillterCombos(searchGroupField.getText());
                         setDaTaComboTable();
                     }
-                } else if (!"".equals(searchGroupField.getText())) {
-                    if (sta[0] == 1) {
-                        fillterProducts(searchGroupField.getText());
-                        setDataProductsTable();
-                    } else if (sta[1] == 1) {
-                        fillterCombos(searchGroupField.getText());
-                        setDaTaComboTable();
-                    } else if (sta[2] == 1) {
-                        fillterGroups(searchGroupField.getText());
-                        setDataGroupTable();
-                    }
-                } else if (searchPriceBox.getSelectedIndex() != 0) {
+                } else {
                     if (sta[0] == 1) {
                         fillterProducts(searchPriceBox.getSelectedIndex(),0); 
                         setDataProductsTable();
@@ -382,6 +391,10 @@ public class MenuForm extends JPanel {
         }
         
         switch (p) {
+            case 0:
+                products.clear();
+                products.addAll(Arrays.asList(temp));
+                break;
             case 1:
                 products = (ArrayList<ProductsDTO>) Arrays.stream(temp)
                         .filter(item -> (item.getProductPrice() >= 0 && item.getProductPrice() < 100000))
@@ -410,6 +423,10 @@ public class MenuForm extends JPanel {
         }
         
         switch (p) {
+            case 0:
+                combos.clear();
+                combos.addAll(Arrays.asList(temp));
+                break;
             case 1:
                 combos = (ArrayList<ComboDTO>) Arrays.stream(temp)
                         .filter(item -> (item.getComboPrice() >= 0 && item.getComboPrice() < 100000))
@@ -431,13 +448,19 @@ public class MenuForm extends JPanel {
 
     public void viewDetail(int index) {
         if (!products.isEmpty()) {
-            System.out.println(products.get(index).getProductCode());
+            DetailForm dt = new DetailForm(null,"",products.get(index)); 
+            dt.setVisible(true); 
+            setDataProductsTable();
         }
         if (!combos.isEmpty()) {
-            System.out.println(combos.get(index).getComboCode());
+            DetailForm dt = new DetailForm(null,"",combos.get(index)); 
+            dt.setVisible(true); 
+            setDaTaComboTable();
         }
         if (!groups.isEmpty()) {
-            System.out.println(groups.get(index).getGroupCode());
+            DetailForm dt = new DetailForm(null,"",groups.get(index)); 
+            dt.setVisible(true); 
+            setDataGroupTable();
         }
     }
 
