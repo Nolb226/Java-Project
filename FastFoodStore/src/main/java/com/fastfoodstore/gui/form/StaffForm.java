@@ -72,6 +72,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 //import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -425,24 +426,24 @@ public class StaffForm extends JPanel {
 
         leftJPanel.add(AddButton);
         UIButton ImportExcelButton = new UIButton("Import", UIButton.WARNING);
-//        ImportExcelButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                JFileChooser fc = new JFileChooser();
-//                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-//                "Excel", "xlsx");
-//                fc.setFileFilter(filter);
-//                int result = fc.showOpenDialog(null);
-//                if (result == JFileChooser.APPROVE_OPTION) 
-//                {
-//                    File file = fc.getSelectedFile(); //Lấy URL
-//                    _Controller.ImportExcel(file);
-////                    spBUS.listSP();
-////                    outModel(model, spBUS.getList());
-//                    JOptionPane.showMessageDialog(null, "Nhap file excel thanh cong");
-//                }
-//            }
-//        });
+        ImportExcelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Excel", "xlsx");
+                fc.setFileFilter(filter);
+                int result = fc.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) 
+                {
+                    File file = fc.getSelectedFile(); //Lấy URL
+                    _Controller.ImportExcel(file);
+//                    spBUS.listSP();
+//                    outModel(model, spBUS.getList());
+                    JOptionPane.showMessageDialog(null, "Nhap file excel thanh cong");
+                }
+            }
+        });
 
         leftJPanel.add(ImportExcelButton);
         leftJPanel.add(searchButton);
