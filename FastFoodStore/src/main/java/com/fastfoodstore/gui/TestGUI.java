@@ -4,6 +4,7 @@
  */
 package com.fastfoodstore.gui;
 
+import com.fastfoodstore.bus.Staff_BUS;
 import com.fastfoodstore.gui.components.MainFrame;
 
 /**
