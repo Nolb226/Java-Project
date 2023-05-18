@@ -4,6 +4,7 @@
  */
 package com.fastfoodstore.gui.components;
 
+import com.fastfoodstore.bus.Staff_BUS;
 import com.fastfoodstore.gui.form.BillForm;
 import com.fastfoodstore.gui.form.MenuForm;
 import com.fastfoodstore.gui.form.OrderForm;
