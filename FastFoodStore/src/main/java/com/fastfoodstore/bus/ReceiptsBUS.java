@@ -16,4 +16,13 @@ public class ReceiptsBUS {
     public static void insertReceipt(ReceiptsDTO a){
         ReceiptsDAO.getInstance().insert(a);
     }
+    
+    public static boolean checkReceipt (String code){
+        ReceiptsDTO a = ReceiptsDAO.getInstance().selectById(code);
+        if(a == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

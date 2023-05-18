@@ -20,9 +20,10 @@ import javax.swing.SwingUtilities;
  * @author ASUS
  */
 public class IngredientList<E extends Object> extends JList<E> {
+
     private final DefaultListModel model;
     private int selectedIndex = -1;
-    
+
     public IngredientList() {
         this.model = new DefaultListModel();
         setModel(model);
@@ -32,45 +33,42 @@ public class IngredientList<E extends Object> extends JList<E> {
                 if (SwingUtilities.isLeftMouseButton(e)) {
                     int index = locationToIndex(e.getPoint());
                     selectedIndex = index;
-                    repaint();    
+                    repaint();
                 }
             }
-            
+
         });
     }
-    
+
     public ListCellRenderer<? super E> getCellRenderer() {
-        
+
         return new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
                 IngredientItem item = new IngredientItem(o);
-                item.setSelected(selectedIndex == index); 
+                item.setSelected(selectedIndex == index);
                 return item;
             }
         };
     }
-    
+
     public void addItem(Object data) {
-        model.addElement(data); 
+        model.addElement(data);
     }
-    
-    public void removeItem() {
-        model.removeElementAt(selectedIndex);
-        selectedIndex = -1;
-    }
-    
-    public void removeData() {
+
+    public void removeData(int index) {
         model.removeAllElements();
-        selectedIndex = -1;
+        selectedIndex = index;
     }
 
     public int getMySelectedIndex() {
         return selectedIndex;
     }
-    
-    public void setMySelcted(int index){
-//        System.out.println(index);
-        selectedIndex = index;
-    }
+
+//    public void setMySelcted(int index) {
+//        System.out.println(selectedIndex);
+//        selectedIndex = index;
+//        System.out.println(selectedIndex);
+//
+//    }
 }
