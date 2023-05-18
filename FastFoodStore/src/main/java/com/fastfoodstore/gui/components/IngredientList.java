@@ -12,6 +12,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -66,5 +67,10 @@ public class IngredientList<E extends Object> extends JList<E> {
 
     public int getMySelectedIndex() {
         return selectedIndex;
+    }
+    
+    public void setMySelcted(int index){
+//        System.out.println(index);
+        selectedIndex = index;
     }
 }

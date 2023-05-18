@@ -56,4 +56,8 @@ public class IngredientDTO {
     public void addAmount(){
         this.amount ++;
     }
+    
+    public void removeAmount(){
+        this.amount --;
+    }
 }

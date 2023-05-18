@@ -23,8 +23,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
+import java.awt.TextField;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -57,6 +60,9 @@ public class PackForm extends JPanel {
     private Button submitReceip;
     private Button deleteIngredient;
     private JPanel formReceip;
+    private JLabel totalPriceField;
+//    private Button subIngreButton;
+//    private Button addIngreButton;
 
     private JPanel formEdit;
     private JTextField ingredientId;
@@ -177,6 +183,7 @@ public class PackForm extends JPanel {
 
     private void setIngredientList() {
         ingredientList = new JScrollPane();
+//        setListenKey();
         ingredientList.setBounds(5, 50, 380, 400);
         ingredientList.setBorder(null);
         ingredientList.setVerticalScrollBar(new ScrollBar(Color.decode("#333333"), Color.decode("#333333")));
@@ -184,8 +191,9 @@ public class PackForm extends JPanel {
         ingredientList.setViewportView(List);
     }
 
-    private void addList() {
+    private void addList(int select) {
         List.removeData();
+        List.setMySelcted(select);
         for (IngredientDTO a : billReceiptList) {
             List.addItem(a);
         }
@@ -217,7 +225,8 @@ public class PackForm extends JPanel {
                 billReceiptList.add(listIngredientDTOs.get(index));
                 billReceiptList.get(billReceiptList.size() - 1).setAmount(1);
             }
-            addList();
+            updateTotalPrice();
+            addList(-1);
         }
     }
 
@@ -296,11 +305,31 @@ public class PackForm extends JPanel {
 
                 if (a != -1) {
                     billReceiptList.remove(billReceiptList.get(a));
-                    addList();
+                    updateTotalPrice();
+                    addList(-1);
                 }
             }
         });
 
+    }
+    
+    private void setTotalPrice() {
+        totalPriceField = new JLabel("Tổng :  ");
+        totalPriceField.setOpaque(true);
+        totalPriceField.setBackground(Color.WHITE);
+        totalPriceField.setBounds(250, 449, 135,30);
+    }
+    
+    private void updateTotalPrice(){
+        if(billReceiptList.size() == 0){
+            totalPriceField.setText("Tổng:  ");
+        }else{
+            int sum = 0;
+            for(IngredientDTO a : billReceiptList){
+                sum+=a.getCost()*a.getAmount();
+            }
+            totalPriceField.setText("Tổng:   " + Integer.toString(sum));
+        }
     }
 
     private void setFormReceip() {
@@ -320,7 +349,7 @@ public class PackForm extends JPanel {
         head.add(label4);
         head.setBounds(5, 0, 380, 50);
 
-        formReceip.setPreferredSize(new Dimension(400, 510));
+        formReceip.setPreferredSize(new Dimension(400, 550));
         formReceip.add(head);
 
 //        Mid
@@ -329,14 +358,16 @@ public class PackForm extends JPanel {
 //        formReceip.setBackground(Color.red);
 
         JPanel button = new JPanel(null);
-        button.setBounds(5, 450, 380, 50);
+        button.setBounds(5, 480, 380, 50);
         setDeleteBtn();
         setSunmitBtn();
 
         button.add(submitReceip);
         button.add(deleteIngredient);
         formReceip.add(button);
-
+        
+        setTotalPrice();
+        formReceip.add(totalPriceField);
     }
 
     private void setReceipIngredient() {
@@ -362,7 +393,7 @@ public class PackForm extends JPanel {
             public void mousePressed(MouseEvent e) {
                 rightPanel.remove(formReceip);
                 rightPanel.add(formEdit, BorderLayout.NORTH);
-                isFormReceipt = true;
+                isFormReceipt = false;
                 validate();
                 repaint();
             }
