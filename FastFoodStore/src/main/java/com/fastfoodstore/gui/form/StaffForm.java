@@ -66,6 +66,8 @@ import java.util.stream.Stream;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -182,13 +184,13 @@ public class StaffForm extends JPanel {
             private void filter() {
                 System.out.println(search.getText());
                 Stream<StaffDTO> newData = dataList.stream();
-                
-                Stream<StaffDTO> test =newData.filter((t) -> {
+
+                Stream<StaffDTO> test = newData.filter((t) -> {
                     return t.getID().contains(search.getText());
                 });
                 staffList.clear();
                 test.forEach((t) -> {
-                   staffList.addElement(new ListItem(t));
+                    staffList.addElement(new ListItem(t));
                 });
             }
         });
@@ -198,18 +200,30 @@ public class StaffForm extends JPanel {
         JList<ListItem> list = new JList<ListItem>(staffList);
         JScrollPane resultList = new JScrollPane(list);
 
-        DefaultListCellRenderer cellRendererList = new DefaultListCellRenderer(){
-          public Component getListCellRendererComponent(JList<?> list,Object value,int index,boolean isSelected,boolean cellHasFocus){
-            Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus) ;
-            
+        DefaultListCellRenderer cellRendererList = new DefaultListCellRenderer() {
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
                 JPanel panel = (JPanel) value;
 //            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-            return panel;
-          };  
+                return panel;
+            }
+        ;
         };
         
         list.setCellRenderer(cellRendererList);
-        
+
+        list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getValueIsAdjusting()) {
+                    System.out.println(
+                            list.getSelectedValue()
+                    );
+                }
+            }
+        });
+
         resultList.setBorder(new EmptyBorder(2, 2, 2, 2));
 
         _SearchBox.setOpaque(true);
@@ -440,10 +454,10 @@ public class StaffForm extends JPanel {
             gbc.gridx = i % 2;
             gbc.gridy = i / 2;
             gbc.insets = (new Insets(2, 2, 2, 2));
-            if (i == _StaffTable.getColumnCount()-1 && _StaffTable.getColumnCount() % 2 != 0) {
+            if (i == _StaffTable.getColumnCount() - 1 && _StaffTable.getColumnCount() % 2 != 0) {
                 gbc.gridwidth = 2;
-                gbc.fill=GridBagConstraints.HORIZONTAL;
-                gbc.anchor=GridBagConstraints.CENTER;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.anchor = GridBagConstraints.CENTER;
 
 //                _InfoList.get(i).setPreferredSize(null);
             }
@@ -468,11 +482,10 @@ public class StaffForm extends JPanel {
             gbc.gridx = i % 2;
             gbc.gridy = i / 2;
             gbc.insets = (new Insets(2, 2, 2, 2));
-            if (i == _StaffTable.getColumnCount()-1 && _StaffTable.getColumnCount() % 2 != 0) {
+            if (i == _StaffTable.getColumnCount() - 1 && _StaffTable.getColumnCount() % 2 != 0) {
                 gbc.gridwidth = 2;
-                gbc.fill=GridBagConstraints.HORIZONTAL;
-                gbc.anchor=GridBagConstraints.CENTER;
-//                _InfoList.get(i).setBackground(Color.YELLOW);
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.anchor = GridBagConstraints.CENTER;
             }
             InfoViewBox.add(_InfoList.get(i), gbc);
         }
