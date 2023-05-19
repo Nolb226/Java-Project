@@ -87,11 +87,17 @@ public class ProjectUtil {
         return String.format("%05d", number);
     }
 
+    public static String getRandom2Numbers() {
+        Random random = new Random();
+        int number = random.nextInt(99);
+        return String.format("%02d", number);
+    }
+
     public static String getCurrentDateTime() {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         return timeStamp;
     }
-    
+
     public static String getCurrentDate() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
         return timeStamp;

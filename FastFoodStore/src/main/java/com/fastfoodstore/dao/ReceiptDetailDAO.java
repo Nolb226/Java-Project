@@ -8,24 +8,29 @@ import java.util.ArrayList;
 import com.fastfoodstore.dto.ReceiptDetailDTO;
 
 public class ReceiptDetailDAO implements DAOInterface<ReceiptDetailDTO> {
+    
+    public static ReceiptDetailDAO getInstance() {
+        return new ReceiptDetailDAO();
+    }
 
     @Override
     public int insert(ReceiptDetailDTO t) {
         int change = 0;
 
         try {
-            Connection  connection = ConnectionData.getConnection();
-            String sql = "INSERT INTO `receiptdetail` (`receiptCode`, `ingredientCode`, `amoutInReceipt`)"
-                        +" VALUES (?, ?, ?)";
+            Connection connection = ConnectionData.getConnection();
+            String sql = "INSERT INTO `receiptdetail` (`receiptCode`, `ingredientCode`, `amoutInReceipt`, `price`)"
+                    + " VALUES (?, ?, ?, ?)";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getReceiptCode());
             pst.setString(2, t.getIngredientCode());
             pst.setFloat(3, t.getAmountInReceipt());
-            
+            pst.setFloat(4, t.getPrice());
+
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -37,21 +42,22 @@ public class ReceiptDetailDAO implements DAOInterface<ReceiptDetailDTO> {
         int change = 0;
 
         try {
-            Connection  connection = ConnectionData.getConnection();
+            Connection connection = ConnectionData.getConnection();
             String sql = "UPDATE `receiptdetail`"
-                        +" SET `receiptCode` = ?, `ingredientCode` = ?, `amoutInReceipt` = ?"
-                        +" WHERE `receiptdetail`.`receiptCode` = ? AND `receiptdetail`.`ingredientCode` = ?";
+                    + " SET `receiptCode` = ?, `ingredientCode` = ?, `amoutInReceipt` = ?,  `price` = ?"
+                    + " WHERE `receiptdetail`.`receiptCode` = ? AND `receiptdetail`.`ingredientCode` = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getReceiptCode());
             pst.setString(2, t.getIngredientCode());
             pst.setFloat(3, t.getAmountInReceipt());
-            pst.setString(4, t.getReceiptCode());
-            pst.setString(5, t.getIngredientCode());
+            pst.setFloat(4, t.getPrice());
+            pst.setString(5, t.getReceiptCode());
+            pst.setString(6, t.getIngredientCode());
 
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -63,17 +69,17 @@ public class ReceiptDetailDAO implements DAOInterface<ReceiptDetailDTO> {
         int change = 0;
 
         try {
-            Connection  connection = ConnectionData.getConnection();
-            String sql =  "DELETE FROM receiptdetail" 
-                        +"WHERE `receiptdetail`.`receiptCode` = ? AND `receiptdetail`.`ingredientCode` = ?";
+            Connection connection = ConnectionData.getConnection();
+            String sql = "DELETE FROM receiptdetail"
+                    + "WHERE `receiptdetail`.`receiptCode` = ? AND `receiptdetail`.`ingredientCode` = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getReceiptCode());
             pst.setString(2, t.getIngredientCode());
-            
+
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -88,15 +94,16 @@ public class ReceiptDetailDAO implements DAOInterface<ReceiptDetailDTO> {
         try {
             Connection connection = ConnectionData.getConnection();
             String sql = "SELECT * FROM receiptdetail";
-            PreparedStatement pst = connection.prepareStatement(sql);            
+            PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 ReceiptDetailDTO data = new ReceiptDetailDTO(
-                    rs.getString("receiptCode"),
-                    rs.getString("ingredientCode"),
-                    rs.getFloat("amoutInReceipt")
-                    );
+                        rs.getString("receiptCode"),
+                        rs.getString("ingredientCode"),
+                        rs.getFloat("amoutInReceipt"),
+                        rs.getInt("price")
+                );
                 receiptDetailList.add(data);
                 isData = true;
             }
@@ -105,7 +112,7 @@ public class ReceiptDetailDAO implements DAOInterface<ReceiptDetailDTO> {
             System.out.println("Select data failture" + e);
         }
 
-        if(isData) {
+        if (isData) {
             return receiptDetailList;
         } else {
             return null;
@@ -125,16 +132,17 @@ public class ReceiptDetailDAO implements DAOInterface<ReceiptDetailDTO> {
         try {
             Connection connection = ConnectionData.getConnection();
             String sql = "SELECT * FROM receiptdetail " + condition + "";
-            PreparedStatement pst = connection.prepareStatement(sql); 
+            PreparedStatement pst = connection.prepareStatement(sql);
             // pst.setString(1, condition);            
             ResultSet rs = pst.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 ReceiptDetailDTO data = new ReceiptDetailDTO(
-                    rs.getString("receiptCode"),
-                    rs.getString("ingredientCode"),
-                    rs.getFloat("amoutInReceipt")
-                    );
+                        rs.getString("receiptCode"),
+                        rs.getString("ingredientCode"),
+                        rs.getFloat("amoutInReceipt"),
+                        rs.getInt("price")
+                );
                 receiptDetailList.add(data);
                 isData = true;
             }
@@ -143,11 +151,11 @@ public class ReceiptDetailDAO implements DAOInterface<ReceiptDetailDTO> {
             System.out.println("Select data failture" + e);
         }
 
-        if(isData) {
+        if (isData) {
             return receiptDetailList;
         } else {
             return null;
         }
     }
-    
+
 }

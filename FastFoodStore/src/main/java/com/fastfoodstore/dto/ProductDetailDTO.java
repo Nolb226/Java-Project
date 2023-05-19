@@ -2,7 +2,9 @@ package com.fastfoodstore.dto;
 
 public class ProductDetailDTO {
     private String productCode;
+    private String productName;
     private String ingredientCode;
+    private String ingredientName;
     private String recipe;
     private boolean toChange;
 
@@ -10,11 +12,13 @@ public class ProductDetailDTO {
 
     }
 
-    public ProductDetailDTO(String productCode, String ingredientCode, String recipe, boolean toChange) {
+    public ProductDetailDTO(String productCode, String ingredientCode, String recipe, boolean toChange, String productName, String ingredientName) {
         this.toChange = toChange;
         this.ingredientCode = ingredientCode;
         this.productCode = productCode;
         this.recipe = recipe;
+        this.productName = productName;
+        this.ingredientName = ingredientName;
     }
 
     public void setIngredientCode(String ingredientCode) {
@@ -31,6 +35,14 @@ public class ProductDetailDTO {
 
     public void setToChange(boolean toChange) {
         this.toChange = toChange;
+    }
+    
+    public void setProductName(String productName){
+        this.productName = productName;
+    }
+    
+    public void setIngredientName(String ingredientName){
+        this.ingredientName = ingredientName;
     }
 
     public String getIngredientCode() {
@@ -49,4 +61,11 @@ public class ProductDetailDTO {
         return toChange;
     }
     
+    public String getProductName(){
+        return productName;
+    }
+    
+    public String getIngredientName(){
+        return ingredientName;
+    }
 }

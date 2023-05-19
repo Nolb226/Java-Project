@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import com.fastfoodstore.dto.ReceiptsDTO;
 
 public class ReceiptsDAO implements DAOInterface<ReceiptsDTO> {
+    
+    public static ReceiptsDAO getInstance() {
+        return new ReceiptsDAO();
+    }
 
     @Override
     public int insert(ReceiptsDTO t) {
