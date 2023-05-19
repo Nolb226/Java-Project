@@ -29,10 +29,12 @@ public class ComboDetailDAO implements DAOInterface<ComboDetailDTO> {
             change = pst.executeUpdate();
             
             ConnectionData.closeConnection(connection); 
+            return change;
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
+            return change;
         }
-        return change;
+        
     }
 
     @Override

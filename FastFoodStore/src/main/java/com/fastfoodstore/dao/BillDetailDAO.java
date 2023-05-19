@@ -19,20 +19,20 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
         int change = 0;
 
         try {
-            Connection  connection = ConnectionData.getConnection();
+            Connection connection = ConnectionData.getConnection();
             String sql = "INSERT INTO `billdetail` (`billCode`, `productCode`, `productNote`, `amountProduct`, `price`)"
-                        +" VALUES (?, ?, ?, ?, ?)";
+                    + " VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getBillCode());
             pst.setString(2, t.getProductCode());
             pst.setString(3, t.getProductNote());
             pst.setInt(4, t.getAmountProduct());
             pst.setInt(5, t.getPrice());
-            
+
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -43,12 +43,12 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
     public int update(BillDetailDTO t) {
 
         int change = 0;
-        
+
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql ="UPDATE `billdetail`" + 
-                    "SET `billCode` = ?, `productCode` = ?, `productNote` = ?, `amountProduct` = ?, `price` = ?" +
-                    " WHERE `billdetail`.`billCode` = ? AND `billdetail`.`productCode` = ?;";
+            String sql = "UPDATE `billdetail`"
+                    + "SET `billCode` = ?, `productCode` = ?, `productNote` = ?, `amountProduct` = ?, `price` = ?"
+                    + " WHERE `billdetail`.`billCode` = ? AND `billdetail`.`productCode` = ?;";
             PreparedStatement pst = connection.prepareStatement(sql);
 
             pst.setString(1, t.getBillCode());
@@ -60,8 +60,8 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
             pst.setString(7, t.getProductCode());
 
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -73,17 +73,17 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
         int change = 0;
 
         try {
-            Connection  connection = ConnectionData.getConnection();
-            String sql = "DELETE FROM billdetail "+
-                        "WHERE `billdetail`.`billCode` = ? AND `billdetail`.`productCode` = ?";
+            Connection connection = ConnectionData.getConnection();
+            String sql = "DELETE FROM billdetail "
+                    + "WHERE `billdetail`.`billCode` = ? AND `billdetail`.`productCode` = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
-            
+
             pst.setString(1, t.getBillCode());
             pst.setString(2, t.getProductCode());
-            
+
             change = pst.executeUpdate();
-            
-            ConnectionData.closeConnection(connection); 
+
+            ConnectionData.closeConnection(connection);
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
         }
@@ -99,17 +99,17 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
         try {
             Connection connection = ConnectionData.getConnection();
             String sql = "SELECT * FROM billdetail";
-            PreparedStatement pst = connection.prepareStatement(sql);            
+            PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 BillDetailDTO data = new BillDetailDTO(
-                    rs.getString("billCode"),
-                    rs.getString("productCode"),
-                    rs.getString("productNote"),
-                    rs.getInt("amountProduct"),
-                    rs.getInt("price")
-                    );
+                        rs.getString("billCode"),
+                        rs.getString("productCode"),
+                        rs.getString("productNote"),
+                        rs.getInt("amountProduct"),
+                        rs.getInt("price")
+                );
                 billDetailList.add(data);
                 isData = true;
             }
@@ -118,7 +118,7 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
             System.out.println("Select data failture" + e);
         }
 
-        if(isData) {
+        if (isData) {
             return billDetailList;
         } else {
             return null;
@@ -135,39 +135,61 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
 
         ArrayList<BillDetailDTO> billDetailList = new ArrayList<BillDetailDTO>();
         boolean isData = false;
-        
+
         try {
             Connection connection = ConnectionData.getConnection();
             String sql = "SELECT * from billdetail " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql);
             // pst.setString(1, condition);
             ResultSet rs = pst.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 BillDetailDTO data = new BillDetailDTO(
-                    rs.getString("billCode"),
-                    rs.getString("productCode"),
-                    rs.getString("productNote"),
-                    rs.getInt("amountProduct"),
-                    rs.getInt("price")
-                    );
+                        rs.getString("billCode"),
+                        rs.getString("productCode"),
+                        rs.getString("productNote"),
+                        rs.getInt("amountProduct"),
+                        rs.getInt("price")
+                );
                 billDetailList.add(data);
                 isData = true;
             }
-           
+
             ConnectionData.closeConnection(connection);
-            
+
         } catch (Exception e) {
-            
+
             System.out.println("Select data failture " + e);
-            
+
         }
-        
-        if(isData) {
+
+        if (isData) {
             return billDetailList;
         } else {
             return null;
         }
     }
-    
+
+    public int selectCount(String sql) {
+        try {
+            Connection connection = ConnectionData.getConnection();
+            PreparedStatement pst = connection.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            System.out.println(sql);
+            if (rs.next()) {
+                int n = rs.getInt("totalAmount");
+                ConnectionData.closeConnection(connection);
+                return n;
+            } else {
+                ConnectionData.closeConnection(connection);
+                return -1;
+            }
+        } catch (Exception e) {
+
+            System.out.println("Select data failture " + e);
+            return -1;
+        }
+    }
+
 }

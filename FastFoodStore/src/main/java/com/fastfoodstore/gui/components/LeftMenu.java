@@ -4,6 +4,7 @@
  */
 package com.fastfoodstore.gui.components;
 
+import com.fastfoodstore.bus.DutyBUS;
 import com.fastfoodstore.bus.FunctionsBUS;
 import com.fastfoodstore.dto.FunctionsDTO;
 import com.fastfoodstore.gui.ProjectUtil;
@@ -28,7 +29,7 @@ public class LeftMenu extends JPanel{
     private int x;
     private int y;
     private ListLeftMenu<String> listMenu;
-    private String pass;
+    private String dutyCode;
     
     private EventMenuSelected event;
     
@@ -39,16 +40,16 @@ public class LeftMenu extends JPanel{
         initComponent();
         setOpaque(false);
         listMenu.setOpaque(false);
-        setData("0916921132");
+        setData("DUTY05");
     }
     
-    private void setData(String pass) {
+    private void setData(String code) {
         listMenu.removeData();
-        ArrayList<FunctionsDTO> functionList = FunctionsBUS.getGroupFunctionList(pass); 
+        ArrayList<FunctionsDTO> functionList = FunctionsBUS.getGroupFunctionList(code); 
         for(FunctionsDTO item : functionList) {
             listMenu.addItem(item); 
         }
-        listMenu.addItem(new FunctionsDTO("FUNC00","Cài đặt","./icon/settings.png"));
+        listMenu.addItem(new FunctionsDTO("FUNC00",DutyBUS.getDutyNameByCode(code),"./icon/settings.png"));
         listMenu.addItem(new FunctionsDTO("EXIT","Thoát","./icon/exit.png"));
         listMenu.addItem(new FunctionsDTO("","",""));
         
@@ -153,9 +154,9 @@ public class LeftMenu extends JPanel{
         listMenu.addEventMenuSelected(event); 
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
-        setData(pass); 
+    public void setDutyCode(String code) {
+        this.dutyCode = code;
+        setData(dutyCode); 
     }
 
     public MainFrame getMainFrame() {

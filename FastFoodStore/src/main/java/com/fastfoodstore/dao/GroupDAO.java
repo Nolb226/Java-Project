@@ -19,7 +19,7 @@ public class GroupDAO implements DAOInterface<GroupDTO> {
 
         try {
             Connection  connection = ConnectionData.getConnection();
-            String sql = "INSERT INTO `groups` (`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`)"
+            String sql = "INSERT INTO `groups` (`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`, `inMenu`)"
                         +" VALUES (?, ?, ?, ?, ?);";
             PreparedStatement pst = connection.prepareStatement(sql);
             
@@ -32,10 +32,12 @@ public class GroupDAO implements DAOInterface<GroupDTO> {
             change = pst.executeUpdate();
             
             ConnectionData.closeConnection(connection); 
+            return change;
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
+            return change;
         }
-        return change;
+        
     }
 
     @Override

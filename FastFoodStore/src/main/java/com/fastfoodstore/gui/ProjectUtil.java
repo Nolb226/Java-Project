@@ -1,6 +1,7 @@
 package com.fastfoodstore.gui;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -89,6 +90,18 @@ public class ProjectUtil {
         int number = random.nextInt(99999);
         return String.format("%05d", number);
     }
+    
+    public static String generateRandomNumbers(int l) {
+        Random random = new Random();
+        String result = "";
+        int num[] = new int[l];
+        for(int i=0;i<l;i++) {
+            num[i] = random.nextInt(10); 
+            result = result + String.valueOf(num[i]);
+        }
+
+        return result;
+    }
 
     public static String getCurrentDateTime() {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
@@ -163,5 +176,14 @@ public class ProjectUtil {
             System.out.println("Selected file is not an image.");
         }
     }
-
+    
+    public static void openFile(String filePath) {
+        try {
+            File file = new File(filePath);
+            Desktop.getDesktop().open(file);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+    
 }

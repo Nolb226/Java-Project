@@ -32,6 +32,10 @@ public class ComboBUS {
         return ComboDAO.getInstance().update(t);
     }
     
+    public static int insertCombo(ComboDTO t) {
+        return ComboDAO.getInstance().insert(t);
+    }
+    
     public static ArrayList<String> getDetail(String code) {
         ArrayList<ComboDetailDTO> a = ComboDetailDAO.getInstance().selectByCondition(" where comboCode = '" + code + "'","");
         ArrayList<String> result = new ArrayList<>();
@@ -39,5 +43,16 @@ public class ComboBUS {
             result.add(ProductsBUS.getProductsByCode(b.getProductCode()).getProductName());
         }
         return result;
+    }
+    
+    public static int insertDetailCombo(String comboCode, ArrayList<String> p) {
+        int k = 0;
+        for(String a : p) {
+            k = ComboDetailDAO.getInstance().insert(new ComboDetailDTO(comboCode,a));
+            if(k == 0) {
+                break;
+            }
+        }
+        return k;
     }
 }

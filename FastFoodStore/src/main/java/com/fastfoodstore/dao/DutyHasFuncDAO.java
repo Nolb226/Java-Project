@@ -1,5 +1,6 @@
 package com.fastfoodstore.dao;
 
+import com.fastfoodstore.dto.AccountDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,11 +25,36 @@ public class DutyHasFuncDAO implements DAOInterface<DutyHasFuncDTO> {
             
             change = pst.executeUpdate();
             
-            ConnectionData.closeConnection(connection); 
+            ConnectionData.closeConnection(connection);
+            return change;
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
+            return change;
         }
-        return change;
+        
+    }
+    
+    public int insertAccount(AccountDTO t) {
+        int change = 0;
+
+        try {
+            Connection  connection = ConnectionData.getConnection();
+            String sql = "INSERT INTO `account` (`staffCode`, `pass`) "
+                        +" VALUES (?, ?);";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            
+            pst.setString(1, t.getStaffCode());
+            pst.setString(2, t.getPass());
+            
+            change = pst.executeUpdate();
+            
+            ConnectionData.closeConnection(connection);
+            return change;
+        } catch (Exception e) {
+            System.out.println("Insert data failture" + e);
+            return change;
+        }
+        
     }
 
     @Override
@@ -62,7 +88,7 @@ public class DutyHasFuncDAO implements DAOInterface<DutyHasFuncDTO> {
 
         try {
             Connection  connection = ConnectionData.getConnection();
-            String sql =  "DELETE FROM dutyhasfunc"
+            String sql =  "DELETE FROM dutyhasfunc "
                         + "WHERE `dutyhasfunc`.`dutyCode` = ? AND `dutyhasfunc`.`functionCode` = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
             
@@ -76,6 +102,27 @@ public class DutyHasFuncDAO implements DAOInterface<DutyHasFuncDTO> {
             System.out.println("Insert data failture" + e);
         }
         return change;
+    }
+    
+    public int delete1(String code) {
+        int change = -1;
+
+        try {
+            Connection  connection = ConnectionData.getConnection();
+            String sql =  "DELETE FROM dutyhasfunc "
+                        + "WHERE `dutyhasfunc`.`dutyCode` = ?";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            
+            pst.setString(1, code);
+
+            change = pst.executeUpdate();
+            
+            ConnectionData.closeConnection(connection); 
+            return change;
+        } catch (Exception e) {
+            System.out.println("Insert data failture" + e);
+            return change;
+        }     
     }
 
     @Override
@@ -104,6 +151,36 @@ public class DutyHasFuncDAO implements DAOInterface<DutyHasFuncDTO> {
 
         if(isData) {
             return dutyHasFuncList;
+        } else {
+            return null;
+        }
+    }
+    
+    public ArrayList<AccountDTO> selectAccount() {
+        ArrayList<AccountDTO> accountList = new ArrayList<AccountDTO>();
+        boolean isData = false;
+
+        try {
+            Connection connection = ConnectionData.getConnection();
+            String sql = "SELECT * FROM account";
+            PreparedStatement pst = connection.prepareStatement(sql);            
+            ResultSet rs = pst.executeQuery();
+            
+            while(rs.next()) {
+                AccountDTO data = new AccountDTO(
+                    rs.getString("staffCode"),
+                    rs.getString("pass")
+                    );
+                accountList.add(data);
+                isData = true;
+            }
+            ConnectionData.closeConnection(connection);
+        } catch (Exception e) {
+            System.out.println("Select data failture" + e);
+        }
+
+        if(isData) {
+            return accountList;
         } else {
             return null;
         }

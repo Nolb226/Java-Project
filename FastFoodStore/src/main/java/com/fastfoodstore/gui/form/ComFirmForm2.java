@@ -5,8 +5,6 @@
 package com.fastfoodstore.gui.form;
 
 import com.fastfoodstore.gui.ProjectUtil;
-import com.fastfoodstore.gui.form.orderform.BillDetailGUI;
-import com.fastfoodstore.gui.components.LeftMenu;
 import com.fastfoodstore.gui.item.Button;
 
 import java.awt.Color;

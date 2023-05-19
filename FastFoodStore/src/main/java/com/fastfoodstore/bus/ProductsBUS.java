@@ -29,4 +29,8 @@ public class ProductsBUS {
     public static int updateProduct(ProductsDTO t) {
          return ProductsDAO.getInstance().update(t);
     }
+    
+    public static int insertProduct(ProductsDTO t) {
+         return ProductsDAO.getInstance().insert(t);
+    }
 }

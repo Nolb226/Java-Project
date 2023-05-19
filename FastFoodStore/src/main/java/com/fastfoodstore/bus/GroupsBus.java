@@ -19,7 +19,7 @@ public class GroupsBus {
     }
 
     public static ArrayList<GroupDTO> getGroupZero() {
-        return GroupDAO.getInstance().selectByCondition("LEFT(groupCode,1) = '0' and inMenu = 1", "");
+        return GroupDAO.getInstance().selectByCondition("LENGTH(groupCode) = 2 and inMenu = 1", "");
     }
 
     public static ArrayList<GroupDTO> getAllGroupUnder(int under) {
@@ -36,6 +36,10 @@ public class GroupsBus {
     
     public static int updateGroup(GroupDTO t) {
         return GroupDAO.getInstance().update(t);
+    }
+    
+    public static int insertGroup(GroupDTO t) {
+        return GroupDAO.getInstance().insert(t);
     }
 
     public static ArrayList<String> getCodeNameGroup() {

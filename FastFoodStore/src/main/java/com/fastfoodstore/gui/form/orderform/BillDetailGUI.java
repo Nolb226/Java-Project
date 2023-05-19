@@ -346,4 +346,10 @@ public class BillDetailGUI extends JPanel {
         repaint();
     }
 
+    public BillsDTO getBill() {
+        return bill;
+    }
+    
+    
+
 }

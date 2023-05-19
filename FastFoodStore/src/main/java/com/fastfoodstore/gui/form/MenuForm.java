@@ -65,11 +65,9 @@ public class MenuForm extends JPanel {
 
     public MenuForm() {
         products = new ArrayList<>();
-        allProducts = ProductsBUS.getAllProducts();
         combos = new ArrayList<>();
-        allCombos = ComboBUS.getAllCombo();
         groups = new ArrayList<>();
-        allGroups = GroupsBus.getAllGroup();
+        initData();
         initComponent();
         setOpaque(false);
     }
@@ -96,6 +94,12 @@ public class MenuForm extends JPanel {
         setSearchPrice();
         setSearchButton1();
         setSearchButton2();
+    }
+    
+    private void initData() {
+        allProducts = ProductsBUS.getAllProducts();
+        allCombos = ComboBUS.getAllCombo();
+        allGroups = GroupsBus.getAllGroup();
     }
 
     @Override
@@ -259,6 +263,8 @@ public class MenuForm extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 AddProductForm add = new AddProductForm(null);
                 add.setVisible(true);
+                initData();
+                setDataProductsTable();
             }
             
         });

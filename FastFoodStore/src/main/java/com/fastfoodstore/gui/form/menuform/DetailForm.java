@@ -519,4 +519,5 @@ public class DetailForm extends JDialog {
                 JOptionPane.INFORMATION_MESSAGE
         );
     }
+    
 }

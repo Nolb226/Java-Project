@@ -66,7 +66,7 @@ public class BillForm extends JPanel {
 
     private Button exButton;
     private Button printButton;
-    
+
     private Font f1 = new Font("Segoe UI Semibold", Font.PLAIN, 16);
     private Font f2 = new Font("Segoe UI Semibold", Font.PLAIN, 12);
 
@@ -210,7 +210,7 @@ public class BillForm extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    export();
+                    ProjectUtil.openFile(export());
                 } catch (IOException ex) {
                     Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -218,7 +218,7 @@ public class BillForm extends JPanel {
         });
     }
 
-    public void export() throws FileNotFoundException, IOException {
+    public String export() throws FileNotFoundException, IOException {
         BillsDTO b = new BillsDTO(billsDTOs.get(viewBillList.getMySelectedIndex()));
         String path = "./bill-pdf/" + b.getBillCode() + ".pdf";
 
@@ -228,38 +228,44 @@ public class BillForm extends JPanel {
         Document document = new Document(pdfDocument);
 
         float colHeader[] = {520f};
-        float colContent[] = {260f,260f};
+        float colContent[] = {260f, 260f};
 
         Table tableHeader = new Table(colHeader);
         tableHeader.addCell(getTextHeaderPdfCenter("Order number: " + b.getBillCode()));
         tableHeader.addCell(getTextHeaderPdfCenter("Time: " + b.getDate()));
         tableHeader.addCell(getTextHeaderPdfCenter("-------------------------------------------------"));
-        
+
         Table tableContent = new Table(colContent);
         Table tableFooter = new Table(colContent);
-        tableContent.addCell(getTextContentPdfLeft("Item",10));
-        tableContent.addCell(getTextContentPdfRight("Price",10));
-        for(BillDetailDTO a : billDetails1) {
-            String name = ProductsBUS.getProductsByCode(a.getProductCode()).getProductName().split("/")[1];
-            tableContent.addCell(getTextContentPdfLeft(a.getAmountProduct() + "x " + name,8));
-            tableContent.addCell(getTextContentPdfRight( ProjectUtil.toMoney(a.getPrice() * a.getAmountProduct()),8));
+        tableContent.addCell(getTextContentPdfLeft("Item", 10));
+        tableContent.addCell(getTextContentPdfRight("Price", 10));
+        if (billDetails1 != null) {
+            for (BillDetailDTO a : billDetails1) {
+                String name = ProductsBUS.getProductsByCode(a.getProductCode()).getProductName().split("/")[1];
+                tableContent.addCell(getTextContentPdfLeft(a.getAmountProduct() + "x " + name, 8));
+                tableContent.addCell(getTextContentPdfRight(ProjectUtil.toMoney(a.getPrice() * a.getAmountProduct()), 8));
+            }
         }
-        
-        for(BillDetail2DTO a : billDetails2) {
-            String name = ComboBUS.getComboByCode(a.getComboCode()).getComboName().split("/")[1];
-            tableContent.addCell(getTextContentPdfLeft(a.getAmountCombo()+ "x " + name,8));
-            tableContent.addCell(getTextContentPdfRight( ProjectUtil.toMoney(a.getPrice() * a.getAmountCombo()),8));
+
+        if (billDetails2 != null) {
+            for (BillDetail2DTO a : billDetails2) {
+                String name = ComboBUS.getComboByCode(a.getComboCode()).getComboName().split("/")[1];
+                tableContent.addCell(getTextContentPdfLeft(a.getAmountCombo() + "x " + name, 8));
+                tableContent.addCell(getTextContentPdfRight(ProjectUtil.toMoney(a.getPrice() * a.getAmountCombo()), 8));
+            }
         }
-        tableHeader.addCell(new Cell().add(tableContent).setBorder(Border.NO_BORDER)); 
+
+        tableHeader.addCell(new Cell().add(tableContent).setBorder(Border.NO_BORDER));
         tableHeader.addCell(getTextHeaderPdfCenter("-------------------------------------------------"));
-        
-        tableFooter.addCell(getTextContentPdfLeft("Total: ",10));
-        tableFooter.addCell(getTextContentPdfRight( ProjectUtil.toMoney(b.getTotalPrice()),10));
-        tableHeader.addCell(new Cell().add(tableFooter).setBorder(Border.NO_BORDER)); 
-        
+
+        tableFooter.addCell(getTextContentPdfLeft("Total: ", 10));
+        tableFooter.addCell(getTextContentPdfRight(ProjectUtil.toMoney(b.getTotalPrice()), 10));
+        tableHeader.addCell(new Cell().add(tableFooter).setBorder(Border.NO_BORDER));
+
         document.add(tableHeader);
         document.close();
-        
+
+        return path;
     }
 
     public Cell getTextHeaderPdfCenter(String text) {
@@ -267,17 +273,17 @@ public class BillForm extends JPanel {
         return new Cell().add(new Paragraph(text))
                 .setTextAlignment(TextAlignment.CENTER)
                 .setFontSize(12)
-                .setBorder(Border.NO_BORDER);    
+                .setBorder(Border.NO_BORDER);
     }
-    
-    public Cell getTextContentPdfLeft(String text,int size) {
+
+    public Cell getTextContentPdfLeft(String text, int size) {
         return new Cell().add(new Paragraph(text))
                 .setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(size)
                 .setBorder(Border.NO_BORDER);
     }
-    
-    public Cell getTextContentPdfRight(String text,int size) {
+
+    public Cell getTextContentPdfRight(String text, int size) {
         return new Cell().add(new Paragraph(text))
                 .setTextAlignment(TextAlignment.RIGHT)
                 .setFontSize(size)

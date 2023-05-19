@@ -5,6 +5,7 @@
 package com.fastfoodstore.bus;
 
 import com.fastfoodstore.dao.DutyDAO;
+import com.fastfoodstore.dao.StaffDAO;
 import com.fastfoodstore.dto.DutyDTO;
 import java.util.ArrayList;
 
@@ -13,7 +14,20 @@ import java.util.ArrayList;
  * @author ADMIN
  */
 public class DutyBUS {
+    
+    public static int insertDuty(DutyDTO t) {
+        return DutyDAO.getInstance().insert(t);
+    }
+    
     public static ArrayList<DutyDTO> selectAllDuty() {
         return DutyDAO.getInstance().selectAll();
+    }
+    
+    public static String getDutyCodeOfStaff(String staffCode) {
+        return StaffDAO.getInstance().selectById(staffCode).getDutyCode();
+    }
+    
+    public static String getDutyNameByCode(String code) {
+        return DutyDAO.getInstance().selectById(code).getDutyName();
     }
 }
