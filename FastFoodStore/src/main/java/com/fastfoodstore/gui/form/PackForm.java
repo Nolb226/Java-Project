@@ -44,6 +44,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -201,6 +202,12 @@ public class PackForm extends JPanel {
         table.setFont(new Font("Arial", Font.PLAIN, 14));
         table.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 16));
         table.setRowHeight(30);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         table.revalidate();
         table.repaint();
     }
@@ -305,6 +312,7 @@ public class PackForm extends JPanel {
     private void removeList() {
         List.removeData(-1);
         billReceiptList.removeAll(billReceiptList);
+        updateTotalPrice();
         validate();
         repaint();
     }
@@ -315,41 +323,49 @@ public class PackForm extends JPanel {
         submitReceip.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                String code = "";
-                do {
-                    code = ProjectUtil.getCurrentDate() + ProjectUtil.getRandom2Numbers();
-                } while (ReceiptsBUS.checkReceipt(code));
+                if (billReceiptList.size() != 0) {
+                    String code = "";
+                    do {
+                        code = ProjectUtil.getCurrentDate() + ProjectUtil.getRandom2Numbers();
+                    } while (ReceiptsBUS.checkReceipt(code));
 
-                float sum = 0;
-                ArrayList<ReceiptDetailDTO> submit = new ArrayList<>();
-                for (IngredientDTO a : billReceiptList) {
-                    ReceiptDetailDTO temp = new ReceiptDetailDTO(code, a.getIngredientCode(), a.getAmount(), a.getAmount() * a.getCost());
-                    submit.add(temp);
-                    sum += temp.getPrice();
-                }
-
-                try {
-                    ReceiptsDTO receipt = new ReceiptsDTO(code, ProjectUtil.stringToDate(ProjectUtil.getCurrentDateTime()), sum);
-
-                    ReceiptsBUS.insertReceipt(receipt);
-                    for (ReceiptDetailDTO b : submit) {
-                        ReceiptDetailBUS.insert(b);
-                    }
-                    for (IngredientDTO c : billReceiptList) {
-                        IngredientBUS.updateAmout(c);
+                    float sum = 0;
+                    ArrayList<ReceiptDetailDTO> submit = new ArrayList<>();
+                    for (IngredientDTO a : billReceiptList) {
+                        ReceiptDetailDTO temp = new ReceiptDetailDTO(code, a.getIngredientCode(), a.getAmount(), a.getAmount() * a.getCost());
+                        submit.add(temp);
+                        sum += temp.getPrice();
                     }
 
+                    try {
+                        ReceiptsDTO receipt = new ReceiptsDTO(code, ProjectUtil.stringToDate(ProjectUtil.getCurrentDateTime()), sum);
+
+                        ReceiptsBUS.insertReceipt(receipt);
+                        for (ReceiptDetailDTO b : submit) {
+                            ReceiptDetailBUS.insert(b);
+                        }
+                        for (IngredientDTO c : billReceiptList) {
+                            IngredientBUS.updateAmout(c);
+                        }
+
+                        JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+                        JOptionPane.showMessageDialog(frame,
+                                "Thanh toán thành công",
+                                "Thông báo",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        createTable();
+                        removeList();
+                    } catch (Exception error) {
+                        JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+                        JOptionPane.showMessageDialog(frame,
+                                "Thanh toán thất bại",
+                                "Thông báo",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
                     JFrame frame = new JFrame("JOptionPane showMessageDialog example");
                     JOptionPane.showMessageDialog(frame,
-                            "Thanh toán thành công",
-                            "Thông báo",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    createTable();
-                    removeList();
-                } catch (Exception error) {
-                    JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-                    JOptionPane.showMessageDialog(frame,
-                            "Thanh toán thất bại",
+                            "Không có nguyên liệu để thanh toán",
                             "Thông báo",
                             JOptionPane.INFORMATION_MESSAGE);
                 }

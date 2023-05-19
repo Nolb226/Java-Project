@@ -15,4 +15,6 @@ public class ReceiptDetailBUS {
     public static void insert(ReceiptDetailDTO a){
         ReceiptDetailDAO.getInstance().insert(a);
     }
+    
+//    public static void 
 }
