@@ -270,9 +270,6 @@ public class StaffForm extends JPanel {
                             confirmCreate();
                         }
                     }
-
-//                    search.setText("");
-//                    staffList.clear();
                 }
             }
         });
@@ -506,25 +503,7 @@ public class StaffForm extends JPanel {
             public Component getTableCellRenderComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-//               
-//                if (isSelected) {
-//                    c.setBackground(Color.PINK);
-//
-//                    c.setForeground(table.getSelectionForeground());
-//
-//                } else {
-//
-//                    c.setBackground(table.getBackground());
-//
-//                    c.setForeground(table.getForeground());
-//
-//                }
 
-//                if (isSelected && !isEdit) {
-//                    setBackground(table.getSelectionBackground());
-//                } else {
-//                    setBackground(table.getBackground());
-//                }
                 if (hasFocus) {
                     Border selectedBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.PINK);//Blue-Border
                     setBorder(selectedBorder);
@@ -647,7 +626,7 @@ public class StaffForm extends JPanel {
 
                 _staff = new StaffDTO(data);
             } catch (Exception e) {
-                JOptionPane.showConfirmDialog(this, "Invalid data");
+                JOptionPane.showMessageDialog(null, "Invalid data");
 
             }
             _Controller.update(_staff);
@@ -719,7 +698,7 @@ public class StaffForm extends JPanel {
 
                 _staff = new StaffDTO(data);
             } catch (Exception e) {
-                JOptionPane.showConfirmDialog(this, "Invalid data");
+                JOptionPane.showMessageDialog(null, "Invalid data");
 
             }
             _Controller.create(_staff);
@@ -743,8 +722,6 @@ public class StaffForm extends JPanel {
                 gbc.gridwidth = 2;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.anchor = GridBagConstraints.CENTER;
-
-//                _InfoList.get(i).setPreferredSize(null);
             }
             InfoViewBox.add(_InfoList.get(i), gbc);
             InfoViewBox.repaint();

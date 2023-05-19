@@ -279,9 +279,6 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
             cell = row.createCell(6);
             cell.setCellValue("duty");
             cell.setCellStyle(style);
-//            cell = row.createCell(7);
-//            cell.setCellValue("IMG");
-//            cell.setCellStyle(style);
             int i = 1;
 
             while (rs.next()) {
@@ -300,8 +297,6 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
                 cell.setCellValue(rs.getString("birthday"));
                 cell = row.createCell(6);
                 cell.setCellValue(rs.getString("dutyName"));
-//                cell = row.createCell(7);
-//                cell.setCellValue(rs.getString("IMG"));
 
                 i++;
             }
@@ -310,7 +305,7 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
                 sheet.autoSizeColumn((short) (colNum));
             }
 
-            FileOutputStream out = new FileOutputStream(new File(".\\excels\\Staff.xlsx"));
+            FileOutputStream out = new FileOutputStream(new File("./excels/Staff.xlsx"));
             workbook.write(out);
             out.close();
             System.out.println("Xuat file thanh cong");
@@ -337,48 +332,77 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
                 String phoneNumber = row.getCell(3).getStringCellValue();
                 String address = row.getCell(4).getStringCellValue();
                 java.sql.Date birthday = Date.valueOf(row.getCell(5).getStringCellValue());
-                String dutyCode = row.getCell(6).getStringCellValue();
-                String IMG = row.getCell(7).getStringCellValue();
+                String dutyName = row.getCell(6).getStringCellValue();
 
-                String sql_check = "SELECT * FROM staff WHERE id =?";
+                String duty_sql = "SELECT * FROM duty where dutyName LIKE ?";
+                PreparedStatement dty = connection.prepareStatement(duty_sql);
+                System.out.println(dutyName);
+                dty.setString(1, dutyName);
 
+                ResultSet dutyResultSet = dty.executeQuery();
+
+                String dutyCode = "";
+                while (dutyResultSet.next()) {
+                    dutyCode = dutyResultSet.getString("dutyCode");
+                    System.out.println(dutyCode);
+
+                }
+                System.err.println("1");
+
+                String sql_check = "SELECT * FROM staff WHERE id = ?";
+
+                System.err.println(id);
                 PreparedStatement pst_check = connection.prepareStatement(sql_check);
-
                 pst_check.setString(1, id);
                 ResultSet rs = pst_check.executeQuery();
-                if (!rs.next()) {
 
-                    String sql = "INSERT INTO `staff` (`id`, `name`, `email`, `numberPhone`, `address`, `birthday`, `dutyCode`, `status`)"
-                            + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                    PreparedStatement pst = connection.prepareStatement(sql);
-
-                    pst.setString(1, id);
-                    pst.setString(2, name);
-                    pst.setString(3, email);
-                    pst.setString(4, phoneNumber);
-                    pst.setString(5, address);
-                    pst.setDate(6, birthday);
-                    pst.setString(7, dutyCode);
-                    pst.setBoolean(8, Boolean.FALSE);
-
-                    ResultSet rs_check = pst.executeQuery();
-
+                StaffDTO a = selectById(id);
+                if (a == null) {
+                    StaffDTO b = new StaffDTO(id, name, email, phoneNumber, address, birthday, dutyCode, Boolean.FALSE);
+//                    insert();
+                    insert(b);
                 } else {
-                    String sql = "UPDATE `staff`"
-                            + " SET `id` = ?, `name` = ?, `email` = ?, `numberPhone` = ?, `address` = ?, `birthday` = ?, `dutyCode` = ?"
-                            + " WHERE `staff`.`id` = ?";
-                    PreparedStatement pst = connection.prepareStatement(sql);
-                    pst.setString(1, id);
-                    pst.setString(2, name);
-                    pst.setString(3, email);
-                    pst.setString(4, phoneNumber);
-                    pst.setString(5, address);
-                    pst.setDate(6, birthday);
-                    pst.setString(7, dutyCode);
-                    pst.setString(8, id);
-
-                    ResultSet rs_check = pst.executeQuery();
+                    a.setName(name);
+                    a.setAddress(address);
+                    a.setBirthday(birthday);
+                    a.setDutyCode(dutyCode);
+                    a.setEmail(email);
+                    a.setNumberPhone(dutyCode);
+                    a.setStatus(false);
                 }
+//                if (!rs.next()) {
+//                    rs.getString("name");
+//                    String sql = "INSERT INTO `staff` (`id`, `name`, `email`, `numberPhone`, `address`, `birthday`, `dutyCode`, `status`)"
+//                            + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+//                    PreparedStatement pst = connection.prepareStatement(sql);
+//
+//                    pst.setString(1, id);
+//                    pst.setString(2, name);
+//                    pst.setString(3, email);
+//                    pst.setString(4, phoneNumber);
+//                    pst.setString(5, address);
+//                    pst.setDate(6, birthday);
+//                    pst.setString(7, dutyCode);
+//                    pst.setBoolean(8, Boolean.FALSE);
+//
+//                    ResultSet rs_check = pst.executeQuery();
+//
+//                } else {
+//                    String sql = "UPDATE `staff`"
+//                            + " SET `id` = ?, `name` = ?, `email` = ?, `numberPhone` = ?, `address` = ?, `birthday` = ?, `dutyCode` = ?"
+//                            + " WHERE `staff`.`id` = ?";
+//                    PreparedStatement pst = connection.prepareStatement(sql);
+//                    pst.setString(1, rs.getString("id"));
+//                    pst.setString(2, rs.getString("name"));
+//                    pst.setString(3, rs.getString("email"));
+//                    pst.setString(4, rs.getString("numberPhone"));
+//                    pst.setString(5, rs.getString("address"));
+//                    pst.setDate(6, birthday);
+//                    pst.setString(7, dutyCode);
+//                    pst.setString(8, id);
+//
+//                    ResultSet rs_check = pst.executeQuery();
+//                }
             }
             in.close();
 
