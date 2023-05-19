@@ -171,7 +171,7 @@ public class StaffDAO implements DAOInterface<StaffDTO> {
                     + "duty.dutyName as duty,"
                     + "staff.status "
                     + "FROM staff "
-                    + "JOIN duty ON staff.dutyCode = duty.dutyCode WHERE id = ? AND status !='1'";
+                    + "JOIN duty ON staff.dutyCode = duty.dutyCode WHERE id = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
