@@ -161,11 +161,19 @@ public class Button extends JPanel{
 
     public void setThisColor(Color thisColor) {
         this.thisColor = thisColor;
+        this.setBackground(thisColor);
     }
     
     public void setContent(String text) {
         textLabel.setText(text); 
     }
     
+    public void setFontTextLabel(Font a){
+        textLabel.setFont(a);
+    }
+    
+    public void setColorText(Color a){
+        textLabel.setForeground(a); 
+    }
 }
 

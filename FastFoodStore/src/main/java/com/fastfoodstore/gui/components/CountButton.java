@@ -46,7 +46,7 @@ public class CountButton extends JPanel{
     
     public void countUp() {
         setCountData(countData++);
-        System.out.println(countData);
+//        System.out.println(countData);
         countLabel.setText(countData + ""); 
     }
     
