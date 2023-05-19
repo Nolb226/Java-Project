@@ -139,6 +139,34 @@ public class DutyDAO implements DAOInterface<DutyDTO> {
             return null;
         }
     }
+    
+    public DutyDTO selectByName(String name) {
+        DutyDTO duty = new DutyDTO();
+        boolean isData = false;
+
+        try {
+            Connection connection = ConnectionData.getConnection();
+            String sql = "SELECT * FROM duty WHERE dutyName = ?";
+            PreparedStatement pst = connection.prepareStatement(sql);   
+            pst.setString(1, name);         
+            ResultSet rs = pst.executeQuery();
+            
+            if(rs.next()) {
+                duty.setDutyCode(rs.getString("dutyCode"));
+                duty.setDutyName(rs.getString("dutyName"));
+                isData = true;
+            }
+            ConnectionData.closeConnection(connection);
+        } catch (Exception e) {
+            System.out.println("Select data failture" + e);
+        }
+
+        if(isData) {
+            return duty;
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public ArrayList<DutyDTO> selectByCondition(String condition, String colName) {

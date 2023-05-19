@@ -27,6 +27,10 @@ public class DutyBUS {
         return StaffDAO.getInstance().selectById(staffCode).getDutyCode();
     }
     
+    public static String getDutyCodeByName(String name) {
+        return DutyDAO.getInstance().selectByName(name).getDutyCode();
+    }
+    
     public static String getDutyNameByCode(String code) {
         return DutyDAO.getInstance().selectById(code).getDutyName();
     }

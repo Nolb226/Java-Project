@@ -74,6 +74,8 @@ public class ConFirmForm {
                     if(idField.getText().equals(a.getStaffCode())) {
                         if(String.copyValueOf(inputField.getPassword()).equals(a.getPass())) {
                             result = DutyBUS.getDutyCodeOfStaff(idField.getText());
+                            System.out.println(result);
+                            result = DutyBUS.getDutyCodeByName(result);
                         }
                     }
                 }
