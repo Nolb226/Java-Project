@@ -653,7 +653,7 @@ public class PackForm extends JPanel {
                     formEdit.add(validate);
                     checkInput = false;
                 } else {
-                    if (Integer.parseInt(ingredientAmount.getText()) < 0 && Integer.parseInt(ingredientAmount.getText()) > 999) {
+                    if (Integer.parseInt(ingredientAmount.getText()) < 0 || Integer.parseInt(ingredientAmount.getText()) > 999) {
                         validate.setText("Số lượng phải lớn hơn bằng 0 và bé hơn 999");
                         formEdit.add(validate);
                         checkInput = false;
@@ -668,7 +668,7 @@ public class PackForm extends JPanel {
                                 formEdit.add(validate);
                                 checkInput = false;
                             } else {
-                                if (Integer.parseInt(ingredientPrice.getText()) < 0 && Integer.parseInt(ingredientPrice.getText()) > 1000000) {
+                                if (Integer.parseInt(ingredientPrice.getText()) < 0 || Integer.parseInt(ingredientPrice.getText()) > 1000000) {
                                     validate.setText("Giá tiền phải lớn hơn 0 và bé hơn 1000000");
                                     formEdit.add(validate);
                                     checkInput = false;
