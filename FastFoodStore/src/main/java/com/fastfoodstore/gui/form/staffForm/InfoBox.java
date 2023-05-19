@@ -160,9 +160,7 @@ public class InfoBox extends JPanel {
             model.addAll(duties);
             int index = -1; // Initialize the index with a default value
 
-            
 //            System.out.println(index);
-
             _dutyList = new JList<DutyDTO>(model);
             _dutyList.setCellRenderer(cellRenderer);
             _dutyList.setSelectedIndex(index);
@@ -188,6 +186,9 @@ public class InfoBox extends JPanel {
             }
 
             case 2 -> {
+                if (_dutyList.getSelectedIndex() == -1) {
+                    return "";
+                }
                 return _dutyList.getSelectedValue().getDutyCode();
             }
 

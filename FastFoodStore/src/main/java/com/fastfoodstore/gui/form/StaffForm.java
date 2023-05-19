@@ -6,6 +6,7 @@ package com.fastfoodstore.gui.form;
 
 import com.fastfoodstore.bus.Staff_BUS;
 import com.fastfoodstore.dto.StaffDTO;
+import com.fastfoodstore.gui.Validate;
 import com.fastfoodstore.gui.form.staffForm.InfoBox;
 import com.fastfoodstore.gui.form.staffForm.ListItem;
 import com.fastfoodstore.gui.form.staffForm.Modal;
@@ -221,7 +222,7 @@ public class StaffForm extends JPanel {
             }
         });
 
-        UIButton searchButton = new UIButton("Search", UIButton.DARK, UIButton.SMALL, true);
+        UIButton searchButton = new UIButton("EXPORT", UIButton.DARK, UIButton.SMALL, true);
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -325,7 +326,13 @@ public class StaffForm extends JPanel {
                     if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
                         _InfoList.get(i).setType(InfoBox.INPUT, _Controller.getAllDutyDTOs());
                     }
-                    _InfoList.get(i).isEditable(false);
+                    if (_fields[i].getName().split("_")[1].equals("id")) {
+                        _InfoList.get(i).isEditable(false);
+
+                    } else {
+                        _InfoList.get(i).isEditable(false);
+
+                    }
 //                    _InfoList.get(i).setText(_fields[i].getName().split("_")[1], );
                 }
                 isCreate = false;
@@ -346,7 +353,14 @@ public class StaffForm extends JPanel {
                     if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
                         _InfoList.get(i).setType(InfoBox.SELECT, _Controller.getAllDutyDTOs(), _staff);
                     }
-                    _InfoList.get(i).isEditable(true);
+                    if (_fields[i].getName().split("_")[1].equals("id")) {
+                        _InfoList.get(i).isEditable(false);
+
+                    } else {
+                        _InfoList.get(i).isEditable(true);
+
+                    }
+//                    _InfoList.get(i).isEditable(true);
                 }
                 _EditBox.setVisible(true);
                 _MenuBox.setVisible(false);
@@ -442,9 +456,10 @@ public class StaffForm extends JPanel {
         });
 
         leftJPanel.add(ImportExcelButton);
-        ImportExcelButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        AddButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ImportExcelButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         leftJPanel.add(searchButton);
-        searchButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        searchButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         _MenuBox.add(EditButton);
         _MenuBox.add(DeleteButton);
@@ -616,34 +631,72 @@ public class StaffForm extends JPanel {
         if (modal.show() == 1) {
             isEdit = false;
             Object[] data = new Object[_fields.length];
-
+            Boolean flag = false;
             System.out.println("Save");
             for (int i = 0; i < _InfoList.size(); i++) {
                 data[i] = _InfoList.get(i).getData();
+                if (_fields[i].getName().split("_")[1].equals("birthday")) {
 
+                    if (!Validate.checkDay(data[i].toString())) {
+                        flag = true;
+                        JOptionPane.showMessageDialog(null, "Invalid Date");
+
+                    };
+                }
+                if (_fields[i].getName().split("_")[1].equals("numberPhone")) {
+
+                    if (!Validate.checkNumber(data[i].toString())) {
+                        flag = true;
+
+                        JOptionPane.showMessageDialog(null, "Invalid phone number");
+
+                    };
+                }
+                if (_fields[i].getName().split("_")[1].equals("email")) {
+                    if (!Validate.isValidEmail(data[i].toString())) {
+                        flag = true;
+
+                        JOptionPane.showMessageDialog(null, "Invalid Email");
+
+                    }
+
+                }
+                if (_fields[i].getName().split("_")[1].equals("id")) {
+                    StaffDTO a = _Controller.getOne(data[i].toString());
+                    if (a != null && !a.getID().equals(data[i].toString())) {
+                        flag = true;
+
+                        JOptionPane.showMessageDialog(null, "Id alreay exist");
+                        break;
+                    }
+
+                }
             }
             try {
 
                 _staff = new StaffDTO(data);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Invalid data");
-
+                flag = true;
             }
-            _Controller.update(_staff);
-            _staff = _Controller.getOne(_staff.getID());
-            Object[] rowData = _staff.data();
-            for (int i = 0; i < _InfoList.size(); i++) {
-                if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
-                    _InfoList.get(i).setType(InfoBox.INPUT, _Controller.getAllDutyDTOs(), _staff);
+            if (!flag) {
+                System.out.println("1");
+                _Controller.update(_staff);
+                _staff = _Controller.getOne(_staff.getID());
+                Object[] rowData = _staff.data();
+                for (int i = 0; i < _InfoList.size(); i++) {
+                    if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
+                        _InfoList.get(i).setType(InfoBox.INPUT, _Controller.getAllDutyDTOs(), _staff);
+                    }
+                    _InfoList.get(i).isEditable(false);
+                    _InfoList.get(i).setText(_fields[i].getName().split("_")[1], rowData[i].toString());
                 }
-                _InfoList.get(i).isEditable(false);
-                _InfoList.get(i).setText(_fields[i].getName().split("_")[1], rowData[i].toString());
-            }
-            _EditBox.setVisible(false);
-            _MenuBox.setVisible(true);
+                _EditBox.setVisible(false);
+                _MenuBox.setVisible(true);
 
-            this.removeAll();
-            initComponent();
+                this.removeAll();
+                initComponent();
+            }
 
         }
     }
@@ -672,26 +725,54 @@ public class StaffForm extends JPanel {
         if (modal.show() == 1) {
             isCreate = false;
             Object[] data = new Object[_fields.length];
-            boolean invalid = false;
+            boolean flag = false;
             System.out.println("Save");
             for (int i = 0; i < _InfoList.size(); i++) {
                 if (_InfoList.get(i).getData() != null) {
-                    try {
-                        data[i] = _InfoList.get(i).getData().trim();
-                        if (data[i] == null || data[i].equals("")) {
-                            invalid = true;
-                            break;
+                    data[i] = _InfoList.get(i).getData().trim();
+                    if (_fields[i].getName().split("_")[1].equals("birthday")) {
+
+                        if (!Validate.checkDay(data[i].toString())) {
+                            flag = true;
+                            JOptionPane.showMessageDialog(null, "Invalid Date");
+
+                        };
+                    }
+                    if (_fields[i].getName().split("_")[1].equals("numberPhone")) {
+
+                        if (!Validate.checkNumber(data[i].toString())) {
+                            flag = true;
+
+                            JOptionPane.showMessageDialog(null, "Invalid phone number");
+
+                        };
+                    }
+                    if (_fields[i].getName().split("_")[1].equals("email")) {
+                        if (!Validate.isValidEmail(data[i].toString())) {
+                            flag = true;
+
+                            JOptionPane.showMessageDialog(null, "Invalid Email");
+
                         }
-                    } catch (Exception e) {
-                        System.out.println("|||||||||||||||||||||||");
 
                     }
+                    if (_fields[i].getName().split("_")[1].equals("id")) {
+                        StaffDTO a = _Controller.getOne(data[i].toString());
+                        if (a != null) {
+                            flag = true;
 
-                } else {
-//                    System.out.println("|||||||||||||||||||||||");
+                            JOptionPane.showMessageDialog(null, "Id alreay exist");
+                            break;
+                        }
 
-                    invalid = true;
-                    break;
+                    }
+                    if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
+                        if (data[i].toString().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Invalid duty");
+                            flag=true;
+                        }
+
+                    }
                 }
             }
             try {
@@ -699,11 +780,13 @@ public class StaffForm extends JPanel {
                 _staff = new StaffDTO(data);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Invalid data");
-
+                flag = true;
             }
-            _Controller.create(_staff);
-            this.removeAll();
-            initComponent();
+            if (!flag) {
+                _Controller.create(_staff);
+                this.removeAll();
+                initComponent();
+            }
         }
 
     }
