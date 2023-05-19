@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import com.fastfoodstore.dto.ComboDetailDTO;
 
 public class ComboDetailDAO implements DAOInterface<ComboDetailDTO> {
+    
+    public static ComboDetailDAO getInstance() {
+        return new ComboDetailDAO();
+    }
 
     @Override
     public int insert(ComboDetailDTO t) {
@@ -25,10 +29,12 @@ public class ComboDetailDAO implements DAOInterface<ComboDetailDTO> {
             change = pst.executeUpdate();
             
             ConnectionData.closeConnection(connection); 
+            return change;
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
+            return change;
         }
-        return change;
+        
     }
 
     @Override

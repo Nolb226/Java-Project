@@ -4,7 +4,9 @@
  */
 package com.fastfoodstore.gui.components;
 
-import com.fastfoodstore.bus.Staff_BUS;
+import com.fastfoodstore.bus.DutyHasFuncBUS;
+import com.fastfoodstore.dto.AccountDTO;
+import com.fastfoodstore.gui.form.AdminForm;
 import com.fastfoodstore.gui.form.BillForm;
 import com.fastfoodstore.gui.form.ConFirmForm;
 import com.fastfoodstore.gui.form.MenuForm;
@@ -18,6 +20,7 @@ import java.awt.HeadlessException;
 import javax.swing.GroupLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
@@ -25,7 +28,7 @@ public class MainFrame extends JFrame {
     private PanelBorder panelBorder;
     private LeftMenu leftMenu;
     private JPanel contentPanel;
-    
+
     private ConFirmForm conFirmForm;
 
     public MainFrame(PanelBorder panelBorder, LeftMenu leftMenu, JPanel contentPanel) throws HeadlessException {
@@ -36,6 +39,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         initComponent();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setBackground(new Color(0, 0, 0, 0));
         leftMenu.initMoving(this);
         leftMenu.addEventMenuSelected(new EventMenuSelected() {
@@ -69,15 +73,29 @@ public class MainFrame extends JFrame {
                             BillForm billForm = new BillForm();
                             setForm(billForm);
                             break;
+                        case "FUNC07":
+                            AdminForm adminForm = new AdminForm();
+                            setForm(adminForm);
+                            break;
+                        case "FUNC09":
+                            conFirmForm = new ConFirmForm();
+                            String re = conFirmForm.show1();
+                            int k = DutyHasFuncBUS.insertAccount(new AccountDTO(re.split("-")[0],re.split("-")[1]));
+                            if(k==0) {
+                                showError("Tạo thất bại, đã xảy ra lỗi!");
+                            } else {
+                                showMes();
+                            }
+                            break;
                         case "FUNC00":
-                            conFirmForm = new ConFirmForm(); 
+                            conFirmForm = new ConFirmForm();
                             String result = conFirmForm.show();
-                            if(result != null) {
-                                leftMenu.setPass(result);
+                            if (result != null) {
+                                leftMenu.setDutyCode(result);
                                 leftMenu.getMainFrame().getContentPanel().removeAll();
                                 leftMenu.getMainFrame().getContentPanel().repaint();
                             } else {
-                                 leftMenu.getListMenu().clean();
+                                leftMenu.getListMenu().clean();
                             }
                             break;
                         case "EXIT":
@@ -167,4 +185,20 @@ public class MainFrame extends JFrame {
         contentPanel.validate();
     }
     
+    public void showError(String mes) {
+        JOptionPane.showMessageDialog(null,
+                mes,
+                "Đã xảy ra lỗi!",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+    public void showMes() {
+        JOptionPane.showMessageDialog(null,
+                "Thao tác thành công!",
+                "Thành công!",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
 }

@@ -19,22 +19,25 @@ public class GroupDAO implements DAOInterface<GroupDTO> {
 
         try {
             Connection  connection = ConnectionData.getConnection();
-            String sql = "INSERT INTO `groups` (`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`)"
-                        +" VALUES (?, ?, ?, ?);";
+            String sql = "INSERT INTO `groups` (`groupCode`, `groupName`, `groupIcon`, `IN_groupCode`, `inMenu`)"
+                        +" VALUES (?, ?, ?, ?, ?);";
             PreparedStatement pst = connection.prepareStatement(sql);
             
             pst.setString(1, t.getGroupCode());
             pst.setString(2, t.getGroupName());
             pst.setString(3, t.getGroupIcon());
             pst.setString(4, t.getIN_groupCode());
+            pst.setBoolean(5, t.getInMenu());
             
             change = pst.executeUpdate();
             
             ConnectionData.closeConnection(connection); 
+            return change;
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
+            return change;
         }
-        return change;
+        
     }
 
     @Override
@@ -44,7 +47,7 @@ public class GroupDAO implements DAOInterface<GroupDTO> {
         try {
             Connection  connection = ConnectionData.getConnection();
             String sql = "UPDATE `groups`"
-                        +" SET `groupCode` = ?, `groupName` = ?, `groupIcon` = ?, `IN_groupCode` = ?"
+                        +" SET `groupCode` = ?, `groupName` = ?, `groupIcon` = ?, `IN_groupCode` = ?, `inMenu` = ?"
                         +" WHERE `groups`.`groupCode` = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
             
@@ -52,15 +55,17 @@ public class GroupDAO implements DAOInterface<GroupDTO> {
             pst.setString(2, t.getGroupName());
             pst.setString(3, t.getGroupIcon());
             pst.setString(4, t.getIN_groupCode());
-            pst.setString(5, t.getGroupCode());
+            pst.setBoolean(5, t.getInMenu());
+            pst.setString(6,t.getGroupCode());
             
             change = pst.executeUpdate();
             
             ConnectionData.closeConnection(connection); 
+            return 1;
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
+            return 0;
         }
-        return change;
     }
 
     @Override
@@ -100,7 +105,8 @@ public class GroupDAO implements DAOInterface<GroupDTO> {
                     rs.getString("groupCode"),
                     rs.getString("groupName"),
                     rs.getString("groupIcon"),
-                    rs.getString("IN_groupCode")
+                    rs.getString("IN_groupCode"),
+                    rs.getBoolean("inMenu")
                     );
                 groupList.add(data);
                 isData = true;
@@ -134,6 +140,7 @@ public class GroupDAO implements DAOInterface<GroupDTO> {
                 group.setGroupIcon(rs.getString("groupIcon"));
                 group.setGroupName(rs.getString("groupName"));
                 group.setIN_groupCode(rs.getString("IN_groupCode"));
+                group.setInMenu(rs.getBoolean("inMenu")); 
                 isData = true;
             }
             ConnectionData.closeConnection(connection);
@@ -165,7 +172,8 @@ public class GroupDAO implements DAOInterface<GroupDTO> {
                     rs.getString("groupCode"),
                     rs.getString("groupName"),
                     rs.getString("groupIcon"),
-                    rs.getString("IN_groupCode")
+                    rs.getString("IN_groupCode"),
+                    rs.getBoolean("inMenu")
                     );
                 groupList.add(data);
                 isData = true;

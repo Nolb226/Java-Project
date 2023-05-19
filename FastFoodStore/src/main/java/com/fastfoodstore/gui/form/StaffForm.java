@@ -6,8 +6,10 @@ package com.fastfoodstore.gui.form;
 
 import com.fastfoodstore.bus.Staff_BUS;
 import com.fastfoodstore.dto.StaffDTO;
+import com.fastfoodstore.gui.Validate;
 import com.fastfoodstore.gui.form.staffForm.InfoBox;
 import com.fastfoodstore.gui.form.staffForm.ListItem;
+import com.fastfoodstore.gui.form.staffForm.Modal;
 import com.fastfoodstore.gui.form.staffForm.UIButton;
 import com.mysql.cj.util.SearchMode;
 import java.awt.BorderLayout;
@@ -32,6 +34,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.swing.GroupLayout;
@@ -64,10 +67,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+//import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -80,9 +87,16 @@ public class StaffForm extends JPanel {
     private JPanel _TableBox;
     private JPanel _MenuBox;
     private JPanel _EditBox;
+    private JPanel _CreateBox;
+
     private JLayeredPane _SearchBox;
     private JPanel _ResultBox;
-    private StaffDTO staff;
+    private StaffDTO _staff;
+
+    private Modal modal = new Modal(Modal.CONFIRM, Modal.OPTIONS, "Confirm", "Cancel");
+
+    private boolean isEdit = false;
+    private boolean isCreate = false;
 
     private Field[] _fields = StaffDTO.getField();
 
@@ -103,7 +117,10 @@ public class StaffForm extends JPanel {
         _EditBox = new JPanel();
         _SearchBox = new JLayeredPane();
         _ResultBox = new JPanel();
+        _CreateBox = new JPanel();
 
+//        ConFirmForm modal = new ConFirmForm();
+//        modal.show();
         for (int i = 0; i < _fields.length; i++) {
             _InfoList.add(new InfoBox());
         }
@@ -149,19 +166,13 @@ public class StaffForm extends JPanel {
         leftJPanel.add(_InfoViewBox);
         leftJPanel.add(_MenuBox);
         leftJPanel.add(_EditBox);
+        leftJPanel.add(_CreateBox);
 
         //Search
         JLabel searchJLabel = new JLabel("Search:");
         JTextField search = new JTextField();
-//        search.addKeyListener(new KeyAdapter() {
-//            public void keyPressed() {
-//                Arrays.stream(dataList.toArray()).filter(item->{
-//                    System.out.println(item);
-//                return true;
-//                });
-//            }
-//        });
         DefaultListModel<ListItem> staffList = new DefaultListModel<ListItem>();
+        JList<ListItem> list = new JList<ListItem>(staffList);
 
         search.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -182,22 +193,44 @@ public class StaffForm extends JPanel {
             }
 
             private void filter() {
-                System.out.println(search.getText());
-                Stream<StaffDTO> newData = dataList.stream();
+                if (search.getText().isEmpty()) {
+                    staffList.clear();
 
-                Stream<StaffDTO> test = newData.filter((t) -> {
-                    return t.getID().contains(search.getText());
-                });
-                staffList.clear();
-                test.forEach((t) -> {
-                    staffList.addElement(new ListItem(t));
-                });
+                } else {
+                    Stream<StaffDTO> newData = dataList.stream();
+
+                    Stream<StaffDTO> test = newData.filter((t) -> {
+                        return t.getID().contains(search.getText()) || t.getName().contains(search.getText()) || t.getDutyCode().contains(search.getText());
+                    });
+                    staffList.clear();
+                    test.forEach((t) -> {
+                        staffList.addElement(new ListItem(t, search.getText()));
+                    });
+                    if (_staff != null) {
+
+                        for (int i = 0; i < staffList.getSize(); i++) {
+                            if (staffList.getElementAt(i).getStaff().getID().equals(_staff.getID())) {
+                                list.setSelectedIndex(i);
+                            }
+
+                        }
+                    }
+//                    list.setSelectedIndex(WIDTH);
+
+                }
+
             }
         });
 
-        UIButton searchButton = new UIButton("Search", UIButton.DARK, UIButton.SMALL, true);
+        UIButton searchButton = new UIButton("EXPORT", UIButton.DARK, UIButton.SMALL, true);
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(".actionPerformed()");
+                _Controller.ExportExcel();
+            }
+        });
 
-        JList<ListItem> list = new JList<ListItem>(staffList);
         JScrollPane resultList = new JScrollPane(list);
 
         DefaultListCellRenderer cellRendererList = new DefaultListCellRenderer() {
@@ -205,7 +238,11 @@ public class StaffForm extends JPanel {
                 Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
                 JPanel panel = (JPanel) value;
-//            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                if (isSelected && !isEdit) {
+                    panel.setBackground(Color.decode("#e7f5ff"));
+                } else {
+                    panel.setBackground(Color.WHITE);
+                }
                 return panel;
             }
         ;
@@ -217,9 +254,23 @@ public class StaffForm extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (e.getValueIsAdjusting()) {
-                    System.out.println(
-                            list.getSelectedValue()
-                    );
+                    if (!isEdit && !isCreate) {
+                        ListItem selected = list.getSelectedValue();
+                        Object[] data = selected.getData();
+                        updateCard(_InfoViewBox, data);
+                        for (int i = 0; i < _StaffTable.getRowCount(); i++) {
+                            if (_StaffTable.getValueAt(i, 0).toString().equals(selected.getStaff().getID())) {
+                                _StaffTable.setRowSelectionInterval(i, i);
+                            }
+                        }
+                    } else {
+                        if (isEdit) {
+                            confirmEdit();
+                        }
+                        if (isCreate) {
+                            confirmCreate();
+                        }
+                    }
                 }
             }
         });
@@ -238,36 +289,142 @@ public class StaffForm extends JPanel {
         resultList.setBounds(120, 40, 26 * 15, 80);
         _SearchBox.add(search);
         search.setBounds(120, 12, 26 * 15, 30);
-        _SearchBox.add(searchButton);
+//        _SearchBox.add(searchButton);
         _SearchBox.setBorder(new EmptyBorder(2, 2, 2, 2));
         _SearchBox.setBackground(Color.WHITE);
+
+        UIButton DeleteButton = new UIButton("<html><p><u>D</u>elete</p></html>", UIButton.DANGER);
+
+        DeleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                confirmDelete();
+            }
+        });
+
+        UIButton AddButton = new UIButton("<html><p><u>C</u>reate</html>", UIButton.SUCCESS);
+
+        UIButton ConfirmCreateButton = new UIButton("<html><p><u>C</u>onfirm</html>", UIButton.SUCCESS);
+        ConfirmCreateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                confirmCreate();
+            }
+        });
+
+        UIButton CancelCreateButton = new UIButton("<html><p><u>C</u>ancel</p></html>", UIButton.SECONDARY);
+
+        CancelCreateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] blankdata = new Object[_fields.length];
+                for (int i = 0; i < _fields.length; i++) {
+                    blankdata[i] = "";
+
+                }
+                for (int i = 0; i < _InfoList.size(); i++) {
+                    if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
+                        _InfoList.get(i).setType(InfoBox.INPUT, _Controller.getAllDutyDTOs());
+                    }
+                    if (_fields[i].getName().split("_")[1].equals("id")) {
+                        _InfoList.get(i).isEditable(false);
+
+                    } else {
+                        _InfoList.get(i).isEditable(false);
+
+                    }
+//                    _InfoList.get(i).setText(_fields[i].getName().split("_")[1], );
+                }
+                isCreate = false;
+                updateCard(_InfoViewBox, blankdata);
+                _EditBox.setVisible(false);
+                _MenuBox.setVisible(false);
+                _CreateBox.setVisible(false);
+                AddButton.setVisible(true);
+            }
+        });
 
         UIButton EditButton = new UIButton("<html><p><u>E</u>dit</p></html>", UIButton.PRIMARY, UIButton.NORMAL, true);
         EditButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                isEdit = true;
                 for (int i = 0; i < _InfoList.size(); i++) {
-                    _InfoList.get(i).isEditable(true);
+                    if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
+                        _InfoList.get(i).setType(InfoBox.SELECT, _Controller.getAllDutyDTOs(), _staff);
+                    }
+                    if (_fields[i].getName().split("_")[1].equals("id")) {
+                        _InfoList.get(i).isEditable(false);
+
+                    } else {
+                        _InfoList.get(i).isEditable(true);
+
+                    }
+//                    _InfoList.get(i).isEditable(true);
                 }
                 _EditBox.setVisible(true);
                 _MenuBox.setVisible(false);
+                AddButton.setVisible(false);
+
             }
         });
 
         UIButton SaveButton = new UIButton("<html><p><u>S</u>ave</p></html>", UIButton.PRIMARY);
+
+        SaveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                confirmEdit();
+            }
+        });
 
         UIButton CancelButton = new UIButton("<html><p><u>C</u>ancel</p></html>", UIButton.SECONDARY);
 
         CancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Object[] rowData = _staff.data();
                 for (int i = 0; i < _InfoList.size(); i++) {
+                    if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
+                        _InfoList.get(i).setType(InfoBox.INPUT, _Controller.getAllDutyDTOs());
+                    }
                     _InfoList.get(i).isEditable(false);
+                    _InfoList.get(i).setText(_fields[i].getName().split("_")[1], rowData[i].toString());
                 }
+                isEdit = false;
                 _EditBox.setVisible(false);
                 _MenuBox.setVisible(true);
+                AddButton.setVisible(true);
             }
         });
+
+        AddButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isCreate = true;
+                Object[] blankdata = new Object[_fields.length];
+                for (int i = 0; i < _fields.length; i++) {
+                    blankdata[i] = "";
+
+                }
+                updateCard(_InfoViewBox, blankdata);
+                for (int i = 0; i < _fields.length; i++) {
+                    if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
+                        _InfoList.get(i).setType(InfoBox.SELECT, _Controller.getAllDutyDTOs(), _staff);
+                    }
+                    _InfoList.get(i).isEditable(true);
+
+                }
+                _MenuBox.setVisible(false);
+                _CreateBox.setVisible(true);
+                AddButton.setVisible(false);
+
+            }
+        });
+
+        _CreateBox.add(ConfirmCreateButton);
+        _CreateBox.add(CancelCreateButton);
 
         _EditBox.setPreferredSize(new Dimension(leftJPanel.getPreferredSize().width, 50));
         _EditBox.add(SaveButton);
@@ -276,7 +433,37 @@ public class StaffForm extends JPanel {
 
         _MenuBox.setPreferredSize(new Dimension(leftJPanel.getPreferredSize().width, 50));
 
+        _CreateBox.setVisible(false);
+
+        leftJPanel.add(AddButton);
+        UIButton ImportExcelButton = new UIButton("Import", UIButton.WARNING);
+        ImportExcelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "Excel", "xlsx");
+                fc.setFileFilter(filter);
+                int result = fc.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File file = fc.getSelectedFile(); //Lấy URL
+                    _Controller.ImportExcel(file);
+//                    spBUS.listSP();
+//                    outModel(model, spBUS.getList());
+                    JOptionPane.showMessageDialog(null, "Import Success");
+                }
+            }
+        });
+
+        leftJPanel.add(ImportExcelButton);
+        AddButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ImportExcelButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        leftJPanel.add(searchButton);
+        searchButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         _MenuBox.add(EditButton);
+        _MenuBox.add(DeleteButton);
+
         _MenuBox.setVisible(false);
         createStaffInfo(_InfoViewBox);
 
@@ -331,25 +518,7 @@ public class StaffForm extends JPanel {
             public Component getTableCellRenderComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-//               
-                if (isSelected) {
-                    c.setBackground(Color.PINK);
 
-                    c.setForeground(table.getSelectionForeground());
-
-                } else {
-
-                    c.setBackground(table.getBackground());
-
-                    c.setForeground(table.getForeground());
-
-                }
-
-                if (isSelected) {
-                    setBackground(table.getSelectionBackground());
-                } else {
-                    setBackground(table.getBackground());
-                }
                 if (hasFocus) {
                     Border selectedBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.PINK);//Blue-Border
                     setBorder(selectedBorder);
@@ -366,15 +535,27 @@ public class StaffForm extends JPanel {
         _StaffTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                int row = _StaffTable.getSelectedRow();
+                if (!isEdit && !isCreate) {
+                    int row = _StaffTable.getSelectedRow();
 
-                if (row >= 0) {
-                    Object[] data = new Object[_StaffTable.getColumnCount()];
-                    for (int i = 0; i < _StaffTable.getColumnCount(); i++) {
-                        data[i] = _StaffTable.getValueAt(row, i);
+                    if (row >= 0) {
+                        Object[] data = new Object[_StaffTable.getColumnCount()];
+                        for (int i = 0; i < _StaffTable.getColumnCount(); i++) {
+                            data[i] = _StaffTable.getValueAt(row, i);
+
+                        }
+
+                        updateCard(_InfoViewBox, data);
 
                     }
-                    updateCard(_InfoViewBox, data);
+
+                } else {
+                    if (isEdit) {
+                        confirmEdit();
+                    }
+                    if (isCreate) {
+                        confirmCreate();
+                    }
 
                 }
             }
@@ -418,6 +599,7 @@ public class StaffForm extends JPanel {
 
         // Data 
         DefaultTableModel tableModel = (DefaultTableModel) _StaffTable.getModel();
+
         Field[] column = StaffDTO.getField();
         for (Field field : column) {
             tableModel.addColumn(field.getName().split("_")[1]);
@@ -444,6 +626,171 @@ public class StaffForm extends JPanel {
                 new Dimension(300, tableScrollPane.getPreferredSize().height));
     }
 
+    private void confirmEdit() {
+        modal.setBody_text("Are you sure ?");
+        if (modal.show() == 1) {
+            isEdit = false;
+            Object[] data = new Object[_fields.length];
+            Boolean flag = false;
+            System.out.println("Save");
+            for (int i = 0; i < _InfoList.size(); i++) {
+                data[i] = _InfoList.get(i).getData();
+                if (_fields[i].getName().split("_")[1].equals("birthday")) {
+
+                    if (!Validate.checkDay(data[i].toString())) {
+                        flag = true;
+                        JOptionPane.showMessageDialog(null, "Invalid Date");
+
+                    };
+                }
+                if (_fields[i].getName().split("_")[1].equals("numberPhone")) {
+
+                    if (!Validate.checkNumber(data[i].toString())) {
+                        flag = true;
+
+                        JOptionPane.showMessageDialog(null, "Invalid phone number");
+
+                    };
+                }
+                if (_fields[i].getName().split("_")[1].equals("email")) {
+                    if (!Validate.isValidEmail(data[i].toString())) {
+                        flag = true;
+
+                        JOptionPane.showMessageDialog(null, "Invalid Email");
+
+                    }
+
+                }
+                if (_fields[i].getName().split("_")[1].equals("id")) {
+                    StaffDTO a = _Controller.getOne(data[i].toString());
+                    if (a != null && !a.getID().equals(data[i].toString())) {
+                        flag = true;
+
+                        JOptionPane.showMessageDialog(null, "Id alreay exist");
+                        break;
+                    }
+
+                }
+            }
+            try {
+
+                _staff = new StaffDTO(data);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Invalid data");
+                flag = true;
+            }
+            if (!flag) {
+                System.out.println("1");
+                _Controller.update(_staff);
+                _staff = _Controller.getOne(_staff.getID());
+                Object[] rowData = _staff.data();
+                for (int i = 0; i < _InfoList.size(); i++) {
+                    if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
+                        _InfoList.get(i).setType(InfoBox.INPUT, _Controller.getAllDutyDTOs(), _staff);
+                    }
+                    _InfoList.get(i).isEditable(false);
+                    _InfoList.get(i).setText(_fields[i].getName().split("_")[1], rowData[i].toString());
+                }
+                _EditBox.setVisible(false);
+                _MenuBox.setVisible(true);
+
+                this.removeAll();
+                initComponent();
+            }
+
+        }
+    }
+
+    private void confirmDelete() {
+        modal.setBody_text("Are you sure ?");
+        if (modal.show() == 1) {
+//            isEdit = false;
+            Object[] data = new Object[_fields.length];
+
+            System.out.println("Save");
+            for (int i = 0; i < _InfoList.size(); i++) {
+                data[i] = _InfoList.get(i).getData();
+
+            }
+            _staff = new StaffDTO(data);
+            _Controller.delete(_staff);
+            this.removeAll();
+            initComponent();
+
+        }
+    }
+
+    private void confirmCreate() {
+        modal.setBody_text("Are you sure ?");
+        if (modal.show() == 1) {
+            isCreate = false;
+            Object[] data = new Object[_fields.length];
+            boolean flag = false;
+            System.out.println("Save");
+            for (int i = 0; i < _InfoList.size(); i++) {
+                if (_InfoList.get(i).getData() != null) {
+                    data[i] = _InfoList.get(i).getData().trim();
+                    if (_fields[i].getName().split("_")[1].equals("birthday")) {
+
+                        if (!Validate.checkDay(data[i].toString())) {
+                            flag = true;
+                            JOptionPane.showMessageDialog(null, "Invalid Date");
+
+                        };
+                    }
+                    if (_fields[i].getName().split("_")[1].equals("numberPhone")) {
+
+                        if (!Validate.checkNumber(data[i].toString())) {
+                            flag = true;
+
+                            JOptionPane.showMessageDialog(null, "Invalid phone number");
+
+                        };
+                    }
+                    if (_fields[i].getName().split("_")[1].equals("email")) {
+                        if (!Validate.isValidEmail(data[i].toString())) {
+                            flag = true;
+
+                            JOptionPane.showMessageDialog(null, "Invalid Email");
+
+                        }
+
+                    }
+                    if (_fields[i].getName().split("_")[1].equals("id")) {
+                        StaffDTO a = _Controller.getOne(data[i].toString());
+                        if (a != null) {
+                            flag = true;
+
+                            JOptionPane.showMessageDialog(null, "Id alreay exist");
+                            break;
+                        }
+
+                    }
+                    if (_fields[i].getName().split("_")[1].equals("dutyCode")) {
+                        if (data[i].toString().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Invalid duty");
+                            flag=true;
+                        }
+
+                    }
+                }
+            }
+            try {
+
+                _staff = new StaffDTO(data);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Invalid data");
+                flag = true;
+            }
+            if (!flag) {
+                _Controller.create(_staff);
+                this.removeAll();
+                initComponent();
+            }
+        }
+
+    }
+
     public void createStaffInfo(JPanel InfoViewBox) {
         InfoViewBox.setLayout(new GridBagLayout());
         InfoViewBox.setPreferredSize(new Dimension(300, _StaffTable.preferredSize().height));
@@ -458,8 +805,6 @@ public class StaffForm extends JPanel {
                 gbc.gridwidth = 2;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.anchor = GridBagConstraints.CENTER;
-
-//                _InfoList.get(i).setPreferredSize(null);
             }
             InfoViewBox.add(_InfoList.get(i), gbc);
             InfoViewBox.repaint();
@@ -469,6 +814,9 @@ public class StaffForm extends JPanel {
 
     public void updateCard(JPanel InfoViewBox, Object[] rowData) {
         InfoViewBox.removeAll();
+
+        _staff = new StaffDTO(rowData);
+
         Field[] column = StaffDTO.getField();
 
         InfoViewBox.setLayout(new GridBagLayout());
