@@ -10,6 +10,8 @@ import com.fastfoodstore.bus.ProductsBUS;
 import com.fastfoodstore.dto.BillDetail2DTO;
 import com.fastfoodstore.dto.BillDetailDTO;
 import com.fastfoodstore.dto.BillsDTO;
+import com.fastfoodstore.dto.ReceiptDetailDTO;
+import com.fastfoodstore.dto.ReceiptsDTO;
 import com.fastfoodstore.gui.ProjectUtil;
 import com.fastfoodstore.gui.form.billform.BillDetailList;
 import com.fastfoodstore.gui.form.billform.ViewBillList;
@@ -66,6 +68,9 @@ public class BillForm extends JPanel {
 
     private Button exButton;
     private Button printButton;
+    //
+    private ArrayList<ReceiptsDTO> receiptsDTOs;
+    private ArrayList<ReceiptDetailDTO> receiptDetailDTOs;
 
     private Font f1 = new Font("Segoe UI Semibold", Font.PLAIN, 16);
     private Font f2 = new Font("Segoe UI Semibold", Font.PLAIN, 12);
@@ -288,6 +293,15 @@ public class BillForm extends JPanel {
                 .setTextAlignment(TextAlignment.RIGHT)
                 .setFontSize(size)
                 .setBorder(Border.NO_BORDER);
+    }
+
+    //billReceipt
+    public ArrayList<ReceiptsDTO> getReceiptsDTOs() {
+        return receiptsDTOs;
+    }
+
+    public void setReceiptDetails(ArrayList<ReceiptDetailDTO> billDetails) {
+        this.receiptDetailDTOs = billDetails;
     }
 
 }
