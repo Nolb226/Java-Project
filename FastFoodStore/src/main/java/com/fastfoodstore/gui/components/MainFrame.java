@@ -4,10 +4,13 @@
  */
 package com.fastfoodstore.gui.components;
 
+import com.fastfoodstore.bus.DutyBUS;
 import com.fastfoodstore.bus.DutyHasFuncBUS;
 import com.fastfoodstore.dto.AccountDTO;
+import com.fastfoodstore.dto.StaffDTO;
 import com.fastfoodstore.gui.form.AdminForm;
 import com.fastfoodstore.gui.form.BillForm;
+import com.fastfoodstore.gui.form.ComFirmForm2;
 import com.fastfoodstore.gui.form.ConFirmForm;
 import com.fastfoodstore.gui.form.MenuForm;
 import com.fastfoodstore.gui.form.OrderForm;
@@ -80,8 +83,8 @@ public class MainFrame extends JFrame {
                         case "FUNC09":
                             conFirmForm = new ConFirmForm();
                             String re = conFirmForm.show1();
-                            int k = DutyHasFuncBUS.insertAccount(new AccountDTO(re.split("-")[0],re.split("-")[1]));
-                            if(k==0) {
+                            int k = DutyHasFuncBUS.insertAccount(new AccountDTO(re.split("-")[0], re.split("-")[1]));
+                            if (k == 0) {
                                 showError("Tạo thất bại, đã xảy ra lỗi!");
                             } else {
                                 showMes();
@@ -89,12 +92,23 @@ public class MainFrame extends JFrame {
                             break;
                         case "FUNC00":
                             conFirmForm = new ConFirmForm();
-                            String result = conFirmForm.show();
+                            StaffDTO result = conFirmForm.show();
                             if (result != null) {
-                                leftMenu.setDutyCode(result);
-                                leftMenu.getMainFrame().getContentPanel().removeAll();
-                                leftMenu.getMainFrame().getContentPanel().repaint();
+                                leftMenu.setDutyCode(DutyBUS.getDutyCodeByName(result.getDutyCode())); 
+                                leftMenu.setStaff("ID: " + result.getID() + " | " + result.getDutyCode()); 
+                                getContentPanel().removeAll();
+                                getContentPanel().repaint();
                             } else {
+                                leftMenu.getListMenu().clean();
+                            }
+                            break;
+                        case "FUNC000":
+                            ComFirmForm2 a = new ComFirmForm2("đăng xuất");
+                            if (a.show() != 0) {
+                                leftMenu.setDutyCode("DUTY05");
+                                leftMenu.setStaff("Guest"); 
+                                getContentPanel().removeAll();
+                                getContentPanel().repaint();
                                 leftMenu.getListMenu().clean();
                             }
                             break;
@@ -161,7 +175,7 @@ public class MainFrame extends JFrame {
     }
 
     public void setLeftMenu() {
-        this.leftMenu = new LeftMenu(this);
+        this.leftMenu = new LeftMenu();
     }
 
     public LeftMenu getLeftMenu() {
@@ -184,7 +198,7 @@ public class MainFrame extends JFrame {
         contentPanel.repaint();
         contentPanel.validate();
     }
-    
+
     public void showError(String mes) {
         JOptionPane.showMessageDialog(null,
                 mes,

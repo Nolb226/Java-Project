@@ -7,6 +7,7 @@ package com.fastfoodstore.gui.form;
 import com.fastfoodstore.bus.DutyBUS;
 import com.fastfoodstore.bus.DutyHasFuncBUS;
 import com.fastfoodstore.dto.AccountDTO;
+import com.fastfoodstore.dto.StaffDTO;
 import com.fastfoodstore.gui.ProjectUtil;
 import com.fastfoodstore.gui.item.Button;
 
@@ -36,12 +37,14 @@ public class ConFirmForm {
     private Button customButton2;
     
     private String result;
+    private  StaffDTO resultStaff;
 
     public ConFirmForm() {
         this.result = "DUTY05";
+        this.resultStaff = new StaffDTO();
     }
 
-    public String show() {
+    public StaffDTO show() {
         frame = new JFrame("Custom Button Dialog Example");
         
         idField = new JTextField();
@@ -73,9 +76,7 @@ public class ConFirmForm {
                 for(AccountDTO a: accList) {
                     if(idField.getText().equals(a.getStaffCode())) {
                         if(String.copyValueOf(inputField.getPassword()).equals(a.getPass())) {
-                            result = DutyBUS.getDutyCodeOfStaff(idField.getText());
-                            System.out.println(result);
-                            result = DutyBUS.getDutyCodeByName(result);
+                            resultStaff = DutyBUS.getStaffByCode(idField.getText());
                         }
                     }
                 }
@@ -111,7 +112,7 @@ public class ConFirmForm {
 
         int choice = JOptionPane.showOptionDialog(frame, inputPanel, "", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         
-        return result;
+        return resultStaff;
 
     }
     

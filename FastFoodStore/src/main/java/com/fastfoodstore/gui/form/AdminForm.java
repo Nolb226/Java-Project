@@ -146,14 +146,11 @@ public class AdminForm extends JPanel {
                     for (int i = 0; i < dutyHas.size(); i++) {
                         if (dutyHas.get(i).equals(functions.get(jt.getSelectedRow()).getFunctionCode())) {
                             dutyHas.remove(i);
-                            System.out.println("remove" + functions.get(jt.getSelectedRow()).getFunctionCode());
                             remove = true;
                         }
                     }
                     if (!remove) {
                         dutyHas.add(functions.get(jt.getSelectedRow()).getFunctionCode());
-                        System.out.println("add" + functions.get(jt.getSelectedRow()).getFunctionCode());
-
                     }
                 }
 

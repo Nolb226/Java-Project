@@ -103,7 +103,7 @@ public class BillDetailGUI extends JPanel {
                 if (!billList.isEmpty()) {
                     ComFirmForm2 comFirmForm2 = new ComFirmForm2("thanh toán");
                     int result = comFirmForm2.show();
-                    if(result == 1) {
+                    if (result == 1) {
                         finishOrder();
                     }
                 }
@@ -130,7 +130,7 @@ public class BillDetailGUI extends JPanel {
                 } else if (billList.size() < 1) {
                     ComFirmForm2 comFirmForm2 = new ComFirmForm2("hủy đơn hàng");
                     int result = comFirmForm2.show();
-                    if(result == 1) {
+                    if (result == 1) {
                         deleteOrder();
                     }
                 }
@@ -191,7 +191,7 @@ public class BillDetailGUI extends JPanel {
             }
         }
         bill.setTotalNumber(totalProduct);
-        priceLabel.setText(ProjectUtil.toMoney(totalPrice)); 
+        priceLabel.setText(ProjectUtil.toMoney(totalPrice));
     }
 
     public ArrayList<Object> getBillList() {
@@ -199,7 +199,15 @@ public class BillDetailGUI extends JPanel {
     }
 
     public void setBill(String id, String status) {
-        this.bill = new BillsDTO(id, ProjectUtil.getCurrentDateTime(), 0, 0, null, status);
+        this.bill = new BillsDTO(
+                id, 
+                ProjectUtil.getCurrentDateTime(), 
+                0, 
+                0, 
+                null, 
+                status, 
+                "Order Kiost Host", 
+                null);
     }
 
     public void setEatIn() {
@@ -325,9 +333,9 @@ public class BillDetailGUI extends JPanel {
             for (Object detail : billList) {
                 BillDetailBUS.insertBillDetail(detail);
             }
-            NoticeForm noticeForm = new NoticeForm("Thanh toán thành công",1);
+            NoticeForm noticeForm = new NoticeForm("Thanh toán thành công", 1);
         } catch (Exception e) {
-            NoticeForm noticeForm = new NoticeForm("Đã xảy ra lỗi! Hãy thử lại.",0);
+            NoticeForm noticeForm = new NoticeForm("Đã xảy ra lỗi! Hãy thử lại.", 0);
         }
         billList.clear();
         deleteOrder();
@@ -349,7 +357,5 @@ public class BillDetailGUI extends JPanel {
     public BillsDTO getBill() {
         return bill;
     }
-    
-    
 
 }

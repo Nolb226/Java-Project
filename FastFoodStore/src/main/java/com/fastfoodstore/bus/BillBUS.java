@@ -20,13 +20,28 @@ public class BillBUS {
     public static void insertBill(BillsDTO data) {
         BillsDAO.getInstance().insert(data);
     }
+    
+    public static ArrayList<BillsDTO> selectAllBill() {
+        return BillsDAO.getInstance().selectAll();
+    }
 
     public static BillsDTO selectBillByCode(String code) {
         return BillsDAO.getInstance().selectById(code);
     }
 
-    public static ArrayList<BillsDTO> selectBillByDate(String Date) {
-        return BillsDAO.getInstance().selectByCondition("where DATE(date) = '" + Date + "' order by TIME(date)", "");
+    public static ArrayList<BillsDTO> selectBillByDate(String start, String end) {
+        if(start != null && end != null) {
+            return BillsDAO.getInstance().selectByCondition("where DATE(date) >= '" + start + "' "
+                                                            + "and DATE(date) <='" + end + "' "
+                                                            + "order by date DESC, TIME(date)", "");
+        } else if(start != null) {
+            return BillsDAO.getInstance().selectByCondition("where DATE(date) >= '" + start + "' order by date DESC, TIME(date)", "");
+        } else if(end != null) {
+            return BillsDAO.getInstance().selectByCondition("where DATE(date) <= '" + end + "' order by date DESC, TIME(date)", "");
+        } else {
+            return null;
+        }
+        
     }
 
     public static int getRenevue(String start, String end) {
