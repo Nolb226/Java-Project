@@ -4,12 +4,14 @@
  */
 package com.fastfoodstore.gui.form;
 
+import com.fastfoodstore.bus.BillBUS;
 import com.fastfoodstore.bus.ComboBUS;
 import com.fastfoodstore.bus.GroupsBus;
 import com.fastfoodstore.bus.ProductsBUS;
 import com.fastfoodstore.dto.ComboDTO;
 import com.fastfoodstore.dto.GroupDTO;
 import com.fastfoodstore.dto.ProductsDTO;
+import com.fastfoodstore.dto.PromotionsDTO;
 import com.fastfoodstore.gui.ProjectUtil;
 import com.fastfoodstore.gui.form.orderform.BillDetailGUI;
 import com.fastfoodstore.gui.item.Button;
@@ -26,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -335,9 +338,20 @@ public class OrderForm extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 ConFirmForm conFirmForm = new ConFirmForm();
-                String result = conFirmForm.show();
+                String p = conFirmForm.show2();
+                ArrayList<PromotionsDTO> pList = BillBUS.getAllPromo();
+                boolean find = false;
+                for(PromotionsDTO a : pList) {
+                    if(a.getPromoCode().equals(p)) {
+                        billDetailPanel.getBill().setPromoCode(p);
+                        find = true;
+                        showMes();
+                    }
+                }
+                if(!find) {
+                    showError("Mã không hợp lệ.");
+                }
             }
-            
         });
     }
 
@@ -360,23 +374,28 @@ public class OrderForm extends JPanel {
     }
 
     public void animation() {
-//        productMenuTimer = new Timer(0, (ActionEvent e1) -> {
-//            if (y > 260) {
-//                scrollPane.setBounds(160, y, 450, 360);
-//                y = y - 25;
-//            } else {
-//                
-//                productMenuTimer.stop();
-//                y = 680;
-//            }
-//        });
-//        productMenuTimer.start();
         scrollPane.setBounds(160, 260, 450, 360);
     }
     
      public void setBillDetailPanel() {
         this.billDetailPanel = new BillDetailGUI();
         billDetailPanel.setBounds(650, 220, 300, 400); 
+    }
+     
+     public void showError(String mes) {
+        JOptionPane.showMessageDialog(null,
+                mes,
+                "Đã xảy ra lỗi!",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+    public void showMes() {
+        JOptionPane.showMessageDialog(null,
+                "Thao tác thành công!",
+                "Thành công!",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
 }

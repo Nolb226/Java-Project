@@ -89,7 +89,7 @@ public class PromotionsDAO implements DAOInterface<PromotionsDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM promotion";
+            String sql = "SELECT * FROM promotions";
             PreparedStatement pst = connection.prepareStatement(sql);            
             ResultSet rs = pst.executeQuery();
             

@@ -10,21 +10,18 @@ import com.fastfoodstore.dto.DutyDTO;
 import com.fastfoodstore.dto.FunctionsDTO;
 import java.util.ArrayList;
 
-/**
- *
- * @author ADMIN
- */
+
 public class FunctionsBUS {
 
     public static ArrayList<FunctionsDTO> getAllFunctionList() {
         return FunctionsDAO.getInstance().selectAll();
     }
 
-    public static ArrayList<FunctionsDTO> getGroupFunctionList(String pass) {
+    public static ArrayList<FunctionsDTO> getGroupFunctionList(String code) {
         
         ArrayList<FunctionsDTO> a = null;
         
-        DutyDTO duty = DutyDAO.getInstance().selectById(pass);
+        DutyDTO duty = DutyDAO.getInstance().selectById(code);
         
         if(duty != null) {
             a = FunctionsDAO.getInstance().selectByCondition(

@@ -15,21 +15,44 @@ import java.util.ArrayList;
  * @author ADMIN
  */
 public class BillDetailBUS {
+
     public static void insertBillDetail(Object data) {
-        if(data instanceof BillDetailDTO t) {
+        if (data instanceof BillDetailDTO t) {
             BillDetailDAO.getInstance().insert(t);
-        } else if(data instanceof BillDetail2DTO t) {
+        } else if (data instanceof BillDetail2DTO t) {
             BillDetail2DAO.getInstance().insert(t);
         }
-        
+
     }
-    
+
     public static ArrayList<BillDetailDTO> selectBillDetailByCode(String code) {
         return BillDetailDAO.getInstance().selectByCondition("where billCode = '" + code + "'", "");
     }
-    
+
     public static ArrayList<BillDetail2DTO> selectBillDetail2ByCode(String code) {
         return BillDetail2DAO.getInstance().selectByCondition("where billCode = '" + code + "'", "");
-        
+
+    }
+
+    public static int getProductSales(String code, String start, String end) {
+        String sql = "SELECT\n"
+                + "SUM(billdetail.amountProduct) AS totalAmount\n"
+                + "FROM\n"
+                + "billdetail\n"
+                + "JOIN bills ON bills.billCode = billdetail.billCode\n"
+                + "WHERE\n"
+                + "bills.date < '" + end + "' AND bills.date > '" + start + "' AND billdetail.productCode = '" + code + "'";
+        return BillDetailDAO.getInstance().selectCount(sql);
+    }
+    
+    public static int getComboSale(String code, String start, String end) {
+        String sql = "SELECT\n"
+                + "SUM(billdetail2.amoutCombo) AS totalAmount\n"
+                + "FROM\n"
+                + "billdetail2\n"
+                + "JOIN bills ON bills.billCode = billdetail2.billCode\n"
+                + "WHERE\n"
+                + "bills.date < '" + end + "' AND bills.date > '" + start + "' AND billdetail2.comboCode = '" + code + "'";
+        return BillDetailDAO.getInstance().selectCount(sql);
     }
 }

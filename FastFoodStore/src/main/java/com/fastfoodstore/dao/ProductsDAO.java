@@ -23,26 +23,26 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
         
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productGenre`, `productSize`, `productImage`, `groupCode`, `inMenu`) "
-                    + "VALUES (?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO `products`(`productCode`, `productName`, `productPrice`, `productSize`, `productImage`, `groupCode`, `inMenu`) "
+                    + "VALUES (?,?,?,?,?,?,?)";
             PreparedStatement pst = connection.prepareStatement(sql);
             
             pst.setString(1, t.getProductCode());
             pst.setString(2, t.getProductName());
             pst.setInt(3, t.getProductPrice());
-            pst.setInt(4, t.getProductGenre());
-            pst.setString(5, t.getProductSize() + "");
-            pst.setString(6, t.getProductImage());
-            pst.setString(7, t.getGroupCode());
-            pst.setInt(8, t.getInMenu());
+            pst.setString(4, t.getProductSize() + "");
+            pst.setString(5, t.getProductImage());
+            pst.setString(6, t.getGroupCode());
+            pst.setInt(7, t.getInMenu());
             
             change = pst.executeUpdate();
             
             ConnectionData.closeConnection(connection); 
+            return change;
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
+            return change;
         }
-        return change;
     }
 
     @Override
@@ -53,27 +53,27 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
         try {
             Connection connection = ConnectionData.getConnection();
             String sql = "UPDATE products "
-                    + "SET productCode=?,productName=?,productPrice=?,productGenre=?,productSize=?,productImage=?,groupCode=?,inMenu=? " 
+                    + "SET productCode=?,productName=?,productPrice=?,productSize=?,productImage=?,groupCode=?,inMenu=? " 
                     + "WHERE products.productCode =?";
             PreparedStatement pst = connection.prepareStatement(sql);
             
             pst.setString(1, t.getProductCode());
             pst.setString(2, t.getProductName());
             pst.setFloat(3, t.getProductPrice());
-            pst.setInt(4, t.getProductGenre());
-            pst.setString(5, t.getProductSize() + "");
-            pst.setString(6, t.getProductImage());
-            pst.setString(7, t.getGroupCode());
-            pst.setInt(8, t.getInMenu());
-            pst.setString(9, t.getProductCode());
+            pst.setString(4, t.getProductSize() + "");
+            pst.setString(5, t.getProductImage());
+            pst.setString(6, t.getGroupCode());
+            pst.setInt(7, t.getInMenu());
+            pst.setString(8, t.getProductCode());
             
             change = pst.executeUpdate();
             
-            ConnectionData.closeConnection(connection); 
+            ConnectionData.closeConnection(connection);
+            return 1;
         } catch (Exception e) {
             System.out.println("Insert data failture" + e);
+            return 0;
         }
-        return change;
     }
 
     @Override
@@ -99,7 +99,6 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
                     rs.getString("productCode"),
                     rs.getString("productName"),
                     rs.getInt("productPrice"),
-                    rs.getInt("productGenre"),
                     rs.getString("productSize").charAt(0), 
                     rs.getString("productImage"),
                         rs.getString("groupCode"),
@@ -137,7 +136,6 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
                 product.setProductCode(id);
                 product.setProductName(rs.getString("productName"));
                 product.setProductPrice(rs.getInt("productPrice"));
-                product.setProductGenre(rs.getInt("productGenre"));
                 product.setProductSize(rs.getString("productSize").charAt(0));
                 product.setProductImage(rs.getString("productImage"));
                 product.setGroupCode(rs.getString("groupCode"));
@@ -177,7 +175,6 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
                     rs.getString("productCode"),
                     rs.getString("productName"),
                     rs.getInt("productPrice"),
-                    rs.getInt("productGenre"),
                     rs.getString("productSize").charAt(0), 
                     rs.getString("productImage"),
                     rs.getString("groupCode"),
