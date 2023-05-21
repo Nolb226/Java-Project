@@ -340,7 +340,7 @@ public class PackForm extends JPanel {
                     }
 
                     try {
-                        ReceiptsDTO receipt = new ReceiptsDTO(code, ProjectUtil.stringToDate(ProjectUtil.getCurrentDateTime()), sum);
+                        ReceiptsDTO receipt = new ReceiptsDTO(code, ProjectUtil.stringToDate(ProjectUtil.getCurrentDateTime()), sum,"6942");
 
                         ReceiptsBUS.insertReceipt(receipt);
                         for (ReceiptDetailDTO b : submit) {
@@ -627,7 +627,8 @@ public class PackForm extends JPanel {
                 addButton.setThisColor(Color.decode("#05D5F5"));
                 updateButton.setContent("Thêm");
                 setAddForm();
-                checkValidate();
+//                checkValidate();
+                formEdit.remove(validate);
                 isIngredient = -2;
                 validate();
                 repaint();

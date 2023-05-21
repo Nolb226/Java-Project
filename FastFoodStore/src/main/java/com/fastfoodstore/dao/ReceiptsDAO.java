@@ -19,13 +19,14 @@ public class ReceiptsDAO implements DAOInterface<ReceiptsDTO> {
 
         try {
             Connection  connection = ConnectionData.getConnection();
-            String sql = "INSERT INTO `receipts` (`receiptCode`, `date`, `totalPrice`) "
-                        +" VALUES (?, ?, ?)";
+            String sql = "INSERT INTO `receipts` (`receiptCode`, `date`, `totalPrice`, staffId) "
+                        +" VALUES (?, ?, ?, ?)";
             PreparedStatement pst = connection.prepareStatement(sql);
             
             pst.setString(1, t.getReceiptCode());
             pst.setDate(2, t.getDate());
             pst.setFloat(3, t.getTotalPrice());
+            pst.setString(4, t.getStaffId());
             
             change = pst.executeUpdate();
             
@@ -89,7 +90,7 @@ public class ReceiptsDAO implements DAOInterface<ReceiptsDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM receipt";
+            String sql = "SELECT * FROM receipts";
             PreparedStatement pst = connection.prepareStatement(sql);            
             ResultSet rs = pst.executeQuery();
             
@@ -97,7 +98,8 @@ public class ReceiptsDAO implements DAOInterface<ReceiptsDTO> {
                 ReceiptsDTO data = new ReceiptsDTO(
                     rs.getString("receiptCode"),
                     rs.getDate("date"),
-                    rs.getFloat("totalPrice")
+                    rs.getFloat("totalPrice"),
+                        rs.getString("staffId")
                     );
                 receiptList.add(data);
                 isData = true;
@@ -121,7 +123,7 @@ public class ReceiptsDAO implements DAOInterface<ReceiptsDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM receipt"+
+            String sql = "SELECT * FROM receipts"+
                         " WHERE receiptCode = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, id);            
@@ -152,7 +154,7 @@ public class ReceiptsDAO implements DAOInterface<ReceiptsDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM receipt " + condition + "";
+            String sql = "SELECT * FROM receipts " + condition + "";
             PreparedStatement pst = connection.prepareStatement(sql);
             // pst.setString(1, condition);            
             ResultSet rs = pst.executeQuery();
@@ -161,7 +163,8 @@ public class ReceiptsDAO implements DAOInterface<ReceiptsDTO> {
                 ReceiptsDTO data = new ReceiptsDTO(
                     rs.getString("receiptCode"),
                     rs.getDate("date"),
-                    rs.getFloat("totalPrice")
+                    rs.getFloat("totalPrice"),
+                        rs.getString("staffId")
                     );
                 receiptList.add(data);
                 isData = true;

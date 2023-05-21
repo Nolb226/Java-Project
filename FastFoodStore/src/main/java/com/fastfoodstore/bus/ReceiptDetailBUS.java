@@ -6,6 +6,7 @@ package com.fastfoodstore.bus;
 
 import com.fastfoodstore.dao.ReceiptDetailDAO;
 import com.fastfoodstore.dto.ReceiptDetailDTO;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,5 +17,8 @@ public class ReceiptDetailBUS {
         ReceiptDetailDAO.getInstance().insert(a);
     }
     
-//    public static void 
+    public static ArrayList<ReceiptDetailDTO> selectReceiptDetailByCode( String code){
+        
+        return  ReceiptDetailDAO.getInstance().selectByCondition("WHERE receiptCode = '" + code + "'", code);
+    }
 }

@@ -6,6 +6,7 @@ public class ReceiptsDTO {
     private String receiptCode;
     private Date date;
     private float totalPrice;
+    private String staffId;
 
     public ReceiptsDTO() {
 
@@ -15,6 +16,20 @@ public class ReceiptsDTO {
         this.date = date;
         this.receiptCode = receiptCode;
         this.totalPrice = totalPrice;
+    }
+    
+    public ReceiptsDTO(String receiptCode, Date date, float totalPrice, String staffId) {
+        this.date = date;
+        this.receiptCode = receiptCode;
+        this.totalPrice = totalPrice;
+        this.staffId = staffId;
+    }
+    
+    public ReceiptsDTO(ReceiptsDTO a){
+        this.receiptCode = a.receiptCode;
+        this.totalPrice = a.totalPrice;
+        this.staffId = a.staffId;
+        this.date = a.date;
     }
     
     public void setDate(Date date) {
@@ -28,9 +43,17 @@ public class ReceiptsDTO {
     public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
+    
+    public void setStaffId(String staffId){
+        this.staffId = staffId;
+    }
 
     public Date getDate() {
         return date;
+    }
+    
+    public String getDateString(){
+        return date.toString();
     }
 
     public String getReceiptCode() {
@@ -39,6 +62,10 @@ public class ReceiptsDTO {
 
     public float getTotalPrice() {
         return totalPrice;
+    }
+    
+    public String getStaffId(){
+        return staffId;
     }
     
 }

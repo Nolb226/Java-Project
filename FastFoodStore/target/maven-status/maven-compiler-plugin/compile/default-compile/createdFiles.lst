@@ -12,6 +12,7 @@ com\fastfoodstore\gui\form\StaffForm$12.class
 com\fastfoodstore\gui\form\PackForm$5.class
 com\fastfoodstore\dto\ShiftsDTO.class
 com\fastfoodstore\gui\item\Button$1.class
+com\fastfoodstore\gui\form\billform\ViewReceiptList.class
 com\fastfoodstore\gui\form\StaffForm.class
 com\fastfoodstore\gui\components\CountButton$2.class
 com\fastfoodstore\gui\form\orderform\BillItem.class
@@ -38,6 +39,7 @@ com\fastfoodstore\gui\components\LeftMenu.class
 com\fastfoodstore\gui\form\OrderForm$8.class
 com\fastfoodstore\dao\ReceiptsDAO.class
 com\fastfoodstore\gui\form\PackForm$25.class
+com\fastfoodstore\gui\form\billform\ViewReceiptList$2.class
 com\fastfoodstore\gui\item\SearchTextField.class
 com\fastfoodstore\test\FastFoodStore.class
 com\fastfoodstore\gui\form\OrderForm$2.class
@@ -48,6 +50,7 @@ com\fastfoodstore\gui\components\ListLeftMenu.class
 com\fastfoodstore\gui\form\menuform\MenuTableAction.class
 com\fastfoodstore\gui\form\menuform\MenuTableItem$2.class
 com\fastfoodstore\gui\form\MenuForm$4.class
+com\fastfoodstore\gui\form\billform\ReceiptDetailList$1.class
 com\fastfoodstore\dao\PromotionsDAO.class
 com\fastfoodstore\gui\form\PackForm.class
 com\fastfoodstore\gui\form\StaffForm$5.class
@@ -55,6 +58,7 @@ com\fastfoodstore\gui\components\ListLeftMenu$3.class
 com\fastfoodstore\dao\IngredientDAO.class
 com\fastfoodstore\gui\form\StatisticsForm$1.class
 com\fastfoodstore\gui\form\PackForm$12.class
+com\fastfoodstore\gui\form\billform\ReceiptDetailItem.class
 com\fastfoodstore\gui\form\statisticform\StaTableItem.class
 com\fastfoodstore\bus\Staff_BUS.class
 com\fastfoodstore\gui\components\MainFrame$1.class
@@ -64,6 +68,7 @@ com\fastfoodstore\gui\form\statisticform\StaTable$3.class
 com\fastfoodstore\gui\form\OrderForm.class
 com\fastfoodstore\gui\form\PackForm$24.class
 com\fastfoodstore\gui\form\StatisticsForm.class
+com\fastfoodstore\gui\form\BillForm$4.class
 com\fastfoodstore\dao\DutyDAO.class
 com\fastfoodstore\gui\form\OrderForm$3.class
 com\fastfoodstore\dao\BillDetailDAO.class
@@ -116,6 +121,7 @@ com\fastfoodstore\gui\form\staffForm\Modal$2.class
 com\fastfoodstore\gui\form\OrderForm$4.class
 com\fastfoodstore\gui\form\billform\BillDetailList$1.class
 com\fastfoodstore\gui\form\PackForm$27.class
+com\fastfoodstore\gui\form\BillForm$3.class
 com\fastfoodstore\gui\form\menuform\DetailForm$5.class
 com\fastfoodstore\gui\form\MenuForm$6.class
 com\fastfoodstore\gui\form\orderform\ListBillDetail$2.class
@@ -146,6 +152,7 @@ com\fastfoodstore\dao\ConnectionData.class
 com\fastfoodstore\gui\form\orderform\BillDetailGUI$1.class
 com\fastfoodstore\dto\ReceiptDetailDTO.class
 com\fastfoodstore\gui\form\billform\BillDetailList.class
+com\fastfoodstore\gui\form\billform\ReceiptDetailList.class
 com\fastfoodstore\gui\form\orderform\GroupItem$1.class
 com\fastfoodstore\gui\form\StaffForm$3.class
 com\fastfoodstore\gui\form\NoticeForm.class
@@ -220,6 +227,7 @@ com\fastfoodstore\dao\ShiftsDAO.class
 com\fastfoodstore\bus\TestBus.class
 com\fastfoodstore\dao\BillDetail2DAO.class
 com\fastfoodstore\gui\form\ConFirmForm$6.class
+com\fastfoodstore\gui\form\billform\ViewReceiptList$1.class
 com\fastfoodstore\gui\form\PackForm$4.class
 com\fastfoodstore\gui\form\StaffForm$9.class
 com\fastfoodstore\gui\form\menuform\AddProductForm$9.class
@@ -239,6 +247,7 @@ com\fastfoodstore\gui\toggle\ToggleButton$1.class
 com\fastfoodstore\gui\form\StaffForm$8.class
 com\fastfoodstore\dto\ComboDetailDTO.class
 com\fastfoodstore\gui\TestGUI.class
+com\fastfoodstore\gui\form\billform\ViewReceiptItem.class
 com\fastfoodstore\gui\form\staffForm\UIButton.class
 com\fastfoodstore\gui\item\ScrollBar.class
 com\fastfoodstore\gui\form\orderform\BillItem$1.class
