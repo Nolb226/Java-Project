@@ -205,5 +205,26 @@ public class BillsDAO implements DAOInterface<BillsDTO> {
             return null;
         }
     }
+    
+     public int selectInt(String sql) {
+        try {
+            Connection connection = ConnectionData.getConnection();
+            PreparedStatement pst = connection.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                int n = rs.getInt("total");
+                ConnectionData.closeConnection(connection);
+                return n;
+            } else {
+                ConnectionData.closeConnection(connection);
+                return -1;
+            }
+        } catch (Exception e) {
+
+            System.out.println("Select data failture " + e);
+            return -1;
+        }
+    }
 
 }

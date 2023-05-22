@@ -41,7 +41,37 @@ public class BillDetailBUS {
                 + "billdetail\n"
                 + "JOIN bills ON bills.billCode = billdetail.billCode\n"
                 + "WHERE\n"
-                + "bills.date < '" + end + "' AND bills.date > '" + start + "' AND billdetail.productCode = '" + code + "'";
+                + "DATE(bills.date) <= '" + end + "' AND DATE(bills.date) >= '" + start + "' AND billdetail.productCode = '" + code + "'";
+        return BillDetailDAO.getInstance().selectCount(sql);
+    }
+    
+    public static int getProductSales(String start, String end) {
+        String sql = "SELECT\n"
+                + "SUM(billdetail.amountProduct) AS totalAmount\n"
+                + "FROM\n"
+                + "billdetail\n"
+                + "JOIN bills ON bills.billCode = billdetail.billCode\n"
+                + "WHERE\n"
+                + "DATE(bills.date) <= '" + end + "' AND DATE(bills.date) >= '" + start + "'";
+        return BillDetailDAO.getInstance().selectCount(sql);
+    }
+    
+    public static int getProductSales() {
+        String sql = "SELECT\n"
+                + "SUM(billdetail.amountProduct) AS totalAmount\n"
+                + "FROM\n"
+                + "billdetail\n"
+                + "JOIN bills ON bills.billCode = billdetail.billCode\n";
+        return BillDetailDAO.getInstance().selectCount(sql);
+    }
+    
+    public static int getProductSales(String code) {
+        String sql = "SELECT\n"
+                + "SUM(billdetail.amountProduct) AS totalAmount\n"
+                + "FROM\n"
+                + "billdetail\n"
+                + "JOIN bills ON bills.billCode = billdetail.billCode\n"
+                + "WHERE billdetail.productCode = '" + code + "'";
         return BillDetailDAO.getInstance().selectCount(sql);
     }
     
@@ -52,7 +82,37 @@ public class BillDetailBUS {
                 + "billdetail2\n"
                 + "JOIN bills ON bills.billCode = billdetail2.billCode\n"
                 + "WHERE\n"
-                + "bills.date < '" + end + "' AND bills.date > '" + start + "' AND billdetail2.comboCode = '" + code + "'";
+                + "DATE(bills.date) <= '" + end + "' AND DATE(bills.date) >= '" + start + "' AND billdetail2.comboCode = '" + code + "'";
+        return BillDetailDAO.getInstance().selectCount(sql);
+    }
+    
+    public static int getComboSale(String start, String end) {
+        String sql = "SELECT\n"
+                + "SUM(billdetail2.amoutCombo) AS totalAmount\n"
+                + "FROM\n"
+                + "billdetail2\n"
+                + "JOIN bills ON bills.billCode = billdetail2.billCode\n"
+                + "WHERE\n"
+                + "DATE(bills.date) <= '" + end + "' AND DATE(bills.date) >= '" + start + "'";
+        return BillDetailDAO.getInstance().selectCount(sql);
+    }
+    
+    public static int getComboSale() {
+        String sql = "SELECT\n"
+                + "SUM(billdetail2.amoutCombo) AS totalAmount\n"
+                + "FROM\n"
+                + "billdetail2\n"
+                + "JOIN bills ON bills.billCode = billdetail2.billCode\n";
+        return BillDetailDAO.getInstance().selectCount(sql);
+    }
+    
+    public static int getComboSale(String code) {
+        String sql = "SELECT\n"
+                + "SUM(billdetail2.amoutCombo) AS totalAmount\n"
+                + "FROM\n"
+                + "billdetail2\n"
+                + "JOIN bills ON bills.billCode = billdetail2.billCode\n"
+                + "WHERE billdetail2.comboCode = '" + code + "'";
         return BillDetailDAO.getInstance().selectCount(sql);
     }
 }

@@ -264,7 +264,15 @@ public class MenuForm extends JPanel {
                 AddProductForm add = new AddProductForm(null);
                 add.setVisible(true);
                 initData();
-                setDataProductsTable();
+                if (sta[0] == 1) {
+                    setDataProductsTable("");
+                } 
+                else if (sta[1] == 1) {
+                    setDaTaComboTable("");
+                } 
+                else if (sta[2] == 1) {
+                    setDaTaComboTable("");
+                }
             }
             
         });

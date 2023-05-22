@@ -162,14 +162,15 @@ public class DutyHasFuncDAO implements DAOInterface<DutyHasFuncDTO> {
 
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM account";
+            String sql = "SELECT * FROM account where status = 1";
             PreparedStatement pst = connection.prepareStatement(sql);            
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {
                 AccountDTO data = new AccountDTO(
                     rs.getString("staffCode"),
-                    rs.getString("pass")
+                    rs.getString("pass"),
+                    rs.getBoolean("status")
                     );
                 accountList.add(data);
                 isData = true;

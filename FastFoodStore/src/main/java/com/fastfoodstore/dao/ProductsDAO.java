@@ -90,7 +90,7 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
         
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM products";
+            String sql = "SELECT * FROM products where inSys = 1";
             PreparedStatement pst = connection.prepareStatement(sql);            
             ResultSet rs = pst.executeQuery();
             
@@ -127,7 +127,7 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
         
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * FROM products WHERE products.productCode = ?";
+            String sql = "SELECT * FROM products WHERE products.productCode = ? and inSys = 1";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
@@ -165,7 +165,7 @@ public class ProductsDAO implements DAOInterface<ProductsDTO>{
         
         try {
             Connection connection = ConnectionData.getConnection();
-            String sql = "SELECT * from products where " + condition + "";
+            String sql = "SELECT * from products where " + condition + " and inSys = 1";
             PreparedStatement pst = connection.prepareStatement(sql);
             // pst.setString(1, condition);
             ResultSet rs = pst.executeQuery();

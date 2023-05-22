@@ -175,8 +175,7 @@ public class BillDetailDAO implements DAOInterface<BillDetailDTO> {
             Connection connection = ConnectionData.getConnection();
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-
-            System.out.println(sql);
+            
             if (rs.next()) {
                 int n = rs.getInt("totalAmount");
                 ConnectionData.closeConnection(connection);

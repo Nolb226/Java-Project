@@ -11,6 +11,7 @@ import com.fastfoodstore.dto.BillDetailDTO;
 import com.fastfoodstore.dto.BillsDTO;
 import com.fastfoodstore.dto.ComboDTO;
 import com.fastfoodstore.dto.ProductsDTO;
+import com.fastfoodstore.dto.StaffDTO;
 import com.fastfoodstore.gui.ProjectUtil;
 import com.fastfoodstore.gui.form.ComFirmForm2;
 import com.fastfoodstore.gui.form.NoticeForm;
@@ -52,10 +53,12 @@ public class BillDetailGUI extends JPanel {
     private ArrayList<Object> billList = new ArrayList<>();
 
     private BillsDTO bill;
+    private StaffDTO staff;
 
     private Font f = new Font("Segoe UI Semibold", Font.PLAIN, 12);
 
-    public BillDetailGUI() {
+    public BillDetailGUI(StaffDTO staff) {
+        this.staff = staff;
         initComponent();
         setOpaque(false);
     }
@@ -199,7 +202,18 @@ public class BillDetailGUI extends JPanel {
     }
 
     public void setBill(String id, String status) {
-        this.bill = new BillsDTO(
+        if(staff != null) {
+            this.bill = new BillsDTO(
+                id, 
+                ProjectUtil.getCurrentDateTime(), 
+                0, 
+                0, 
+                null, 
+                status, 
+                "Order Counter", 
+                staff.getID());
+        } else {
+            this.bill = new BillsDTO(
                 id, 
                 ProjectUtil.getCurrentDateTime(), 
                 0, 
@@ -208,6 +222,8 @@ public class BillDetailGUI extends JPanel {
                 status, 
                 "Order Kiost Host", 
                 null);
+        }
+        
     }
 
     public void setEatIn() {

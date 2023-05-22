@@ -7,9 +7,6 @@ package com.fastfoodstore.gui.form.statisticform;
 import com.fastfoodstore.dto.ComboDTO;
 import com.fastfoodstore.dto.ProductsDTO;
 import com.fastfoodstore.gui.ProjectUtil;
-import com.fastfoodstore.gui.form.MenuForm;
-import com.fastfoodstore.gui.form.menuform.MenuTableAction;
-import com.fastfoodstore.gui.form.menuform.MenuTableEditor;
 import com.fastfoodstore.gui.form.menuform.MenuTableHeader;
 import com.fastfoodstore.gui.form.menuform.MenuTableItem;
 import java.awt.Color;
@@ -106,7 +103,7 @@ public class StaTable extends JTable {
         });
     }
     
-    public void myAddRow(String date, int data) {
+    public void myAddRow(String date, String data) {
         DefaultTableModel model = (DefaultTableModel) getModel();
         model.addRow(new Object[]{
             date,

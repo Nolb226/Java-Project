@@ -4,17 +4,8 @@
  */
 package com.fastfoodstore.gui.form.statisticform;
 
-import com.fastfoodstore.gui.ProjectUtil;
-import com.fastfoodstore.gui.form.menuform.MenuTableAction;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 

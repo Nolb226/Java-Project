@@ -5,9 +5,8 @@
 package com.fastfoodstore.gui.components;
 
 import com.fastfoodstore.bus.DutyBUS;
-import com.fastfoodstore.bus.DutyHasFuncBUS;
-import com.fastfoodstore.dto.AccountDTO;
 import com.fastfoodstore.dto.StaffDTO;
+import com.fastfoodstore.gui.form.AccountForm;
 import com.fastfoodstore.gui.form.AdminForm;
 import com.fastfoodstore.gui.form.BillForm;
 import com.fastfoodstore.gui.form.ComFirmForm2;
@@ -31,6 +30,8 @@ public class MainFrame extends JFrame {
     private PanelBorder panelBorder;
     private LeftMenu leftMenu;
     private JPanel contentPanel;
+    
+    private StaffDTO staff;
 
     private ConFirmForm conFirmForm;
 
@@ -53,7 +54,7 @@ public class MainFrame extends JFrame {
                     String itemId = (String) selectedItem.getClientProperty("id");
                     switch (itemId) {
                         case "FUNC01":
-                            OrderForm orderForm = new OrderForm();
+                            OrderForm orderForm = new OrderForm(staff);
                             setForm(orderForm);
                             break;
                         case "FUNC02":
@@ -81,21 +82,15 @@ public class MainFrame extends JFrame {
                             setForm(adminForm);
                             break;
                         case "FUNC09":
-                            conFirmForm = new ConFirmForm();
-                            String re = conFirmForm.show1();
-                            int k = DutyHasFuncBUS.insertAccount(new AccountDTO(re.split("-")[0], re.split("-")[1]));
-                            if (k == 0) {
-                                showError("Tạo thất bại, đã xảy ra lỗi!");
-                            } else {
-                                showMes();
-                            }
+                            AccountForm accountForm = new AccountForm();
+                            setForm(accountForm);
                             break;
                         case "FUNC00":
                             conFirmForm = new ConFirmForm();
-                            StaffDTO result = conFirmForm.show();
-                            if (result != null) {
-                                leftMenu.setDutyCode(DutyBUS.getDutyCodeByName(result.getDutyCode())); 
-                                leftMenu.setStaff("ID: " + result.getID() + " | " + result.getDutyCode()); 
+                            staff = conFirmForm.show();
+                            if (staff != null) {
+                                leftMenu.setDutyCode(DutyBUS.getDutyCodeByName(staff.getDutyCode())); 
+                                leftMenu.setStaff("ID: " + staff.getID() + " | " + staff.getDutyCode()); 
                                 getContentPanel().removeAll();
                                 getContentPanel().repaint();
                             } else {
@@ -110,6 +105,7 @@ public class MainFrame extends JFrame {
                                 getContentPanel().removeAll();
                                 getContentPanel().repaint();
                                 leftMenu.getListMenu().clean();
+                                staff = null;
                             }
                             break;
                         case "EXIT":

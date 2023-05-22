@@ -20,7 +20,7 @@ public class BillBUS {
     public static void insertBill(BillsDTO data) {
         BillsDAO.getInstance().insert(data);
     }
-    
+
     public static ArrayList<BillsDTO> selectAllBill() {
         return BillsDAO.getInstance().selectAll();
     }
@@ -30,26 +30,47 @@ public class BillBUS {
     }
 
     public static ArrayList<BillsDTO> selectBillByDate(String start, String end) {
-        if(start != null && end != null) {
+        if (start != null && end != null) {
             return BillsDAO.getInstance().selectByCondition("where DATE(date) >= '" + start + "' "
-                                                            + "and DATE(date) <='" + end + "' "
-                                                            + "order by date DESC, TIME(date)", "");
-        } else if(start != null) {
+                    + "and DATE(date) <='" + end + "' "
+                    + "order by date DESC, TIME(date)", "");
+        } else if (start != null) {
             return BillsDAO.getInstance().selectByCondition("where DATE(date) >= '" + start + "' order by date DESC, TIME(date)", "");
-        } else if(end != null) {
+        } else if (end != null) {
             return BillsDAO.getInstance().selectByCondition("where DATE(date) <= '" + end + "' order by date DESC, TIME(date)", "");
         } else {
             return null;
         }
-        
+
     }
 
     public static int getRenevue(String start, String end) {
-        String sql = "SELECT SUM(bills.totalPrice) AS totalAmount FROM `bills` WHERE bills.date < '" + end + "' AND bills.date>'" + start + "'";
+        String sql = "SELECT SUM(bills.totalPrice) AS totalAmount FROM `bills` WHERE DATE(bills.date) <= '" + end + "' AND DATE(bills.date) >='" + start + "'";
         return BillDetailDAO.getInstance().selectCount(sql);
     }
-    
+
+    public static int getRenevue() {
+        String sql = "SELECT SUM(bills.totalPrice) AS totalAmount FROM `bills`";
+        return BillDetailDAO.getInstance().selectCount(sql);
+    }
+
     public static ArrayList<PromotionsDTO> getAllPromo() {
         return new PromotionsDAO().selectAll();
+    }
+
+    public static int getTotalBill() {
+        String sql = "SELECT\n"
+                + " COUNT(billCode) AS total\n"
+                + " FROM\n"
+                + " `bills`\n";
+        return BillsDAO.getInstance().selectInt(sql);
+    }
+
+    public static int getAVG() {
+        String sql = "SELECT\n"
+                + " AVG(totalPrice) AS total\n"
+                + " FROM\n"
+                + " `bills`\n";
+        return BillsDAO.getInstance().selectInt(sql);
     }
 }

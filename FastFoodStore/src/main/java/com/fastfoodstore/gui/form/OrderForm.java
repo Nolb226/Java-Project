@@ -12,6 +12,7 @@ import com.fastfoodstore.dto.ComboDTO;
 import com.fastfoodstore.dto.GroupDTO;
 import com.fastfoodstore.dto.ProductsDTO;
 import com.fastfoodstore.dto.PromotionsDTO;
+import com.fastfoodstore.dto.StaffDTO;
 import com.fastfoodstore.gui.ProjectUtil;
 import com.fastfoodstore.gui.form.orderform.BillDetailGUI;
 import com.fastfoodstore.gui.item.Button;
@@ -24,7 +25,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -62,8 +62,11 @@ public class OrderForm extends JPanel {
     private int y = 680;
     
     private BillDetailGUI billDetailPanel;
+    
+    private StaffDTO staff;
 
-    public OrderForm() {
+    public OrderForm(StaffDTO staff) {
+        this.staff = staff;
         initComponent();
         setOpaque(false);
     }
@@ -378,7 +381,7 @@ public class OrderForm extends JPanel {
     }
     
      public void setBillDetailPanel() {
-        this.billDetailPanel = new BillDetailGUI();
+        this.billDetailPanel = new BillDetailGUI(staff);
         billDetailPanel.setBounds(650, 220, 300, 400); 
     }
      

@@ -11,13 +11,23 @@ package com.fastfoodstore.dto;
 public class AccountDTO {
     private String staffCode;
     private String pass;
+    private boolean status;
 
     public AccountDTO() {
     }
     
-    public AccountDTO(String staffCode, String pass) {
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
+    public AccountDTO(String staffCode, String pass, boolean status) {
         this.staffCode = staffCode;
         this.pass = pass;
+        this.status = status;
     }
 
     public void setStaffCode(String staffCode) {
